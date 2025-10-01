@@ -1,0 +1,122 @@
+# =========================
+# OS / Editor files
+# =========================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# =========================
+# General
+# =========================
+*.log
+*.tmp
+*.bak
+*.cache
+*.pid
+
+# =========================
+# Compiled source / Build
+# =========================
+*.o
+*.so
+*.dll
+*.dylib
+*.exe
+*.out
+
+# Autotools
+/autom4te.cache
+/aclocal.m4
+/compile
+/config.guess
+/config.log
+/config.status
+/config.sub
+/configure
+/depcomp
+/install-sh
+/libtool
+/ltmain.sh
+/missing
+
+# =========================
+# Language specifics
+# =========================
+
+# C / C++
+*.obj
+*.pch
+*.pdb
+*.lib
+*.a
+*.la
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+.venv/
+venv/
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.pnpm-debug.log
+dist/
+coverage/
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+target/
+
+# Rust
+/target/
+
+# Go
+bin/
+*.test
+
+# =========================
+# Environment / Secrets
+# =========================
+.env
+.env.local
+*.key
+*.pem
+
+# =========================
+# Archives
+# =========================
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+SuPuLib
+mlx
+objs
+cub
