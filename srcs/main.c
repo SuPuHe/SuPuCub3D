@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:01:05 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/02 13:54:11 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/02 14:34:25 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@ int	main(int argc, char **argv)
 	game = ft_calloc(1, sizeof(t_game));
 	if (!parsing_map(argv[1], game))
 		return(1);
+	free(game);
 	return (0);
 }

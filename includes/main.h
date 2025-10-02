@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/02 13:51:59 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/02 14:11:00 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include "structs.h"
 
 # include <stdio.h>
+# include <fcntl.h>
 
 void	print_error(char *msg);
 int		parsing_map(char *argv, t_game *game);
