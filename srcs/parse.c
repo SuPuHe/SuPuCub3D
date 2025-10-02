@@ -6,21 +6,41 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:39:39 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/02 15:05:49 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/02 15:39:11 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 #include <string.h>
 
-int	get_info(char *file, t_game *game)
+//replace strstr to custom function
+int	get_info(char **file, t_game *game)
 {
-	(void)game;
-	if (!strstr(file, "SO") || !strstr(file, "NO") || !strstr(file, "WE")
-			|| !strstr(file, "EA") || !strstr(file, "F") || !strstr(file, "C"))
-		return (print_error("Insufficient rexture or color data"), 0);
+	int	i;
+
+	i = 0;
+	while (file[i])
+	{
+		if (strstr(file[i], "NO"))
+			game->textures.north_path = ft_strtrim(file[i], "NO ");
+		if (strstr(file[i], "SO"))
+			game->textures.south_path = ft_strtrim(file[i], "SO ");
+		if (strstr(file[i], "WE"))
+			game->textures.west_path = ft_strtrim(file[i], "WE ");
+		if (strstr(file[i], "EA"))
+			game->textures.east_path = ft_strtrim(file[i], "EA ");
+		if (strstr(file[i], "F"))
+			game->textures.floor_value = ft_strtrim(file[i], "F ");
+		if (strstr(file[i], "C"))
+			game->textures.ceil_value = ft_strtrim(file[i], "C ");
+		i++;
+	}
+	if (!game->textures.north_path || !game->textures.south_path || !game->textures.west_path
+			|| !game->textures.east_path || !game->textures.floor_value || !game->textures.ceil_value)
+			return (print_error("Insufficient rexture or color data"), 0);
 	return (1);
 }
+
 int	get_map(char *map, t_game *game)
 {
 	char	*line;
@@ -46,12 +66,10 @@ int	get_map(char *map, t_game *game)
 		free(line);
 		line = get_next_line(game->map.fd);
 	}
-	get_info(tmp, game);
-	if (tmp)
-	{
-		//printf("%s\n", tmp);
-		free(tmp);
-	}
+	char **file = ft_split(tmp, '\n');
+	free(tmp);
+	get_info(file, game);
+	free_split(file);
 	return (1);
 }
 

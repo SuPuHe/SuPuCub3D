@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/02 14:40:37 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/02 15:30:09 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ typedef struct s_textures
 	mlx_texture_t	*east_tex;
 	uint32_t		floor_color;
 	uint32_t		ceil_color;
+	char			*floor_value;
+	char			*ceil_value;
 }	t_textures;
 
 typedef struct s_map
