@@ -6,12 +6,21 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:39:39 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/02 14:35:20 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/02 15:05:49 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+#include <string.h>
 
+int	get_info(char *file, t_game *game)
+{
+	(void)game;
+	if (!strstr(file, "SO") || !strstr(file, "NO") || !strstr(file, "WE")
+			|| !strstr(file, "EA") || !strstr(file, "F") || !strstr(file, "C"))
+		return (print_error("Insufficient rexture or color data"), 0);
+	return (1);
+}
 int	get_map(char *map, t_game *game)
 {
 	char	*line;
@@ -37,9 +46,10 @@ int	get_map(char *map, t_game *game)
 		free(line);
 		line = get_next_line(game->map.fd);
 	}
+	get_info(tmp, game);
 	if (tmp)
 	{
-		printf("%s\n", tmp);
+		//printf("%s\n", tmp);
 		free(tmp);
 	}
 	return (1);

@@ -1,3 +1,24 @@
+
+NO ./textures/north_wall
+
+
+SO ./textures/south_wall
+WE ./textures/west_wall
+
+
+
+
+EA ./textures/east_wall
+
+
+
+F 228,228,228
+
+
+
+C 124,43,87
+
+
 111111111111111111111111111
 100000000000000000000000001
 100000000000000000000000001
