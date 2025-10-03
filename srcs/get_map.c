@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 13:26:45 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/03 13:43:31 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/03 16:00:01 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ char	**extract_map(char **file)
 	while (file[start + count])
 		count++;
 	map = malloc(sizeof(char *) * (count + 1));
+	ft_game()->map.height = count;
 	if (!map)
 		return (NULL);
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/03 12:23:43 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/03 15:59:24 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_textures
 typedef struct s_map
 {
 	char			**grid;
+	char			**copy_map;
 	int				width;
 	int				height;
 	int				fd;
