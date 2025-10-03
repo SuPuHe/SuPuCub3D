@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:16:29 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/02 15:40:55 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/03 11:10:01 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,11 @@ void	free_textures_path(t_textures textures)
 		free(textures.east_path);
 	if (textures.west_path)
 		free(textures.west_path);
+}
+
+t_game	*ft_game(void)
+{
+	static t_game	game;
+
+	return (&game);
 }
