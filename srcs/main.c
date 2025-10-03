@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:01:05 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/03 17:40:07 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/03 18:59:39 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	init_game(t_game *game)
 	if (!game->mlx)
 		exit(1);
 
-	// game->player.dir_x = 0.0;
-	// game->player.dir_y = 0.0;
+	game->player.dir_x = 1.0;
+	game->player.dir_y = 0.0;
 	game->player.move_speed = 0.1;
 	game->player.rot_speed = 0.05;
 

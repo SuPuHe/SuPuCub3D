@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/03 17:37:53 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/03 18:52:15 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 
 # include <stdio.h>
 # include <fcntl.h>
+# include <math.h>
 
 void	print_error(char *msg);
 int		parsing_file(char *argv);
