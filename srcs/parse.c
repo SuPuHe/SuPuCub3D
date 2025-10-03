@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:39:39 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/03 12:02:20 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/03 12:48:42 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,37 +15,12 @@
 
 //replace strstr to custom function
 
-void	get_color(char *line, int helper)
-{
-	char	*colors;
-	int		i;
-
-	if (helper)
-	{
-		colors = ft_strtrim(line, "F ");
-		ft_game()->textures.floor_color[0] = ft_atoi(colors);
-		i = ft_intlen(ft_game()->textures.floor_color[0]) + 1;
-		ft_game()->textures.floor_color[1] = ft_atoi(&colors[i]);
-		i += ft_intlen(ft_game()->textures.floor_color[1]) + 1;
-		ft_game()->textures.floor_color[2] = ft_atoi(&colors[i]);
-	}
-	else
-	{
-		colors = ft_strtrim(line, "C ");
-		ft_game()->textures.ceil_color[0] = ft_atoi(colors);
-		i = ft_intlen(ft_game()->textures.ceil_color[0]) + 1;
-		ft_game()->textures.ceil_color[1] = ft_atoi(&colors[i]);
-		i += ft_intlen(ft_game()->textures.ceil_color[1]) + 1;
-		ft_game()->textures.ceil_color[2] = ft_atoi(&colors[i]);
-	}
-}
-
 int	get_info(char **file)
 {
 	int	i;
 
 	i = 0;
-	while (file[i])
+	while (file[i] && !ft_game()->exit)
 	{
 		if (strstr(file[i], "NO"))
 			ft_game()->textures.north_path = ft_strtrim(file[i], "NO ");
@@ -61,9 +36,9 @@ int	get_info(char **file)
 			get_color(file[i], 0);
 		i++;
 	}
-	// if (!ft_game()->textures.north_path || !ft_game()->textures.south_path || !ft_game()->textures.west_path
-	// 		|| !ft_game()->textures.east_path || !ft_game()->textures.floor_value || !ft_game()->textures.ceil_value)
-	// 		return (print_error("Insufficient rexture or color data"), 0);
+	if (!ft_game()->textures.north_path || !ft_game()->textures.south_path || !ft_game()->textures.west_path
+			|| !ft_game()->textures.east_path)
+			return (print_error("Insufficient rexture or color data"), 0);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:16:29 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/03 12:02:24 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/03 12:28:07 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	print_error(char *msg)
 	write(2, RED, 6);
 	write(2, msg, ft_strlen(msg));
 	write(2, "\n"RESET, 6);
+	ft_game()->exit = 1;
 }
 
 void	free_split(char **lines)

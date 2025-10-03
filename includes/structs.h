@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/03 11:58:32 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/03 12:23:43 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_game
 	t_textures		textures;
 	t_raycast		rc;
 	t_minimap		minimap;
+	int				exit;
 }	t_game;
 
 #endif
