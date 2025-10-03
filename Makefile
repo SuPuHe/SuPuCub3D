@@ -35,7 +35,7 @@ CC = cc
 
 RM = rm -rf
 
-SRCS = main.c utils.c parse.c parse_color.c
+SRCS = main.c utils.c parse.c parse_color.c get_map.c
 
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
 

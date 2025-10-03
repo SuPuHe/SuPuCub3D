@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/03 12:57:06 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/03 13:28:52 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,7 @@ void	free_textures_path(t_textures textures);
 t_game	*ft_game(void);
 
 int		get_color(char *line, int helper);
+
+char	**extract_map(char **split_file);
 
 #endif
