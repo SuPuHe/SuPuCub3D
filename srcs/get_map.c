@@ -6,56 +6,67 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 13:26:45 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/03 13:28:43 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/03 13:43:31 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-int	is_header_line(char *line)
+int	is_map_line(char *line)
 {
-	if (!line || line[0] == '\0')
-		return 1;
-	if (ft_strncmp(line, "NO", 2) == 0)
-		return 1;
-	if (ft_strncmp(line, "SO", 2) == 0)
-		return 1;
-	if (ft_strncmp(line, "WE", 2) == 0)
-		return 1;
-	if (ft_strncmp(line, "EA", 2) == 0)
-		return 1;
-	if (line[0] == 'F')
-		return 1;
-	if (line[0] == 'C')
-		return 1;
-	return 0;
-}
+	int	i;
 
-char	**extract_map(char **split_file)
-{
-	int		start;
-	int		size;
-	int		i;
-	char	**map;
-
-	start = 0;
-	size = 0;
-	while (split_file[start] && is_header_line(split_file[start]))
-		start++;
-	i = start;
-	while (split_file[i])
+	i = 0;
+	if (!line || !line[0])
+		return (0);
+	while (line[i])
 	{
-		size++;
+		if (line[i] != ' ' && line[i] != '0' && line[i] != '1')
+			return (0);
 		i++;
 	}
-	map = malloc((size + 1) * sizeof(char *));
-	if (!map)
-		return NULL;
+	return (1);
+}
+
+int	get_map_start(char **file)
+{
+	int	i;
+	int	start;
+
+	start = -1;
 	i = 0;
-	while (split_file[start])
+	while (file[i])
 	{
-		map[i] = ft_strdup(split_file[start]);
-		start++;
+		if (is_map_line(file[i]))
+		{
+			start = i;
+			break ;
+		}
+		i++;
+	}
+	return (start);
+}
+
+char	**extract_map(char **file)
+{
+	int		i;
+	int		start;
+	int		count;
+	char	**map;
+
+	start = get_map_start(file);
+	if (start == -1)
+		return (NULL);
+	count = 0;
+	while (file[start + count])
+		count++;
+	map = malloc(sizeof(char *) * (count + 1));
+	if (!map)
+		return (NULL);
+	i = 0;
+	while (i < count)
+	{
+		map[i] = ft_strdup(file[start + i]);
 		i++;
 	}
 	map[i] = NULL;
