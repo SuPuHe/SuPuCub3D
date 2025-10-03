@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:16:29 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/03 12:28:07 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/03 14:15:34 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	free_split(char **lines)
 	int	i;
 
 	i = 0;
+	if (!lines)
+		return ;
 	while (lines[i])
 	{
 		free(lines[i]);
