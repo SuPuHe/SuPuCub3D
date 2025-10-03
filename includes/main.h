@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/02 13:51:59 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/03 14:52:48 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,19 @@
 # include "structs.h"
 
 # include <stdio.h>
+# include <fcntl.h>
 
 void	print_error(char *msg);
-int		parsing_map(char *argv, t_game *game);
+int		parsing_file(char *argv);
+void	free_split(char **lines);
+void	free_textures_path(t_textures textures);
+t_game	*ft_game(void);
+
+int		get_color(char *line, int helper);
+
+char	**extract_map(char **split_file);
+
+int	get_info(char **file, t_game *game);
+int		get_player_pos(t_game *game);
 
 #endif
