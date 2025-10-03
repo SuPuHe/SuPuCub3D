@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:01:05 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/02 13:54:11 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/03 14:56:18 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 		return (print_error("Usage: ./cub maps/map.cub"), 1);
-	game = ft_calloc(1, sizeof(t_game));
-	if (!parsing_map(argv[1], game))
-		return(1);
+	game = ft_game();
+	if (!parsing_file(argv[1]))
+		return (free_textures_path(game->textures), free_split(game->map.grid), 1);
+	free_textures_path(game->textures);
+	free_split(game->map.grid);
 	return (0);
 }

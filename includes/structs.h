@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/01 16:34:06 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/03 12:23:43 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,16 @@
 
 typedef struct s_textures
 {
+	char			*north_path;
+	char			*south_path;
+	char			*west_path;
+	char			*east_path;
 	mlx_texture_t	*north_tex;
 	mlx_texture_t	*south_tex;
 	mlx_texture_t	*west_tex;
 	mlx_texture_t	*east_tex;
-	uint32_t		floor_color;
-	uint32_t		ceil_color;
+	int				floor_color[3];
+	int				ceil_color[3];
 }	t_textures;
 
 typedef struct s_map
@@ -85,6 +89,7 @@ typedef struct s_game
 	t_textures		textures;
 	t_raycast		rc;
 	t_minimap		minimap;
+	int				exit;
 }	t_game;
 
 #endif
