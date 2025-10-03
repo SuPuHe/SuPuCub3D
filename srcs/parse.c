@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:39:39 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/03 12:48:42 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/03 12:57:12 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,18 @@ int	get_info(char **file)
 	return (1);
 }
 
-int	read_map(char *map)
+int	read_file(char *file)
 {
 	char	*line;
 	char	*joined;
 	char	*tmp;
 
-	ft_game()->map.fd = open(map, O_RDONLY);
+	ft_game()->map.fd = open(file, O_RDONLY);
 	if (ft_game()->map.fd == -1)
-		return (print_error("Error with map name/path"), 0);
+		return (print_error("Error with file name/path"), 0);
 	line = get_next_line(ft_game()->map.fd);
 	if (!line)
-		return (print_error("Empty map or read error"), 0);
+		return (print_error("Empty file or read error"), 0);
 	joined = ft_strdup(line);
 	if (!joined)
 		return(free(line), print_error("Allocation failed"), 0);
@@ -67,19 +67,19 @@ int	read_map(char *map)
 		free(line);
 		line = get_next_line(ft_game()->map.fd);
 	}
-	char **file = ft_split(tmp, '\n');
+	char **split_file = ft_split(tmp, '\n');
 	free(tmp);
-	if (!get_info(file))
-		return (free_split(file), free_textures_path(ft_game()->textures), 0);
-	free_split(file);
+	if (!get_info(split_file))
+		return (free_split(split_file), free_textures_path(ft_game()->textures), 0);
+	free_split(split_file);
 	return (1);
 }
 
-int	parsing_map(char *argv)
+int	parsing_file(char *argv)
 {
 	if (ft_strncmp(&argv[ft_strlen(argv) - 4], ".cub", 4) != 0)
-		return (print_error("Map not in .cub format"), 0);
-	if (!read_map(argv))
-		return (print_error("Error with getting map"), 0);
+		return (print_error("File not in .cub format"), 0);
+	if (!read_file(argv))
+		return (print_error("Error with getting file"), 0);
 	return (1);
 }
