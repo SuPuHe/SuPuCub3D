@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/03 16:09:26 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/03 17:37:53 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,9 @@ char	**extract_map(char **split_file);
 
 int		get_info(char **file, t_game *game);
 int		get_player_pos(t_game *game);
+
+// player_movement.c
+void	handle_input(mlx_key_data_t keydata, void *params);
+void	player_move(void *param);
 
 #endif
