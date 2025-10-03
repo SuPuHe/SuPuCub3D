@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/03 11:10:54 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/03 12:02:34 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,6 @@ int		parsing_map(char *argv);
 void	free_split(char **lines);
 void	free_textures_path(t_textures textures);
 t_game	*ft_game(void);
+
+int		ft_intlen(int n);
 #endif

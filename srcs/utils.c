@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:16:29 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/03 11:10:01 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/03 12:02:24 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,6 @@ void	free_split(char **lines)
 
 void	free_textures_path(t_textures textures)
 {
-	if (textures.ceil_value)
-		free(textures.ceil_value);
-	if (textures.floor_value)
-		free(textures.floor_value);
 	if (textures.north_path)
 		free(textures.north_path);
 	if (textures.south_path)
@@ -53,4 +49,19 @@ t_game	*ft_game(void)
 	static t_game	game;
 
 	return (&game);
+}
+
+int	ft_intlen(int n)
+{
+	int	len;
+
+	len = 0;
+	if (n <= 0)
+		len = 1;
+	while (n)
+	{
+		n = n / 10;
+		len++;
+	}
+	return (len);
 }
