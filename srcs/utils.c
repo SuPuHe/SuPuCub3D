@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:16:29 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/03 14:48:02 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/06 13:45:14 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,20 @@ int	ft_intlen(int n)
 	return (len);
 }
 
-t_game	*ft_game(void)
+void	find_map_width(t_game *game)
 {
-	static t_game	game;
+	int	i;
+	int	len;
+	int	new_len;
 
-	return (&game);
+	i = 0;
+	len = ft_strlen(game->map.grid[i]);
+	while (game->map.grid[i])
+	{
+		new_len = ft_strlen(game->map.grid[i]);
+		if (new_len > len)
+			len = new_len;
+		i++;
+	}
+	game->map.width = len;
 }

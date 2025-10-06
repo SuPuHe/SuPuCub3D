@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:39:39 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/03 16:16:58 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/06 13:47:12 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ int	read_file(char *file)
 	free_split(split_file);
 	if (!ft_game()->map.grid)
 		return (print_error("Failed to extract map"), 0);
+	find_map_width(game);
 	return (1);
 }
 

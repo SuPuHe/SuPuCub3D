@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/03 15:59:24 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/06 12:45:51 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,16 @@ typedef struct s_map
 	int				fd;
 }	t_map;
 
+typedef struct s_move
+{
+	bool			forward;
+	bool			backward;
+	bool			left;
+	bool			right;
+	bool			turn_left;
+	bool			turn_right;
+}	t_move;
+
 typedef struct s_player
 {
 	double			x;
@@ -49,6 +59,7 @@ typedef struct s_player
 	double			plane_y;
 	double			move_speed;
 	double			rot_speed;
+	t_move			move;
 }	t_player;
 
 typedef struct s_raycast
@@ -79,6 +90,8 @@ typedef struct s_minimap
 {
 	int				enabled;
 	int				scale;
+	mlx_image_t		*img;
+	mlx_image_t		*player_img;
 }	t_minimap;
 
 typedef struct s_game
