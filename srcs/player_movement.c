@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_movement.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:55:27 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/06 13:47:29 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/06 14:32:20 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,17 @@ void	player_move(void *param)
 
 	game = ft_game();
 	(void)param;
-	//game = (t_game *)param;
 	new_x = game->player.x;
 	new_y = game->player.y;
 	if (game->player.move.forward)
 	{
 		new_x += game->player.dir_x * game->player.move_speed;
-		new_y -= game->player.dir_y * game->player.move_speed;
+		new_y += game->player.dir_y * game->player.move_speed;
 	}
 	if (game->player.move.backward)
 	{
 		new_x -= game->player.dir_x * game->player.move_speed;
-		new_y += game->player.dir_y * game->player.move_speed;
+		new_y -= game->player.dir_y * game->player.move_speed;
 	}
 	if (game->player.move.turn_left)
 		rotate_player(game, -game->player.rot_speed);
