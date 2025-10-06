@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_movement.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:55:27 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/03 19:00:30 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/06 13:47:29 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	handle_input(mlx_key_data_t keydata, void *params)
 
 	(void)params;
 	game = ft_game();
+	if (keydata.key == MLX_KEY_ESCAPE)
+		mlx_close_window(game->mlx);
 	if (keydata.key == MLX_KEY_W && keydata.action == MLX_PRESS)
 		game->player.move.forward = true;
 	if (keydata.key == MLX_KEY_W && keydata.action == MLX_RELEASE)
@@ -82,15 +84,16 @@ void	player_move(void *param)
 		rotate_player(game, -game->player.rot_speed);
 	if (game->player.move.turn_right)
 		rotate_player(game, game->player.rot_speed);
-	printf("%c\n", game->map.grid[(int)new_y][(int)new_x]);
+	//printf("%c\n", game->map.grid[(int)new_y][(int)new_x]);
 	if (game->map.grid[(int)new_y][(int)new_x] != '1')
 	{
 		game->player.x = new_x;
 		game->player.y = new_y;
 	}
+	draw_player(game);
 	// printf("Player: x=%.2f y=%.2f\n", game->player.x, game->player.y);
-	printf("Player: x=%.2f y=%.2f dir=(%.2f, %.2f)\n",
-		game->player.x, game->player.y,
-		game->player.dir_x, game->player.dir_y);
+	// printf("Player: x=%.2f y=%.2f dir=(%.2f, %.2f)\n",
+	// 	game->player.x, game->player.y,
+	// 	game->player.dir_x, game->player.dir_y);
 }
 

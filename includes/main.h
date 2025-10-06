@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/03 18:52:15 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/06 13:46:37 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int		parsing_file(char *argv);
 void	free_split(char **lines);
 void	free_textures_path(t_textures textures);
 t_game	*ft_game(void);
+void	find_map_width(t_game *game);
 
 int		get_color(char *line, int helper);
 
@@ -45,5 +46,13 @@ int		get_player_pos(t_game *game);
 // player_movement.c
 void	handle_input(mlx_key_data_t keydata, void *params);
 void	player_move(void *param);
+
+
+//minimap
+void	init_minimap(t_game *game);
+void	draw_square(mlx_image_t *img, int x, int y, uint32_t color);
+void	draw_minimap(t_game *game);
+void	draw_player(t_game *game);
+
 
 #endif
