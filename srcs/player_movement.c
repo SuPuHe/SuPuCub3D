@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:55:27 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/06 12:46:49 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/06 13:47:29 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	handle_input(mlx_key_data_t keydata, void *params)
 
 	(void)params;
 	game = ft_game();
+	if (keydata.key == MLX_KEY_ESCAPE)
+		mlx_close_window(game->mlx);
 	if (keydata.key == MLX_KEY_W && keydata.action == MLX_PRESS)
 		game->player.move.forward = true;
 	if (keydata.key == MLX_KEY_W && keydata.action == MLX_RELEASE)

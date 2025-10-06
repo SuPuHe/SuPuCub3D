@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:01:05 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/06 12:53:11 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/06 13:47:48 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_game(t_game *game)
 {
-	game->mlx = mlx_init(49 * 32, game->map.height * 32, "Cub3D Test", true);
+	game->mlx = mlx_init(game->map.width * 32, game->map.height * 32, "Cub3D Test", true);
 	if (!game->mlx)
 		exit(1);
 
