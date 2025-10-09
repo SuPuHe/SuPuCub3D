@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:55:27 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/09 17:22:33 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/09 17:25:13 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,16 @@ void	player_move(void *param)
 		rotate_player(game, -game->player.rot_speed);
 	if (game->player.move.turn_right)
 		rotate_player(game, game->player.rot_speed);
+
+	// Вот эта коллизия работает лучше всего, попробуй с ней что то сделать.
+
 	// if (game->map.grid[(int)(game->player.y)][(int)(new_x + (game->player.dir_x > 0 ? game->player.collision_radius : -game->player.collision_radius))] != '1')
 	// 	game->player.x = new_x;
 	// if (game->map.grid[(int)(new_y + (game->player.dir_y > 0 ? game->player.collision_radius : -game->player.collision_radius))][(int)(game->player.x)] != '1')
 	// 	game->player.y = new_y;
+
+	// А вот эта коллизия плохо работает с углами, попробуй зайти в угол и с зажатой W потихоньку менять угол, в какой-то момент ты подойдешь очень близко к одной из стен и прилипнешь к ней.
+	// И если после этого захочешь пойти назад на S, то все равно будешь скользить прилипнув к стене.
 	if (can_move(new_x, game->player.y, game->player.dir_x, 0))
 		game->player.x = new_x;
 	if (can_move(game->player.x, new_y, 0, game->player.dir_y))
