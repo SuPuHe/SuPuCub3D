@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:05:22 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/09 13:52:22 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/09 16:13:23 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,18 @@ static void	calculate_wall_distance(t_game *game, t_raycast *rc)
 
 static void	draw_column(t_game *game, int x, t_raycast *rc)
 {
-	int			line_height;
-	int			draw_start;
-	int			draw_end;
-	uint32_t	color;
-	int			y;
+	int				line_height;
+	int				draw_start;
+	int				draw_end;
+	int				y;
+	int				tex_x;
+	int				tex_y;
+	double			step;
+	double			tex_pos;
+	mlx_texture_t	*texture;
+	uint32_t		color;
 
+	// We determine the height of the lines and the start/end coordinates.
 	line_height = (int)(SCREEN_HEIGHT / rc->perp_wall_dist);
 	draw_start = -line_height / 2 + SCREEN_HEIGHT / 2;
 	if (draw_start < 0)
@@ -100,17 +106,47 @@ static void	draw_column(t_game *game, int x, t_raycast *rc)
 	draw_end = line_height / 2 + SCREEN_HEIGHT / 2;
 	if (draw_end >= SCREEN_HEIGHT)
 		draw_end = SCREEN_HEIGHT - 1;
-	if (rc->side == 0)
-		color = 0xFF0000FF;
+
+	// We choose the texture depending on the side of the wall
+	if (rc->side == 0 && rc->ray_dir_x > 0)
+		texture = game->textures.east_tex;
+	else if (rc->side == 0 && rc->ray_dir_x < 0)
+		texture = game->textures.west_tex;
+	else if (rc->side == 1 && rc->ray_dir_y > 0)
+		texture = game->textures.south_tex;
 	else
-		color = 0x00FF00FF;
+		texture = game->textures.north_tex;
+
+	// Calculate the X coordinate of the texture
+	if (rc->side == 0)
+		tex_x = (int)((game->player.y + rc->perp_wall_dist * rc->ray_dir_y) * texture->width) % texture->width;
+	else
+		tex_x = (int)((game->player.x + rc->perp_wall_dist * rc->ray_dir_x) * texture->width) % texture->width;
+
+	// Calculate the step and the initial position of the texture
+	step = (double)texture->height / line_height;
+	tex_pos = (draw_start - SCREEN_HEIGHT / 2 + line_height / 2) * step;
+
+	// Drawing a column of pixels
 	y = 0;
 	while (y < SCREEN_HEIGHT)
 	{
 		if (y < draw_start)
 			mlx_put_pixel(game->win_img, x, y, game->textures.ceil);
 		else if (y >= draw_start && y <= draw_end)
+		{
+			tex_y = (int)tex_pos & (texture->height - 1);
+			tex_pos += step;
+
+			// Getting color from texture
+			int pixel_index = (tex_y * texture->width + tex_x) * 4;
+			uint8_t r = texture->pixels[pixel_index + 0];
+			uint8_t g = texture->pixels[pixel_index + 1];
+			uint8_t b = texture->pixels[pixel_index + 2];
+			uint8_t a = texture->pixels[pixel_index + 3];
+			color = (r << 24) | (g << 16) | (b << 8) | a;
 			mlx_put_pixel(game->win_img, x, y, color);
+		}
 		else
 			mlx_put_pixel(game->win_img, x, y, game->textures.floor);
 		y++;
