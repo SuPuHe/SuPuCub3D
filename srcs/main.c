@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:01:05 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/08 13:40:03 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/09 16:14:44 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	init_game(t_game *game)
 		exit(1);
 
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
-
+	textures_load();
+	// image_create();
 	game->win_img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	mlx_image_to_window(game->mlx, game->win_img, 0, 0);
 
