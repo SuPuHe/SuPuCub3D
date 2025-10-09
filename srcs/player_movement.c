@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_movement.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:55:27 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/09 12:05:12 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/09 17:22:33 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,21 @@ void	rotate_player(t_game *game, double angle)
 		+ game->player.plane_y * cos(angle);
 }
 
+static bool	can_move( double x, double y, double dx, double dy)
+{
+	t_game	*game;
+	double	c;
+
+	game = ft_game();
+	c = game->player.collision_radius;
+
+	if ((int)(y + dy * c) < 0 || (int)(y + dy * c) >= game->map.height)
+		return (false);
+	if ((int)(x + dx * c) < 0 || (int)(x + dx * c) >= game->map.width)
+		return (false);
+	return (game->map.grid[(int)(y + dy * c)][(int)(x + dx * c)] != '1');
+}
+
 void	player_move(void *param)
 {
 	t_game	*game;
@@ -83,18 +98,16 @@ void	player_move(void *param)
 		rotate_player(game, -game->player.rot_speed);
 	if (game->player.move.turn_right)
 		rotate_player(game, game->player.rot_speed);
-	//printf("%c\n", game->map.grid[(int)new_y][(int)new_x]);
-	if (game->map.grid[(int)new_y][(int)new_x] != '1')
-	{
+	// if (game->map.grid[(int)(game->player.y)][(int)(new_x + (game->player.dir_x > 0 ? game->player.collision_radius : -game->player.collision_radius))] != '1')
+	// 	game->player.x = new_x;
+	// if (game->map.grid[(int)(new_y + (game->player.dir_y > 0 ? game->player.collision_radius : -game->player.collision_radius))][(int)(game->player.x)] != '1')
+	// 	game->player.y = new_y;
+	if (can_move(new_x, game->player.y, game->player.dir_x, 0))
 		game->player.x = new_x;
+	if (can_move(game->player.x, new_y, 0, game->player.dir_y))
 		game->player.y = new_y;
-	}
 	draw_player(game);
 
 	render_3d_view(game);
-	// printf("Player: x=%.2f y=%.2f\n", game->player.x, game->player.y);
-	// printf("Player: x=%.2f y=%.2f dir=(%.2f, %.2f)\n",
-	// 	game->player.x, game->player.y,
-	// 	game->player.dir_x, game->player.dir_y);
 }
 

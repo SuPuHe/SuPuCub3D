@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/09 14:19:08 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/09 17:02:26 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_player
 	double			plane_y;
 	double			move_speed;
 	double			rot_speed;
+	double			collision_radius;
 	t_move			move;
 }	t_player;
 
