@@ -1,22 +1,22 @@
 
-NO ./textures/north_wall
+NO ./textures/north_wall.png
 
 
-SO ./textures/south_wall
-WE ./textures/west_wall
-
-
-
-
-EA ./textures/east_wall
+SO ./textures/south_wall.png
+WE ./textures/west_wall.png
 
 
 
-F 228,228,228
+
+EA ./textures/east_wall.png
 
 
 
-C 124,43,87
+F 128,128,128
+
+
+
+C 128,128,128
 
 
 111111111111111111111111111

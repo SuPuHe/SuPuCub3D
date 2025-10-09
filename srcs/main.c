@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:01:05 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/06 13:47:48 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/09 16:14:44 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,22 @@
 
 void	init_game(t_game *game)
 {
-	game->mlx = mlx_init(game->map.width * 32, game->map.height * 32, "Cub3D Test", true);
+	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3D Test", true);
 	if (!game->mlx)
 		exit(1);
 
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
+	textures_load();
+	// image_create();
+	game->win_img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	mlx_image_to_window(game->mlx, game->win_img, 0, 0);
 
 	game->player.dir_x = 1.0;
 	game->player.dir_y = 0.0;
 	game->player.move_speed = 0.1;
 	game->player.rot_speed = 0.05;
+	game->player.plane_x = 0.0;
+	game->player.plane_y = 0.75;
 
 	game->player.move.forward = false;
 	game->player.move.backward = false;
