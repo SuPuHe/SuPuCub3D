@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_movement.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:55:27 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/06 14:32:20 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/09 12:05:12 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ void	player_move(void *param)
 		game->player.y = new_y;
 	}
 	draw_player(game);
+
+	render_3d_view(game);
 	// printf("Player: x=%.2f y=%.2f\n", game->player.x, game->player.y);
 	// printf("Player: x=%.2f y=%.2f dir=(%.2f, %.2f)\n",
 	// 	game->player.x, game->player.y,

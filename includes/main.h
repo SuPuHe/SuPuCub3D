@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/06 13:46:37 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/09 12:05:44 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # define BLUE		"\033[34m"
 # define MAGENTA	"\033[35m"
 # define CYAN		"\033[36m"
+
+#define SCREEN_WIDTH 3440
+#define SCREEN_HEIGHT 1440
 
 # include "libft.h"
 # include "get_next_line.h"
@@ -54,5 +57,6 @@ void	draw_square(mlx_image_t *img, int x, int y, uint32_t color);
 void	draw_minimap(t_game *game);
 void	draw_player(t_game *game);
 
+void	render_3d_view(t_game *game);
 
 #endif
