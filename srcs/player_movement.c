@@ -59,19 +59,103 @@ void	rotate_player(t_game *game, double angle)
 		+ game->player.plane_y * cos(angle);
 }
 
-static bool	can_move( double x, double y, double dx, double dy)
+// static bool	can_move( double x, double y, double dx, double dy)
+// {
+// 	t_game	*game;
+// 	double	c;
+
+// 	game = ft_game();
+// 	c = game->player.collision_radius;
+
+// 	if ((int)(y + dy * c) < 0 || (int)(y + dy * c) >= game->map.height)
+// 		return (false);
+// 	if ((int)(x + dx * c) < 0 || (int)(x + dx * c) >= game->map.width)
+// 		return (false);
+// 	return (game->map.grid[(int)(y + dy * c)][(int)(x + dx * c)] != '1');
+// }
+
+// void	player_move(void *param)
+// {
+// 	t_game	*game;
+// 	double	new_x;
+// 	double	new_y;
+
+// 	game = ft_game();
+// 	(void)param;
+// 	new_x = game->player.x;
+// 	new_y = game->player.y;
+// 	if (game->player.move.forward)
+// 	{
+// 		new_x += game->player.dir_x * game->player.move_speed;
+// 		new_y += game->player.dir_y * game->player.move_speed;
+// 	}
+// 	if (game->player.move.backward)
+// 	{
+// 		new_x -= game->player.dir_x * game->player.move_speed;
+// 		new_y -= game->player.dir_y * game->player.move_speed;
+// 	}
+// 	if (game->player.move.turn_left)
+// 		rotate_player(game, -game->player.rot_speed);
+// 	if (game->player.move.turn_right)
+// 		rotate_player(game, game->player.rot_speed);
+
+// 	// Вот эта коллизия работает лучше всего, попробуй с ней что то сделать.
+
+// 	// if (game->map.grid[(int)(game->player.y)][(int)(new_x + (game->player.dir_x > 0 ? game->player.collision_radius : -game->player.collision_radius))] != '1')
+// 	// 	game->player.x = new_x;
+// 	// if (game->map.grid[(int)(new_y + (game->player.dir_y > 0 ? game->player.collision_radius : -game->player.collision_radius))][(int)(game->player.x)] != '1')
+// 	// 	game->player.y = new_y;
+
+// 	// А вот эта коллизия плохо работает с углами, попробуй зайти в угол и с зажатой W потихоньку менять угол, в какой-то момент ты подойдешь очень близко к одной из стен и прилипнешь к ней.
+// 	// И если после этого захочешь пойти назад на S, то все равно будешь скользить прилипнув к стене.
+// 	if (can_move(new_x, game->player.y, game->player.dir_x, 0))
+// 		game->player.x = new_x;
+// 	if (can_move(game->player.x, new_y, 0, game->player.dir_y))
+// 		game->player.y = new_y;
+// 	draw_player(game);
+
+// 	render_3d_view(game);
+// }
+
+static bool	is_valid_position(t_game *game, double x, double y)
 {
-	t_game	*game;
-	double	c;
+	int		map_x;
+	int		map_y;
 
-	game = ft_game();
-	c = game->player.collision_radius;
+	if (x < 0 || x >= game->map.width || y < 0 || y >= game->map.height)
+		return (false);
+	map_x = (int)x;
+	map_y = (int)y;
+	return (game->map.grid[map_y][map_x] != '1');
+}
 
-	if ((int)(y + dy * c) < 0 || (int)(y + dy * c) >= game->map.height)
-		return (false);
-	if ((int)(x + dx * c) < 0 || (int)(x + dx * c) >= game->map.width)
-		return (false);
-	return (game->map.grid[(int)(y + dy * c)][(int)(x + dx * c)] != '1');
+static void	move_player_with_collision(t_game *game, double new_x, double new_y)
+{
+	double	radius;
+
+	radius = game->player.collision_radius;
+
+	if (new_x > game->player.x)
+	{
+		if (is_valid_position(game, new_x + radius, game->player.y))
+			game->player.x = new_x;
+	}
+	else if (new_x < game->player.x)
+	{
+		// Движение влево
+		if (is_valid_position(game, new_x - radius, game->player.y))
+			game->player.x = new_x;
+	}
+	if (new_y > game->player.y)
+	{
+		if (is_valid_position(game, game->player.x, new_y + radius))
+			game->player.y = new_y;
+	}
+	else if (new_y < game->player.y)
+	{
+		if (is_valid_position(game, game->player.x, new_y - radius))
+			game->player.y = new_y;
+	}
 }
 
 void	player_move(void *param)
@@ -79,41 +163,37 @@ void	player_move(void *param)
 	t_game	*game;
 	double	new_x;
 	double	new_y;
+	double	move_dx;
+	double	move_dy;
 
 	game = ft_game();
 	(void)param;
 	new_x = game->player.x;
 	new_y = game->player.y;
+	move_dx = 0;
+	move_dy = 0;
+
 	if (game->player.move.forward)
 	{
-		new_x += game->player.dir_x * game->player.move_speed;
-		new_y += game->player.dir_y * game->player.move_speed;
+		move_dx += game->player.dir_x * game->player.move_speed;
+		move_dy += game->player.dir_y * game->player.move_speed;
 	}
 	if (game->player.move.backward)
 	{
-		new_x -= game->player.dir_x * game->player.move_speed;
-		new_y -= game->player.dir_y * game->player.move_speed;
+		move_dx -= game->player.dir_x * game->player.move_speed;
+		move_dy -= game->player.dir_y * game->player.move_speed;
 	}
+
 	if (game->player.move.turn_left)
 		rotate_player(game, -game->player.rot_speed);
 	if (game->player.move.turn_right)
 		rotate_player(game, game->player.rot_speed);
 
-	// Вот эта коллизия работает лучше всего, попробуй с ней что то сделать.
+	new_x += move_dx;
+	new_y += move_dy;
+	move_player_with_collision(game, new_x, new_y);
 
-	// if (game->map.grid[(int)(game->player.y)][(int)(new_x + (game->player.dir_x > 0 ? game->player.collision_radius : -game->player.collision_radius))] != '1')
-	// 	game->player.x = new_x;
-	// if (game->map.grid[(int)(new_y + (game->player.dir_y > 0 ? game->player.collision_radius : -game->player.collision_radius))][(int)(game->player.x)] != '1')
-	// 	game->player.y = new_y;
-
-	// А вот эта коллизия плохо работает с углами, попробуй зайти в угол и с зажатой W потихоньку менять угол, в какой-то момент ты подойдешь очень близко к одной из стен и прилипнешь к ней.
-	// И если после этого захочешь пойти назад на S, то все равно будешь скользить прилипнув к стене.
-	if (can_move(new_x, game->player.y, game->player.dir_x, 0))
-		game->player.x = new_x;
-	if (can_move(game->player.x, new_y, 0, game->player.dir_y))
-		game->player.y = new_y;
 	draw_player(game);
-
 	render_3d_view(game);
 }
 
