@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:06:54 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/03 14:53:40 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/13 12:56:13 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,33 @@ int	get_info(char **file, t_game *game)
 	if (!ft_game()->textures.north_path || !ft_game()->textures.south_path
 		|| !ft_game()->textures.west_path || !ft_game()->textures.east_path)
 		return (print_error("Insufficient rexture or color data"), 0);
+	return (1);
+}
+
+int	init_player_dir(t_game *game)
+{
+	char	dir;
+
+	dir = game->map.grid[(int)game->player.y][(int)game->player.x];
+	if (dir == 'E')
+	{
+		game->player.dir_x = 1.0;
+		game->player.plane_y = 0.75;
+	}
+	else if (dir == 'W')
+	{
+		game->player.dir_x = -1.0;
+		game->player.plane_y = -0.75;
+	}
+	else if (dir == 'N')
+	{
+		game->player.dir_y = -1.0;
+		game->player.plane_x = 0.75;
+	}
+	else if (dir == 'S')
+	{
+		game->player.dir_y = 1.0;
+		game->player.plane_x = -0.75;
+	}
 	return (1);
 }

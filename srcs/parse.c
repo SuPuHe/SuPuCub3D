@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:39:39 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/06 13:47:12 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/13 12:31:36 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,5 +119,7 @@ int	parsing_file(char *argv)
 				"multiply player declaration"), 0);
 	if (!check_map_valid())
 		return (0);
+	if (!init_player_dir(game))
+			return (0);
 	return (1);
 }

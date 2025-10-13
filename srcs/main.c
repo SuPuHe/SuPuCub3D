@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:01:05 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/09 17:17:19 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/13 12:52:55 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,8 @@ void	init_game(t_game *game)
 	game->win_img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	mlx_image_to_window(game->mlx, game->win_img, 0, 0);
 
-	game->player.dir_x = 1.0;
-	game->player.dir_y = 0.0;
 	game->player.move_speed = 0.1;
 	game->player.rot_speed = 0.05;
-	game->player.plane_x = 0.0;
-	game->player.plane_y = 0.75;
 	game->player.collision_radius = 0.2;
 
 	game->player.move.forward = false;
