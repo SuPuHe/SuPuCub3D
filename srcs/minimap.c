@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:25:40 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/07 17:55:59 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/13 16:07:26 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ void	draw_minimap(t_game *game)
 
 void	draw_player_direction(t_game *game)
 {
-	int px = game->player.x * TILE_SIZE * MINIMAP_SCALE + (TILE_SIZE * MINIMAP_SCALE / 2);
-	int py = game->player.y * TILE_SIZE * MINIMAP_SCALE + (TILE_SIZE * MINIMAP_SCALE / 2);
+	int px = game->player.x * TILE_SIZE * MINIMAP_SCALE;
+	int py = game->player.y * TILE_SIZE * MINIMAP_SCALE;
 
 	int	length = TILE_SIZE * MINIMAP_SCALE;
 	int	end_x = px + (int)(game->player.dir_x * length);
@@ -94,8 +94,8 @@ void	draw_player_direction(t_game *game)
 
 void	draw_player(t_game *game)
 {
-	int px = game->player.x * TILE_SIZE * MINIMAP_SCALE + (TILE_SIZE * MINIMAP_SCALE / 2);
-	int py = game->player.y * TILE_SIZE * MINIMAP_SCALE + (TILE_SIZE * MINIMAP_SCALE / 2);
+	int px = game->player.x * TILE_SIZE * MINIMAP_SCALE;
+	int py = game->player.y * TILE_SIZE * MINIMAP_SCALE;
 	int	size = 3;
 
 	uint32_t	y = 0;
