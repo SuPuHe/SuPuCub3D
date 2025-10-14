@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:25:40 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/13 16:07:26 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/14 13:42:50 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	init_minimap(t_game *game)
 	if (!game->minimap.img || !game->minimap.player_img)
 		print_error("Failed to create minimap images");
 
-	draw_minimap(game);
+//	draw_minimap(game);
 	mlx_image_to_window(game->mlx, game->minimap.img, 20, 20);
 	mlx_image_to_window(game->mlx, game->minimap.player_img, 20, 20);
 }
@@ -122,4 +122,46 @@ void	draw_player(t_game *game)
 		y2++;
 	}
 	draw_player_direction(game);
+}
+
+void	enable_minimap(t_game *game)
+{
+	game->minimap.enabled = 1;
+	draw_minimap(game);
+	draw_player(game);
+}
+
+void	disable_minimap(t_game *game)
+{
+	uint32_t	y;
+	uint32_t	x;
+
+	game->minimap.enabled = 0;
+	y = 0;
+	while (y < game->minimap.player_img->height)
+	{
+		x = 0;
+		while (x < game->minimap.player_img->width)
+		{
+			mlx_put_pixel(game->minimap.player_img, x, y, 0x00000000);
+			x++;
+		}
+		y++;
+	}
+	y = 0;
+	while (y < game->minimap.img->height)
+	{
+		x = -1;
+		while (++x < game->minimap.img->width)
+			mlx_put_pixel(game->minimap.img, x, y, 0x00000000);
+		y++;
+	}
+}
+
+void	check_minimap(t_game *game)
+{
+	if (!game->minimap.enabled)
+		enable_minimap(game);
+	else
+		disable_minimap(game);
 }

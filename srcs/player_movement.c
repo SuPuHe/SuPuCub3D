@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_movement.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:55:27 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/09 17:25:13 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/14 13:40:04 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	handle_input(mlx_key_data_t keydata, void *params)
 		game->player.move.turn_right = true;
 	if (keydata.key == MLX_KEY_D && keydata.action == MLX_RELEASE)
 		game->player.move.turn_right = false;
+	if (keydata.key == MLX_KEY_M && keydata.action == MLX_PRESS)
+		check_minimap(game);
 }
 
 void	rotate_player(t_game *game, double angle)
@@ -192,8 +194,8 @@ void	player_move(void *param)
 	new_x += move_dx;
 	new_y += move_dy;
 	move_player_with_collision(game, new_x, new_y);
-
-	draw_player(game);
+	if (game->minimap.enabled)
+		draw_player(game);
 	render_3d_view(game);
 }
 
