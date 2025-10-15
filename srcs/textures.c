@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 14:03:36 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/09 16:10:17 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/13 16:41:42 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ void	textures_load(void)
 	game->textures.south_tex = mlx_load_png(game->textures.south_path);
 	game->textures.east_tex = mlx_load_png(game->textures.east_path);
 	game->textures.west_tex = mlx_load_png(game->textures.west_path);
+	game->textures.door_tex = mlx_load_png(game->textures.door_path);
 	if (!game->textures.north_tex || !game->textures.south_tex
-		|| !game->textures.east_tex || !game->textures.west_tex)
+		|| !game->textures.east_tex || !game->textures.west_tex
+		|| !game->textures.door_tex)
 	{
 		printf("ERROR: Faild to load textures.");
 		exit(EXIT_FAILURE);

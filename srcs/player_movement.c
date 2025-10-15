@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:55:27 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/13 15:07:19 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/13 18:06:53 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@ void	handle_input(mlx_key_data_t keydata, void *params)
 		game->player.move.turn_right = true;
 	if (keydata.key == MLX_KEY_D && keydata.action == MLX_RELEASE)
 		game->player.move.turn_right = false;
+	if (keydata.key == MLX_KEY_E && keydata.action == MLX_PRESS)
+	{
+		update_doors(game);
+		is_door();
+	}
+
 }
 
 void	rotate_player(t_game *game, double angle)
@@ -63,12 +69,26 @@ static bool	is_valid_position(t_game *game, double x, double y)
 {
 	int		map_x;
 	int		map_y;
+	t_door	*door;
 
 	if (x < 0 || x >= game->map.width || y < 0 || y >= game->map.height)
 		return (false);
 	map_x = (int)x;
 	map_y = (int)y;
-	return (game->map.grid[map_y][map_x] != '1');
+
+	// Если стена — нельзя пройти
+	if (game->map.grid[map_y][map_x] == '1')
+		return false;
+
+	// Если дверь — проверить прогресс открытия
+	if (game->map.grid[map_y][map_x] == 'D')
+	{
+		door = find_door_at(game, map_x, map_y);
+		if (door && door->progress < 0.9) // <0.9 = почти закрыта
+			return false;
+	}
+
+	return true;
 }
 
 static void	move_player_with_collision(t_game *game, double new_x, double new_y)
@@ -130,6 +150,7 @@ void	player_move(void *param)
 	new_x += move_dx;
 	new_y += move_dy;
 	move_player_with_collision(game, new_x, new_y);
+	update_doors(NULL);
 	draw_player(game);
 	render_3d_view(game);
 }

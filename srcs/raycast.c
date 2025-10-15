@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:05:22 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/09 16:13:23 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/15 16:53:07 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static void	init_ray(t_game *game, t_raycast *rc, int x)
 	else
 		rc->delta_dist_y = fabs(1 / rc->ray_dir_y);
 	rc->hit = 0;
+	rc->is_door = 0;
 }
 
 static void	calculate_step_and_side_dist(t_game *game, t_raycast *rc)
@@ -58,6 +59,8 @@ static void	calculate_step_and_side_dist(t_game *game, t_raycast *rc)
 
 static void	perform_dda(t_game *game, t_raycast *rc)
 {
+	t_door	*door;
+
 	while (rc->hit == 0)
 	{
 		if (rc->side_dist_x < rc->side_dist_y)
@@ -73,7 +76,22 @@ static void	perform_dda(t_game *game, t_raycast *rc)
 			rc->side = 1;
 		}
 		if (game->map.grid[rc->map_y][rc->map_x] == '1')
+		{
 			rc->hit = 1;
+			rc->is_door = 0;
+		}
+		else if (game->map.grid[rc->map_y][rc->map_x] == 'D')
+		{
+			door = find_door_at(game, rc->map_x, rc->map_y);
+			if (door)
+			{
+				if (door->progress < 0.95)
+				{
+					rc->is_door = 1;
+					rc->hit = 1; // if almost closed block the ray.
+				}
+			}
+		}
 	}
 }
 
@@ -98,7 +116,7 @@ static void	draw_column(t_game *game, int x, t_raycast *rc)
 	mlx_texture_t	*texture;
 	uint32_t		color;
 
-	// We determine the height of the lines and the start/end coordinates.
+	// Вычисляем высоту стены на экране
 	line_height = (int)(SCREEN_HEIGHT / rc->perp_wall_dist);
 	draw_start = -line_height / 2 + SCREEN_HEIGHT / 2;
 	if (draw_start < 0)
@@ -107,8 +125,10 @@ static void	draw_column(t_game *game, int x, t_raycast *rc)
 	if (draw_end >= SCREEN_HEIGHT)
 		draw_end = SCREEN_HEIGHT - 1;
 
-	// We choose the texture depending on the side of the wall
-	if (rc->side == 0 && rc->ray_dir_x > 0)
+	// Выбираем текстуру
+	if (rc->is_door)
+		texture = game->textures.door_tex;
+	else if (rc->side == 0 && rc->ray_dir_x > 0)
 		texture = game->textures.east_tex;
 	else if (rc->side == 0 && rc->ray_dir_x < 0)
 		texture = game->textures.west_tex;
@@ -117,19 +137,29 @@ static void	draw_column(t_game *game, int x, t_raycast *rc)
 	else
 		texture = game->textures.north_tex;
 
-	// Calculate the X coordinate of the texture
+	// Вычисляем координату X текстуры
 	if (rc->side == 0)
 		tex_x = (int)((game->player.y + rc->perp_wall_dist * rc->ray_dir_y) * texture->width) % texture->width;
 	else
 		tex_x = (int)((game->player.x + rc->perp_wall_dist * rc->ray_dir_x) * texture->width) % texture->width;
 
-	// Calculate the step and the initial position of the texture
+	// Смещение двери по прогрессу открытия
+	if (rc->is_door)
+	{
+		t_door *door = find_door_at(game, rc->map_x, rc->map_y);
+		if (door)
+		{
+			int offset = (int)(door->progress * texture->width); // прогресс 0.0–1.0
+			tex_x = (tex_x + offset) % texture->width;
+		}
+	}
+
+	// Шаг текстуры по вертикали
 	step = (double)texture->height / line_height;
 	tex_pos = (draw_start - SCREEN_HEIGHT / 2 + line_height / 2) * step;
 
-	// Drawing a column of pixels
-	y = 0;
-	while (y < SCREEN_HEIGHT)
+	// Рисуем колонку
+	for (y = 0; y < SCREEN_HEIGHT; y++)
 	{
 		if (y < draw_start)
 			mlx_put_pixel(game->win_img, x, y, game->textures.ceil);
@@ -138,7 +168,6 @@ static void	draw_column(t_game *game, int x, t_raycast *rc)
 			tex_y = (int)tex_pos & (texture->height - 1);
 			tex_pos += step;
 
-			// Getting color from texture
 			int pixel_index = (tex_y * texture->width + tex_x) * 4;
 			uint8_t r = texture->pixels[pixel_index + 0];
 			uint8_t g = texture->pixels[pixel_index + 1];
@@ -149,7 +178,6 @@ static void	draw_column(t_game *game, int x, t_raycast *rc)
 		}
 		else
 			mlx_put_pixel(game->win_img, x, y, game->textures.floor);
-		y++;
 	}
 }
 
