@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/13 12:32:33 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/13 18:03:03 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,11 @@ void	render_3d_view(t_game *game);
 // textures.c
 void	textures_load(void);
 void	image_create(void);
+
+// doors.c
+void	is_door(void);
+void	update_doors(void *param);
+t_door	*find_door_at(t_game *game, int x, int y);
+void	init_doors(t_game *game);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/09 17:02:26 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/13 17:18:01 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,12 @@ typedef struct s_textures
 	char			*south_path;
 	char			*west_path;
 	char			*east_path;
+	char			*door_path;
 	mlx_texture_t	*north_tex;
 	mlx_texture_t	*south_tex;
 	mlx_texture_t	*west_tex;
 	mlx_texture_t	*east_tex;
+	mlx_texture_t	*door_tex;
 	int				floor_color[3];
 	int				ceil_color[3];
 	uint32_t		floor;
@@ -80,6 +82,7 @@ typedef struct s_raycast
 	int				step_y;
 	int				hit;
 	int				side;
+	int				is_door;
 }	t_raycast;
 
 typedef struct s_image
@@ -100,6 +103,14 @@ typedef struct s_minimap
 	mlx_image_t		*player_img;
 }	t_minimap;
 
+typedef struct s_door
+{
+	int				x;
+	int				y;
+	double			progress;
+	bool			is_openening;
+}	t_door;
+
 typedef struct s_game
 {
 	mlx_t			*mlx;
@@ -111,6 +122,8 @@ typedef struct s_game
 	t_minimap		minimap;
 	int				exit;
 	t_image			tx_images;
+	t_door			doors[64];
+	int				door_count;
 }	t_game;
 
 #endif
