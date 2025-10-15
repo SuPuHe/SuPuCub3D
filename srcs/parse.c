@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:39:39 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/13 12:31:36 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/13 18:01:29 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	flood_fill(t_game *game, int x, int y)
 	if (x < 0 || x >= cols)
 		return (0);
 	c = game->map.copy_map[y][x];
-	if (c == '1' || c == 'F')
+	if (c == '1' || c == 'F' || c == 'D')
 		return (1);
 	if (is_invalid_char(c))
 		return (0);

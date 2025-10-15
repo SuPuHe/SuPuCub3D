@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:01:05 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/13 12:52:55 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/13 18:02:59 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,13 @@ int	main(int argc, char **argv)
 	if (!parsing_file(argv[1]))
 		return (free_textures_path(game->textures), free_split(game->map.grid), 1);
 	init_game(game);
-
+	init_doors(game);
 	init_minimap(game);
 	draw_minimap(game);
 	draw_player(game);
 
 	mlx_key_hook(game->mlx, handle_input, NULL);
+	mlx_loop_hook(game->mlx, update_doors, game);
 	mlx_loop_hook(game->mlx, player_move, game);
 	mlx_loop(game->mlx);
 	mlx_terminate(game->mlx);
