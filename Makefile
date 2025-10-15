@@ -81,7 +81,6 @@ clean:
 
 fclean: clean
 	@$(RM) $(NAME)
-	@$(RM) $(MLX_DIR)
 	@$(MAKE) -C $(SUPULIB_DIR) fclean
 	@echo "$(GREEN)Fclean sucessfully$(RESET_COLOR)"
 

@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/13 18:03:03 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/15 17:00:19 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	init_minimap(t_game *game);
 void	draw_square(mlx_image_t *img, int x, int y, uint32_t color);
 void	draw_minimap(t_game *game);
 void	draw_player(t_game *game);
+void	check_minimap(t_game *game);
 
 // raycast.c
 void	render_3d_view(t_game *game);

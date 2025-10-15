@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:55:27 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/13 18:06:53 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/15 17:03:30 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	handle_input(mlx_key_data_t keydata, void *params)
 		is_door();
 	}
 
+	if (keydata.key == MLX_KEY_M && keydata.action == MLX_PRESS)
+		check_minimap(game);
 }
 
 void	rotate_player(t_game *game, double angle)
@@ -151,7 +153,8 @@ void	player_move(void *param)
 	new_y += move_dy;
 	move_player_with_collision(game, new_x, new_y);
 	update_doors(NULL);
-	draw_player(game);
+	if (game->minimap.enabled)
+		draw_minimap(game);
 	render_3d_view(game);
 }
 

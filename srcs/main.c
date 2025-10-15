@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:01:05 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/13 18:02:59 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/15 17:01:35 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	init_game(t_game *game)
 	game->player.move.right = false;
 	game->player.move.turn_left = false;
 	game->player.move.turn_right = false;
+	game->minimap.enabled = 0;
 }
 
 int	main(int argc, char **argv)
@@ -48,8 +49,8 @@ int	main(int argc, char **argv)
 	init_game(game);
 	init_doors(game);
 	init_minimap(game);
-	draw_minimap(game);
-	draw_player(game);
+	//draw_minimap(game);
+	//draw_player(game);
 
 	mlx_key_hook(game->mlx, handle_input, NULL);
 	mlx_loop_hook(game->mlx, update_doors, game);
