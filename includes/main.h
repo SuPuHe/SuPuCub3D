@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/15 17:00:19 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/17 12:02:09 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,5 @@ void	is_door(void);
 void	update_doors(void *param);
 t_door	*find_door_at(t_game *game, int x, int y);
 void	init_doors(t_game *game);
-
+void	interact_with_door(t_game *game);
 #endif

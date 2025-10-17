@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:55:27 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/15 17:03:30 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/17 13:34:15 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,7 @@ void	handle_input(mlx_key_data_t keydata, void *params)
 	if (keydata.key == MLX_KEY_D && keydata.action == MLX_RELEASE)
 		game->player.move.turn_right = false;
 	if (keydata.key == MLX_KEY_E && keydata.action == MLX_PRESS)
-	{
-		update_doors(game);
-		is_door();
-	}
+		interact_with_door(game);
 
 	if (keydata.key == MLX_KEY_M && keydata.action == MLX_PRESS)
 		check_minimap(game);
@@ -152,7 +149,7 @@ void	player_move(void *param)
 	new_x += move_dx;
 	new_y += move_dy;
 	move_player_with_collision(game, new_x, new_y);
-	update_doors(NULL);
+	update_doors(game);
 	if (game->minimap.enabled)
 		draw_minimap(game);
 	render_3d_view(game);

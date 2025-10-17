@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/15 17:00:59 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/17 11:45:56 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,19 @@
 
 # include <stdint.h>
 # include "../mlx/include/MLX42/MLX42.h"
+
+#define DOOR_OPEN_SPEED 0.03
+#define DOOR_CLOSE_SPEED 0.03
+#define DOOR_OPEN_TIME 120      // frames to wait before closing
+#define DOOR_INTERACTION_DIST 1.5
+
+typedef enum e_door_state
+{
+	DOOR_CLOSED,
+	DOOR_OPENING,
+	DOOR_OPEN,
+	DOOR_CLOSING
+}	t_door_state;
 
 typedef struct s_textures
 {
@@ -114,12 +127,14 @@ typedef struct s_minimap
 	mlx_image_t		*img;
 }	t_minimap;
 
+// Update door struct in structs.h:
 typedef struct s_door
 {
 	int				x;
 	int				y;
-	double			progress;
-	bool			is_openening;
+	double			progress;        // 0.0 = closed, 1.0 = open
+	t_door_state	state;
+	int				timer;           // timer for auto-close
 }	t_door;
 
 typedef struct s_game

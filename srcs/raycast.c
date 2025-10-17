@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:05:22 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/15 16:53:07 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/17 13:34:07 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ static void	perform_dda(t_game *game, t_raycast *rc)
 			rc->map_y += rc->step_y;
 			rc->side = 1;
 		}
+
 		if (game->map.grid[rc->map_y][rc->map_x] == '1')
 		{
 			rc->hit = 1;
@@ -83,13 +84,11 @@ static void	perform_dda(t_game *game, t_raycast *rc)
 		else if (game->map.grid[rc->map_y][rc->map_x] == 'D')
 		{
 			door = find_door_at(game, rc->map_x, rc->map_y);
-			if (door)
+			if (door && door->progress < 0.99)
 			{
-				if (door->progress < 0.95)
-				{
-					rc->is_door = 1;
-					rc->hit = 1; // if almost closed block the ray.
-				}
+				// Hit door if not fully open
+				rc->is_door = 1;
+				rc->hit = 1;
 			}
 		}
 	}
@@ -116,6 +115,18 @@ static void	draw_column(t_game *game, int x, t_raycast *rc)
 	mlx_texture_t	*texture;
 	uint32_t		color;
 
+	// CRITICAL: Check for door rendering
+	if (rc->is_door)
+	{
+		t_door *door = find_door_at(game, rc->map_x, rc->map_y);
+		if (!door)
+			return ; // Safety check
+
+		// If door is fully open, don't render it
+		if (door->progress >= 0.99)
+			return ;
+	}
+
 	// Вычисляем высоту стены на экране
 	line_height = (int)(SCREEN_HEIGHT / rc->perp_wall_dist);
 	draw_start = -line_height / 2 + SCREEN_HEIGHT / 2;
@@ -137,22 +148,40 @@ static void	draw_column(t_game *game, int x, t_raycast *rc)
 	else
 		texture = game->textures.north_tex;
 
-	// Вычисляем координату X текстуры
-	if (rc->side == 0)
-		tex_x = (int)((game->player.y + rc->perp_wall_dist * rc->ray_dir_y) * texture->width) % texture->width;
-	else
-		tex_x = (int)((game->player.x + rc->perp_wall_dist * rc->ray_dir_x) * texture->width) % texture->width;
+	// CRITICAL: Null check
+	if (!texture || !texture->pixels)
+		return ;
 
-	// Смещение двери по прогрессу открытия
+	// Вычисляем координату X текстуры
+	double wall_x;
+	if (rc->side == 0)
+		wall_x = game->player.y + rc->perp_wall_dist * rc->ray_dir_y;
+	else
+		wall_x = game->player.x + rc->perp_wall_dist * rc->ray_dir_x;
+	wall_x -= floor(wall_x);
+
+	// Смещение двери по прогрессу открытия (SLIDING EFFECT)
 	if (rc->is_door)
 	{
 		t_door *door = find_door_at(game, rc->map_x, rc->map_y);
 		if (door)
 		{
-			int offset = (int)(door->progress * texture->width); // прогресс 0.0–1.0
-			tex_x = (tex_x + offset) % texture->width;
+			// Wolfenstein style: slide into wall
+			wall_x -= door->progress;
+
+			// If slid completely off screen, skip
+			if (wall_x < 0.0 || wall_x >= 1.0)
+				return;
 		}
 	}
+
+	tex_x = (int)(wall_x * (double)texture->width);
+
+	// CRITICAL: Bounds check for tex_x
+	if (tex_x < 0)
+		tex_x = 0;
+	if (tex_x >= (int)texture->width)
+		tex_x = texture->width - 1;
 
 	// Шаг текстуры по вертикали
 	step = (double)texture->height / line_height;
@@ -168,13 +197,24 @@ static void	draw_column(t_game *game, int x, t_raycast *rc)
 			tex_y = (int)tex_pos & (texture->height - 1);
 			tex_pos += step;
 
-			int pixel_index = (tex_y * texture->width + tex_x) * 4;
-			uint8_t r = texture->pixels[pixel_index + 0];
-			uint8_t g = texture->pixels[pixel_index + 1];
-			uint8_t b = texture->pixels[pixel_index + 2];
-			uint8_t a = texture->pixels[pixel_index + 3];
-			color = (r << 24) | (g << 16) | (b << 8) | a;
-			mlx_put_pixel(game->win_img, x, y, color);
+			// CRITICAL: Bounds check for pixel access
+			if (tex_x >= 0 && tex_x < (int)texture->width &&
+				tex_y >= 0 && tex_y < (int)texture->height)
+			{
+				int pixel_index = (tex_y * texture->width + tex_x) * 4;
+
+				// CRITICAL: Check pixel_index bounds
+				if (pixel_index >= 0 &&
+					pixel_index + 3 < (int)(texture->width * texture->height * 4))
+				{
+					uint8_t r = texture->pixels[pixel_index + 0];
+					uint8_t g = texture->pixels[pixel_index + 1];
+					uint8_t b = texture->pixels[pixel_index + 2];
+					uint8_t a = texture->pixels[pixel_index + 3];
+					color = (r << 24) | (g << 16) | (b << 8) | a;
+					mlx_put_pixel(game->win_img, x, y, color);
+				}
+			}
 		}
 		else
 			mlx_put_pixel(game->win_img, x, y, game->textures.floor);
