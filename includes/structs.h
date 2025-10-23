@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/09 17:02:26 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/14 15:38:26 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,19 @@ typedef struct s_minimap
 {
 	int				enabled;
 	int				scale;
-	mlx_image_t		*img;
+	int				center;
+	int				radius;
+	int				mx;
+	int				my;
+	int				map_x;
+	int				map_y;
+	double			start_x;
+	double			start_y;
+	double			world_x;
+	double			world_y;
+	uint32_t		color;
 	mlx_image_t		*player_img;
+	mlx_image_t		*img;
 }	t_minimap;
 
 typedef struct s_game
