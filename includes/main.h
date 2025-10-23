@@ -21,8 +21,8 @@
 # define MAGENTA	"\033[35m"
 # define CYAN		"\033[36m"
 
-#define SCREEN_WIDTH 3440
-#define SCREEN_HEIGHT 1440
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 600
 
 # include "libft.h"
 # include "get_next_line.h"
