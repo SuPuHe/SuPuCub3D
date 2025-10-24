@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:05:22 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/17 13:34:07 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/24 15:02:19 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,10 @@ static void	calculate_step_and_side_dist(t_game *game, t_raycast *rc)
 static void	perform_dda(t_game *game, t_raycast *rc)
 {
 	t_door	*door;
+	double	door_pos;
+	double	ray_pos;
+	double	dist_to_center;
+	int		door_orientation;
 
 	while (rc->hit == 0)
 	{
@@ -86,9 +90,67 @@ static void	perform_dda(t_game *game, t_raycast *rc)
 			door = find_door_at(game, rc->map_x, rc->map_y);
 			if (door && door->progress < 0.99)
 			{
-				// Hit door if not fully open
-				rc->is_door = 1;
-				rc->hit = 1;
+				// Determine door orientation by checking adjacent tiles
+				// Door is PERPENDICULAR to the walls around it
+				// 0 = vertical (N-S), 1 = horizontal (E-W)
+				door_orientation = 0;
+
+				// If walls on left/right -> door blocks N-S corridor -> door is E-W
+				if ((rc->map_x > 0 && game->map.grid[rc->map_y][rc->map_x - 1] == '1') ||
+					(rc->map_x < game->map.width - 1 && game->map.grid[rc->map_y][rc->map_x + 1] == '1'))
+					door_orientation = 1;  // Horizontal door (E-W)
+				// If walls on top/bottom -> door blocks E-W corridor -> door is N-S
+				else if ((rc->map_y > 0 && game->map.grid[rc->map_y - 1][rc->map_x] == '1') ||
+					(rc->map_y < game->map.height - 1 && game->map.grid[rc->map_y + 1][rc->map_x] == '1'))
+					door_orientation = 0;  // Vertical door (N-S)
+
+				// Calculate intersection with door plane at tile center
+				if (door_orientation == 0)
+				{
+					// Vertical door at X = map_x + 0.5
+					if (rc->ray_dir_x != 0)
+					{
+						dist_to_center = ((double)rc->map_x + 0.5 - game->player.x) / rc->ray_dir_x;
+
+						// Door visible from both sides - just check if distance is positive
+						if (dist_to_center > 0)
+						{
+							ray_pos = game->player.y + dist_to_center * rc->ray_dir_y;
+							door_pos = ray_pos - (double)rc->map_y;
+
+							if (door_pos >= 0.0 && door_pos <= 1.0 && door_pos <= (1.0 - door->progress))
+							{
+								rc->is_door = 1;
+								rc->hit = 1;
+								rc->perp_wall_dist = fabs(dist_to_center);
+								rc->side = 0;
+							}
+						}
+					}
+				}
+				else
+				{
+					// Horizontal door at Y = map_y + 0.5
+					if (rc->ray_dir_y != 0)
+					{
+						dist_to_center = ((double)rc->map_y + 0.5 - game->player.y) / rc->ray_dir_y;
+
+						// Door visible from both sides - just check if distance is positive
+						if (dist_to_center > 0)
+						{
+							ray_pos = game->player.x + dist_to_center * rc->ray_dir_x;
+							door_pos = ray_pos - (double)rc->map_x;
+
+							if (door_pos >= 0.0 && door_pos <= 1.0 && door_pos <= (1.0 - door->progress))
+							{
+								rc->is_door = 1;
+								rc->hit = 1;
+								rc->perp_wall_dist = fabs(dist_to_center);
+								rc->side = 1;
+							}
+						}
+					}
+				}
 			}
 		}
 	}
@@ -96,6 +158,10 @@ static void	perform_dda(t_game *game, t_raycast *rc)
 
 static void	calculate_wall_distance(t_game *game, t_raycast *rc)
 {
+	// Don't recalculate if it's a door (already calculated in perform_dda)
+	if (rc->is_door)
+		return;
+
 	if (rc->side == 0)
 		rc->perp_wall_dist = (rc->map_x - game->player.x + (1 - rc->step_x) / 2.0) / rc->ray_dir_x;
 	else
@@ -114,20 +180,9 @@ static void	draw_column(t_game *game, int x, t_raycast *rc)
 	double			tex_pos;
 	mlx_texture_t	*texture;
 	uint32_t		color;
+	double			wall_x;
 
-	// CRITICAL: Check for door rendering
-	if (rc->is_door)
-	{
-		t_door *door = find_door_at(game, rc->map_x, rc->map_y);
-		if (!door)
-			return ; // Safety check
-
-		// If door is fully open, don't render it
-		if (door->progress >= 0.99)
-			return ;
-	}
-
-	// Вычисляем высоту стены на экране
+	// Calculate wall height
 	line_height = (int)(SCREEN_HEIGHT / rc->perp_wall_dist);
 	draw_start = -line_height / 2 + SCREEN_HEIGHT / 2;
 	if (draw_start < 0)
@@ -136,7 +191,7 @@ static void	draw_column(t_game *game, int x, t_raycast *rc)
 	if (draw_end >= SCREEN_HEIGHT)
 		draw_end = SCREEN_HEIGHT - 1;
 
-	// Выбираем текстуру
+	// Choose texture
 	if (rc->is_door)
 		texture = game->textures.door_tex;
 	else if (rc->side == 0 && rc->ray_dir_x > 0)
@@ -148,46 +203,46 @@ static void	draw_column(t_game *game, int x, t_raycast *rc)
 	else
 		texture = game->textures.north_tex;
 
-	// CRITICAL: Null check
+	// Null check
 	if (!texture || !texture->pixels)
 		return ;
 
-	// Вычисляем координату X текстуры
-	double wall_x;
+	// Calculate texture X coordinate
 	if (rc->side == 0)
 		wall_x = game->player.y + rc->perp_wall_dist * rc->ray_dir_y;
 	else
 		wall_x = game->player.x + rc->perp_wall_dist * rc->ray_dir_x;
 	wall_x -= floor(wall_x);
 
-	// Смещение двери по прогрессу открытия (SLIDING EFFECT)
+	// For doors: adjust texture mapping for sliding effect
 	if (rc->is_door)
 	{
 		t_door *door = find_door_at(game, rc->map_x, rc->map_y);
 		if (door)
 		{
-			// Wolfenstein style: slide into wall
-			wall_x -= door->progress;
-
-			// If slid completely off screen, skip
-			if (wall_x < 0.0 || wall_x >= 1.0)
-				return;
+			// wall_x is already 0.0 to 1.0 from the door hit position
+			// No need to adjust, texture already maps correctly
+			// Just ensure it's in valid range
+			if (wall_x < 0.0)
+				wall_x = 0.0;
+			if (wall_x >= 1.0)
+				wall_x = 0.999;
 		}
 	}
 
 	tex_x = (int)(wall_x * (double)texture->width);
 
-	// CRITICAL: Bounds check for tex_x
+	// Bounds check for tex_x
 	if (tex_x < 0)
 		tex_x = 0;
 	if (tex_x >= (int)texture->width)
 		tex_x = texture->width - 1;
 
-	// Шаг текстуры по вертикали
+	// Vertical texture step
 	step = (double)texture->height / line_height;
 	tex_pos = (draw_start - SCREEN_HEIGHT / 2 + line_height / 2) * step;
 
-	// Рисуем колонку
+	// Draw column
 	for (y = 0; y < SCREEN_HEIGHT; y++)
 	{
 		if (y < draw_start)
@@ -197,13 +252,13 @@ static void	draw_column(t_game *game, int x, t_raycast *rc)
 			tex_y = (int)tex_pos & (texture->height - 1);
 			tex_pos += step;
 
-			// CRITICAL: Bounds check for pixel access
-			if (tex_x >= 0 && tex_x < (int)texture->width &&
-				tex_y >= 0 && tex_y < (int)texture->height)
+			// Bounds check for pixel access
+			if (tex_x >= 0 && tex_x < (int)texture->width
+				&& tex_y >= 0 && tex_y < (int)texture->height)
 			{
 				int pixel_index = (tex_y * texture->width + tex_x) * 4;
 
-				// CRITICAL: Check pixel_index bounds
+				// Check pixel_index bounds
 				if (pixel_index >= 0 &&
 					pixel_index + 3 < (int)(texture->width * texture->height * 4))
 				{
