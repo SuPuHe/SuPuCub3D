@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:05:22 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/24 17:29:01 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/24 17:36:12 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,12 +163,14 @@ static void	calculate_wall_distance(t_game *game, t_raycast *rc)
 {
 	// Don't recalculate if it's a door (already calculated in perform_dda)
 	if (rc->is_door)
-		return;
+		return ;
 
 	if (rc->side == 0)
-		rc->perp_wall_dist = (rc->map_x - game->player.x + (1 - rc->step_x) / 2.0) / rc->ray_dir_x;
+		rc->perp_wall_dist = (rc->map_x - game->player.x
+				+ (1 - rc->step_x) / 2.0) / rc->ray_dir_x;
 	else
-		rc->perp_wall_dist = (rc->map_y - game->player.y + (1 - rc->step_y) / 2.0) / rc->ray_dir_y;
+		rc->perp_wall_dist = (rc->map_y - game->player.y
+				+ (1 - rc->step_y) / 2.0) / rc->ray_dir_y;
 }
 
 static void	draw_column(t_game *game, int x, t_raycast *rc)
@@ -193,7 +195,6 @@ static void	draw_column(t_game *game, int x, t_raycast *rc)
 	draw_end = line_height / 2 + SCREEN_HEIGHT / 2;
 	if (draw_end >= SCREEN_HEIGHT)
 		draw_end = SCREEN_HEIGHT - 1;
-
 	// Choose texture
 	if (rc->is_door)
 		texture = game->textures.door_tex;
@@ -205,18 +206,15 @@ static void	draw_column(t_game *game, int x, t_raycast *rc)
 		texture = game->textures.south_tex;
 	else
 		texture = game->textures.north_tex;
-
 	// Null check
 	if (!texture || !texture->pixels)
 		return ;
-
 	// Calculate texture X coordinate
 	if (rc->side == 0)
 		wall_x = game->player.y + rc->perp_wall_dist * rc->ray_dir_y;
 	else
 		wall_x = game->player.x + rc->perp_wall_dist * rc->ray_dir_x;
 	wall_x -= floor(wall_x);
-
 	// For doors: adjust texture mapping for sliding effect
 	if (rc->is_door)
 	{
@@ -227,27 +225,23 @@ static void	draw_column(t_game *game, int x, t_raycast *rc)
 			// As door opens (progress 0 -> 1), texture shifts
 			// This creates the visual effect of door sliding sideways into pocket
 			wall_x += door->progress;
-
 			// If texture has scrolled off screen, don't render
 			if (wall_x < 0.0 || wall_x >= 1.0)
-				return;
+				return ;
 		}
 	}
-
 	tex_x = (int)(wall_x * (double)texture->width);
-
 	// Bounds check for tex_x
 	if (tex_x < 0)
 		tex_x = 0;
 	if (tex_x >= (int)texture->width)
 		tex_x = texture->width - 1;
-
 	// Vertical texture step
 	step = (double)texture->height / line_height;
 	tex_pos = (draw_start - SCREEN_HEIGHT / 2 + line_height / 2) * step;
-
 	// Draw column
-	for (y = 0; y < SCREEN_HEIGHT; y++)
+	y = 0;
+	while (y < SCREEN_HEIGHT)
 	{
 		if (y < draw_start)
 			mlx_put_pixel(game->win_img, x, y, game->textures.ceil);
@@ -261,7 +255,6 @@ static void	draw_column(t_game *game, int x, t_raycast *rc)
 				&& tex_y >= 0 && tex_y < (int)texture->height)
 			{
 				int pixel_index = (tex_y * texture->width + tex_x) * 4;
-
 				// Check pixel_index bounds
 				if (pixel_index >= 0 &&
 					pixel_index + 3 < (int)(texture->width * texture->height * 4))
@@ -277,6 +270,7 @@ static void	draw_column(t_game *game, int x, t_raycast *rc)
 		}
 		else
 			mlx_put_pixel(game->win_img, x, y, game->textures.floor);
+		y++;
 	}
 }
 
