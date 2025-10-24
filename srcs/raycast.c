@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:05:22 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/24 15:02:19 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/24 15:31:00 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,13 +220,14 @@ static void	draw_column(t_game *game, int x, t_raycast *rc)
 		t_door *door = find_door_at(game, rc->map_x, rc->map_y);
 		if (door)
 		{
-			// wall_x is already 0.0 to 1.0 from the door hit position
-			// No need to adjust, texture already maps correctly
-			// Just ensure it's in valid range
-			if (wall_x < 0.0)
-				wall_x = 0.0;
-			if (wall_x >= 1.0)
-				wall_x = 0.999;
+			// Sliding effect: texture slides into the wall
+			// As door opens (progress 0 -> 1), texture shifts
+			// This creates the visual effect of door sliding sideways into pocket
+			wall_x += door->progress;
+
+			// If texture has scrolled off screen, don't render
+			if (wall_x < 0.0 || wall_x >= 1.0)
+				return;
 		}
 	}
 
