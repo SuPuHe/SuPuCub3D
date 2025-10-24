@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:05:22 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/24 15:31:00 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/24 17:29:01 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,84 @@ static void	calculate_step_and_side_dist(t_game *game, t_raycast *rc)
 	}
 }
 
-static void	perform_dda(t_game *game, t_raycast *rc)
+static int	get_door_orientation(t_game *game, t_raycast *rc)
+{
+	if ((rc->map_x > 0 && game->map.grid[rc->map_y][rc->map_x - 1] == '1')
+		|| (rc->map_x < game->map.width - 1
+			&& game->map.grid[rc->map_y][rc->map_x + 1] == '1'))
+		return (1);
+	if ((rc->map_y > 0 && game->map.grid[rc->map_y - 1][rc->map_x] == '1')
+		|| (rc->map_y < game->map.height - 1
+			&& game->map.grid[rc->map_y + 1][rc->map_x] == '1'))
+		return (0);
+	return (0);
+}
+
+static void	check_vertical_door(t_game *game, t_raycast *rc, t_door *door)
+{
+	double	dist_to_center;
+	double	ray_pos;
+	double	door_pos;
+
+	if (rc->ray_dir_x == 0)
+		return ;
+	dist_to_center = ((double)rc->map_x + 0.5 - game->player.x)
+		/ rc->ray_dir_x;
+	if (dist_to_center <= 0)
+		return ;
+	ray_pos = game->player.y + dist_to_center * rc->ray_dir_y;
+	door_pos = ray_pos - (double)rc->map_y;
+	if (door_pos >= 0.0 && door_pos <= 1.0
+		&& door_pos <= (1.0 - door->progress))
+	{
+		rc->is_door = 1;
+		rc->hit = 1;
+		rc->perp_wall_dist = fabs(dist_to_center);
+		rc->side = 0;
+	}
+}
+
+static void	check_horizontal_door(t_game *game, t_raycast *rc, t_door *door)
+{
+	double	dist_to_center;
+	double	ray_pos;
+	double	door_pos;
+
+	if (rc->ray_dir_y == 0)
+		return ;
+	dist_to_center = ((double)rc->map_y + 0.5 - game->player.y)
+		/ rc->ray_dir_y;
+	if (dist_to_center <= 0)
+		return ;
+	ray_pos = game->player.x + dist_to_center * rc->ray_dir_x;
+	door_pos = ray_pos - (double)rc->map_x;
+	if (door_pos >= 0.0 && door_pos <= 1.0
+		&& door_pos <= (1.0 - door->progress))
+	{
+		rc->is_door = 1;
+		rc->hit = 1;
+		rc->perp_wall_dist = fabs(dist_to_center);
+		rc->side = 1;
+	}
+}
+
+static void	check_door_hit(t_game *game, t_raycast *rc)
 {
 	t_door	*door;
-	double	door_pos;
-	double	ray_pos;
-	double	dist_to_center;
-	int		door_orientation;
+	int		orientation;
 
+	door = find_door_at(game, rc->map_x, rc->map_y);
+	if (!door || door->progress >= 0.99)
+		return ;
+	orientation = get_door_orientation(game, rc);
+	if (orientation == 0)
+		check_vertical_door(game, rc, door);
+	else
+		check_horizontal_door(game, rc, door);
+}
+
+static void	perform_dda(t_game *game, t_raycast *rc)
+{
 	while (rc->hit == 0)
 	{
 		if (rc->side_dist_x < rc->side_dist_y)
@@ -79,80 +149,13 @@ static void	perform_dda(t_game *game, t_raycast *rc)
 			rc->map_y += rc->step_y;
 			rc->side = 1;
 		}
-
 		if (game->map.grid[rc->map_y][rc->map_x] == '1')
 		{
 			rc->hit = 1;
 			rc->is_door = 0;
 		}
 		else if (game->map.grid[rc->map_y][rc->map_x] == 'D')
-		{
-			door = find_door_at(game, rc->map_x, rc->map_y);
-			if (door && door->progress < 0.99)
-			{
-				// Determine door orientation by checking adjacent tiles
-				// Door is PERPENDICULAR to the walls around it
-				// 0 = vertical (N-S), 1 = horizontal (E-W)
-				door_orientation = 0;
-
-				// If walls on left/right -> door blocks N-S corridor -> door is E-W
-				if ((rc->map_x > 0 && game->map.grid[rc->map_y][rc->map_x - 1] == '1') ||
-					(rc->map_x < game->map.width - 1 && game->map.grid[rc->map_y][rc->map_x + 1] == '1'))
-					door_orientation = 1;  // Horizontal door (E-W)
-				// If walls on top/bottom -> door blocks E-W corridor -> door is N-S
-				else if ((rc->map_y > 0 && game->map.grid[rc->map_y - 1][rc->map_x] == '1') ||
-					(rc->map_y < game->map.height - 1 && game->map.grid[rc->map_y + 1][rc->map_x] == '1'))
-					door_orientation = 0;  // Vertical door (N-S)
-
-				// Calculate intersection with door plane at tile center
-				if (door_orientation == 0)
-				{
-					// Vertical door at X = map_x + 0.5
-					if (rc->ray_dir_x != 0)
-					{
-						dist_to_center = ((double)rc->map_x + 0.5 - game->player.x) / rc->ray_dir_x;
-
-						// Door visible from both sides - just check if distance is positive
-						if (dist_to_center > 0)
-						{
-							ray_pos = game->player.y + dist_to_center * rc->ray_dir_y;
-							door_pos = ray_pos - (double)rc->map_y;
-
-							if (door_pos >= 0.0 && door_pos <= 1.0 && door_pos <= (1.0 - door->progress))
-							{
-								rc->is_door = 1;
-								rc->hit = 1;
-								rc->perp_wall_dist = fabs(dist_to_center);
-								rc->side = 0;
-							}
-						}
-					}
-				}
-				else
-				{
-					// Horizontal door at Y = map_y + 0.5
-					if (rc->ray_dir_y != 0)
-					{
-						dist_to_center = ((double)rc->map_y + 0.5 - game->player.y) / rc->ray_dir_y;
-
-						// Door visible from both sides - just check if distance is positive
-						if (dist_to_center > 0)
-						{
-							ray_pos = game->player.x + dist_to_center * rc->ray_dir_x;
-							door_pos = ray_pos - (double)rc->map_x;
-
-							if (door_pos >= 0.0 && door_pos <= 1.0 && door_pos <= (1.0 - door->progress))
-							{
-								rc->is_door = 1;
-								rc->hit = 1;
-								rc->perp_wall_dist = fabs(dist_to_center);
-								rc->side = 1;
-							}
-						}
-					}
-				}
-			}
-		}
+			check_door_hit(game, rc);
 	}
 }
 
