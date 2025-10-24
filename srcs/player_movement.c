@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:55:27 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/14 15:59:20 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/24 11:41:18 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ void	player_move(void *param)
 	new_y += move_dy;
 	move_player_with_collision(game, new_x, new_y);
 	if (game->minimap.enabled)
-		draw_minimap(game);
+		update_minimap(game);
 	render_3d_view(game);
 }
 
