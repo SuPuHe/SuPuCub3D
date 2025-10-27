@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/17 11:45:56 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/27 12:39:39 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,35 @@ typedef struct s_image
 	int				width;
 	int				height;
 }	t_image;
+
+typedef struct s_mray
+{
+	int			num_rays;
+	double		step_sample;
+	double		max_dist;
+	int			center;
+	double		scale;
+	int			i;
+	int			radius_px;
+	double		camera_x;
+	int			screen_x;
+	double		t_hit;
+	double		t_circle;
+	double		dir_len;
+	double		t;
+	double		wx;
+	double		wy;
+	int			px;
+	int			py;
+	int			dx;
+	int			dy;
+	double		hx;
+	double		hy;
+	int			hx_px;
+	int			hy_py;
+	int			ddx;
+	int			ddy;
+}	t_mray;
 
 typedef struct s_minimap
 {

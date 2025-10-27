@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:05:22 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/24 17:36:12 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/27 12:40:24 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-static void	init_ray(t_game *game, t_raycast *rc, int x)
+void	init_ray(t_game *game, t_raycast *rc, int x)
 {
 	double	camera_x;
 
@@ -33,7 +33,7 @@ static void	init_ray(t_game *game, t_raycast *rc, int x)
 	rc->is_door = 0;
 }
 
-static void	calculate_step_and_side_dist(t_game *game, t_raycast *rc)
+void	calculate_step_and_side_dist(t_game *game, t_raycast *rc)
 {
 	if (rc->ray_dir_x < 0)
 	{
@@ -133,7 +133,7 @@ static void	check_door_hit(t_game *game, t_raycast *rc)
 		check_horizontal_door(game, rc, door);
 }
 
-static void	perform_dda(t_game *game, t_raycast *rc)
+void	perform_dda(t_game *game, t_raycast *rc)
 {
 	while (rc->hit == 0)
 	{
@@ -159,7 +159,7 @@ static void	perform_dda(t_game *game, t_raycast *rc)
 	}
 }
 
-static void	calculate_wall_distance(t_game *game, t_raycast *rc)
+void	calculate_wall_distance(t_game *game, t_raycast *rc)
 {
 	// Don't recalculate if it's a door (already calculated in perform_dda)
 	if (rc->is_door)
