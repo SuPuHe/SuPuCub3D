@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/24 11:13:16 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/27 11:13:35 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_textures
 	mlx_texture_t	*south_tex;
 	mlx_texture_t	*west_tex;
 	mlx_texture_t	*east_tex;
+	mlx_texture_t	*billy_tex;
 	int				floor_color[3];
 	int				ceil_color[3];
 	uint32_t		floor;
@@ -88,6 +89,7 @@ typedef struct s_image
 	mlx_image_t		*south_img;
 	mlx_image_t		*west_img;
 	mlx_image_t		*east_img;
+	mlx_image_t		*billy;
 	int				width;
 	int				height;
 }	t_image;

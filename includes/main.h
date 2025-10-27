@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/24 11:49:20 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/27 11:35:46 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,6 @@ void	calculate_wall_distance(t_game *game, t_raycast *rc);
 void	textures_load(void);
 void	image_create(void);
 
+//ui.c
+void	init_ui();
 #endif
