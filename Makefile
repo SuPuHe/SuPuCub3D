@@ -35,7 +35,7 @@ CC = cc
 
 RM = rm -rf
 
-SRCS = main.c utils.c parse.c parse_color.c get_map.c get_info.c player_movement.c minimap.c minimap_rays.c minimap_helpers.c raycast.c textures.c  ui.c
+SRCS = main.c utils.c parse.c parse_color.c get_map.c get_info.c player_movement.c minimap.c minimap_rays.c minimap_helpers.c raycast.c textures.c doors.c ui.c
 
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
 

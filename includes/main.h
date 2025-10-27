@@ -6,7 +6,11 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/10/27 11:35:46 by omizin           ###   ########.fr       */
+=======
+/*   Updated: 2025/10/27 12:39:34 by omizin           ###   ########.fr       */
+>>>>>>> master
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +88,10 @@ void	image_create(void);
 
 //ui.c
 void	init_ui();
+// doors.c
+void	is_door(void);
+void	update_doors(void *param);
+t_door	*find_door_at(t_game *game, int x, int y);
+void	init_doors(t_game *game);
+void	interact_with_door(t_game *game);
 #endif
