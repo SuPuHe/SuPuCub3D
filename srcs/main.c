@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:01:05 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/27 13:23:00 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/28 12:21:58 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	init_game(t_game *game)
 
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	textures_load();
-	image_create();
+	//image_create();
 	game->win_img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	mlx_image_to_window(game->mlx, game->win_img, 0, 0);
 

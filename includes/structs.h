@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/27 13:22:54 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/28 12:20:45 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_textures
 	mlx_texture_t	*south_tex;
 	mlx_texture_t	*west_tex;
 	mlx_texture_t	*east_tex;
-	mlx_texture_t	*billy_tex;
+	mlx_texture_t	*gui_tex;
 	mlx_texture_t	*door_tex;
 	int				floor_color[3];
 	int				ceil_color[3];
@@ -106,7 +106,7 @@ typedef struct s_image
 	mlx_image_t		*south_img;
 	mlx_image_t		*west_img;
 	mlx_image_t		*east_img;
-	mlx_image_t		*billy;
+	mlx_image_t		*gui_img;
 	int				width;
 	int				height;
 }	t_image;

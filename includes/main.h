@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/27 13:24:42 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/28 12:01:02 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	image_create(void);
 
 //ui.c
 void	init_ui();
+void	animate_gui(t_game *game);
+
 // doors.c
 void	is_door(void);
 void	update_doors(void *param);
