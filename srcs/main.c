@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:01:05 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/28 16:04:46 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/28 16:19:44 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	init_game(t_game *game)
 	game->player.move_speed = 0.1;
 	game->player.rot_speed = 0.05;
 	game->player.collision_radius = 0.2;
+	game->player.mouse_sensitivity = 0.001;
+	game->player.last_mouse_x = -1;
 
 	game->player.move.forward = false;
 	game->player.move.backward = false;
@@ -51,6 +53,8 @@ void	init_game(t_game *game)
 	game->player.move.turn_left = false;
 	game->player.move.turn_right = false;
 	game->minimap.enabled = 0;
+	game->mouse_enabled = 1;
+	mlx_set_cursor_mode(game->mlx, MLX_MOUSE_HIDDEN);
 }
 
 int	main(int argc, char **argv)
@@ -69,7 +73,7 @@ int	main(int argc, char **argv)
 	//draw_player(game);
 
 	mlx_key_hook(game->mlx, handle_input, NULL);
-	mlx_loop_hook(game->mlx, update_doors, game);
+	mlx_loop_hook(game->mlx, handle_mouse, game);
 	mlx_loop_hook(game->mlx, player_move, game);
 	mlx_loop(game->mlx);
 	mlx_terminate(game->mlx);

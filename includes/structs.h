@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/28 14:01:47 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/28 16:20:06 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ typedef struct s_player
 	double			move_speed;
 	double			rot_speed;
 	double			collision_radius;
+	double			mouse_sensitivity;
+	int				last_mouse_x;
 	t_move			move;
 }	t_player;
 
@@ -182,6 +184,7 @@ typedef struct s_game
 	t_image			tx_images;
 	t_door			doors[64];
 	int				door_count;
+	int				mouse_enabled;
 }	t_game;
 
 #endif
