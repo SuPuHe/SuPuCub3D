@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:39:39 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/13 18:01:29 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/28 14:28:35 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 
 static int	is_invalid_char(char c)
 {
-	return (c != '0' && c != '1' && c != 'W'
+	return (c != '0' && c != '1' && c != '2' && c != '3'
+		&& c != '4' && c != '5' && c != '5' && c != '6'
+		&& c != '7' && c != '8' && c != '9' && c != 'W'
 		&& c != 'E' && c != 'N' && c != 'S');
 }
 
@@ -34,7 +36,8 @@ static int	flood_fill(t_game *game, int x, int y)
 	if (x < 0 || x >= cols)
 		return (0);
 	c = game->map.copy_map[y][x];
-	if (c == '1' || c == 'F' || c == 'D')
+	if (c == '1' || c == 'F' || c == 'D' || c == '2' || c == '3' || c == '4'
+		|| c == '5' || c == '6' || c == '7' || c == '8' || c == '9')
 		return (1);
 	if (is_invalid_char(c))
 		return (0);

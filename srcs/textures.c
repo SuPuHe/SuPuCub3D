@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 14:03:36 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/13 16:41:42 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/28 16:06:03 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	textures_load(void)
 {
 	t_game	*game;
+	int		i;
 
 	game = ft_game();
 	game->textures.north_tex = mlx_load_png(game->textures.north_path);
@@ -28,6 +29,19 @@ void	textures_load(void)
 	{
 		printf("ERROR: Faild to load textures.");
 		exit(EXIT_FAILURE);
+	}
+	// Load additional textures for walls
+	game->textures.wall_textures = malloc(sizeof(mlx_texture_t *) * game->textures.wall_tex_count);
+	i = 0;
+	while (i < game->textures.wall_tex_count)
+	{
+		game->textures.wall_textures[i] = mlx_load_png(game->textures.wall_tex_paths[i]);
+		if (!game->textures.wall_textures[i])
+		{
+			printf("ERROR: Failed to load wall texture %d\n", i);
+			exit(EXIT_FAILURE);
+		}
+		i++;
 	}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/27 12:39:39 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/28 14:01:47 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #define DOOR_OPEN_SPEED 0.03
 #define DOOR_CLOSE_SPEED 0.03
 #define DOOR_OPEN_TIME 120      // frames to wait before closing
-#define DOOR_INTERACTION_DIST 1.5
+#define DOOR_INTERACTION_DIST 1.2
 
 typedef enum e_door_state
 {
@@ -41,6 +41,9 @@ typedef struct s_textures
 	mlx_texture_t	*west_tex;
 	mlx_texture_t	*east_tex;
 	mlx_texture_t	*door_tex;
+	mlx_texture_t	**wall_textures;	// Массив дополнительных текстур стен
+	int				wall_tex_count;		// Количество дополнительных текстур
+	char			**wall_tex_paths;	// Пути к дополнительным текстурам
 	int				floor_color[3];
 	int				ceil_color[3];
 	uint32_t		floor;

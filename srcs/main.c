@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:01:05 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/15 17:01:35 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/28 16:04:46 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,22 @@ void	init_game(t_game *game)
 		exit(1);
 
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
+
+	game->textures.wall_tex_count = 8;
+	game->textures.wall_tex_paths = malloc(sizeof(char *) * 8);
+	game->textures.wall_tex_paths[0] = ft_strdup("textures/LAB_2B.png");
+	game->textures.wall_tex_paths[1] = ft_strdup("textures/SUPPORT_3A.PNG");
+	game->textures.wall_tex_paths[2] = ft_strdup("textures/TECH_1C.png");
+	game->textures.wall_tex_paths[3] = ft_strdup("textures/TECH_1E.png");
+	game->textures.wall_tex_paths[4] = ft_strdup("textures/TECH_2F.png");
+	game->textures.wall_tex_paths[5] = ft_strdup("textures/TECH_3B.png");
+	game->textures.wall_tex_paths[6] = ft_strdup("textures/TECH_4E.png");
+	// game->textures.wall_tex_paths[7] = ft_strdup("textures/TECH_4F.png");
+	game->textures.wall_tex_paths[7] = ft_strdup("textures/CONSOLE_1B.png");
+
+
+	game->textures.wall_textures = NULL;
+
 	textures_load();
 	// image_create();
 	game->win_img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);

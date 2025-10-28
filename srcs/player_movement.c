@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_movement.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:55:27 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/27 12:39:50 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/28 16:06:29 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,25 +69,23 @@ static bool	is_valid_position(t_game *game, double x, double y)
 	int		map_x;
 	int		map_y;
 	t_door	*door;
+	char	tile;
 
 	if (x < 0 || x >= game->map.width || y < 0 || y >= game->map.height)
 		return (false);
 	map_x = (int)x;
 	map_y = (int)y;
-
-	// Если стена — нельзя пройти
-	if (game->map.grid[map_y][map_x] == '1')
-		return false;
-
-	// Если дверь — проверить прогресс открытия
-	if (game->map.grid[map_y][map_x] == 'D')
+	tile = game->map.grid[map_y][map_x];
+	if (tile == '1' || (tile >= '2' && tile <= '9'))
+		return (false);
+	if (tile == 'D')
 	{
 		door = find_door_at(game, map_x, map_y);
-		if (door && door->progress < 0.9) // <0.9 = почти закрыта
-			return false;
+		if (door && door->progress < 0.9)
+			return (false);
 	}
 
-	return true;
+	return (true);
 }
 
 static void	move_player_with_collision(t_game *game, double new_x, double new_y)
