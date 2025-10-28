@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_info.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:06:54 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/13 17:05:56 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/28 14:08:55 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ int	get_info(char **file, t_game *game)
 			game->textures.east_path = ft_strtrim(file[i], "EA ");
 		if (strstr(file[i], "DOOR"))
 			game->textures.door_path = ft_strtrim(file[i], "DOOR ");
-		if (strstr(file[i], "F"))
+		if (strstr(file[i], "F "))
 			get_color(file[i], 1);
-		if (strstr(file[i], "C"))
+		if (strstr(file[i], "C "))
 			get_color(file[i], 0);
 		i++;
 	}
