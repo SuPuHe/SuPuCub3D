@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 12:17:44 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/28 13:39:19 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/30 17:01:14 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,13 @@ void	init_ui(void)
 
 	game = ft_game();
 	game->tx_images.gui_img = mlx_new_image(game->mlx, FRAME_SIZE, FRAME_SIZE);
+	game->tx_images.fists_img = mlx_new_image(game->mlx, 390, 213);
 	if (!game->tx_images.gui_img)
 		print_error("Failed to create GUI frame image");
 	mlx_image_to_window(game->mlx, game->tx_images.gui_img,
 		SCREEN_WIDTH / 2 - 125, SCREEN_HEIGHT - 250);
+	mlx_image_to_window(game->mlx, game->tx_images.fists_img,
+		SCREEN_WIDTH / 2 - 125, SCREEN_HEIGHT - 500);
 }
 
 void	gui_set_frame(t_game *game, int frame_index)
@@ -50,6 +53,48 @@ void	gui_set_frame(t_game *game, int frame_index)
 			x++;
 		}
 		y++;
+	}
+}
+
+void	fists_set_frame(t_game *game, int frame_index)
+{
+	int			sheet_x;
+	int			x;
+	int			y;
+	int			src;
+	uint32_t	color;
+
+	sheet_x = frame_index * 390;
+	y = 0;
+	while (y < 213)
+	{
+		x = 0;
+		while (x < 390)
+		{
+			src = ((y * 1172) + (sheet_x + x)) * 4;
+			color = (game->textures.fists_tex->pixels[src + 0] << 24)
+				| (game->textures.fists_tex->pixels[src + 1] << 16)
+				| (game->textures.fists_tex->pixels[src + 2] << 8)
+				| (game->textures.fists_tex->pixels[src + 3]);
+			mlx_put_pixel(game->tx_images.fists_img, x, y, color);
+			x++;
+		}
+		y++;
+	}
+}
+
+void	animate_fists(t_game *game)
+{
+	static double	last_time = 0;
+	static int		frame = 0;
+	double			now;
+
+	now = mlx_get_time();
+	if (now - last_time > 0.1)
+	{
+		fists_set_frame(game, frame);
+		frame = (frame + 1) % 3;
+		last_time = now;
 	}
 }
 
