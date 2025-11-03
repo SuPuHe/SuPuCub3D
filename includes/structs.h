@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/30 16:57:29 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/03 12:53:36 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_player
 	double			move_speed;
 	double			rot_speed;
 	double			collision_radius;
+	bool			moving;
 	t_move			move;
 }	t_player;
 
