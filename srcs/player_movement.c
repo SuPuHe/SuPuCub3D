@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:55:27 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/30 17:01:37 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/03 12:55:27 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,11 +136,13 @@ void	player_move(void *param)
 	{
 		move_dx += game->player.dir_x * game->player.move_speed;
 		move_dy += game->player.dir_y * game->player.move_speed;
+		game->player.moving = true;
 	}
 	if (game->player.move.backward)
 	{
 		move_dx -= game->player.dir_x * game->player.move_speed;
 		move_dy -= game->player.dir_y * game->player.move_speed;
+		game->player.moving = true;
 	}
 	if (game->player.move.turn_left)
 		rotate_player(game, -game->player.rot_speed);
@@ -155,5 +157,6 @@ void	player_move(void *param)
 	if (game->minimap.enabled)
 		update_minimap(game);
 	render_3d_view(game);
+	game->player.moving = false;
 }
 

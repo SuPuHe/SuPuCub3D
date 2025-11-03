@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 12:17:44 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/31 13:43:58 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/03 13:06:18 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,12 @@ void	animate_fists(t_game *game)
 	static int		frame = 0;
 	double			now;
 
+	if (!game->player.moving)
+	{
+		frame = 0;
+		fists_set_frame(game, frame);
+		return ;
+	}
 	now = mlx_get_time();
 	if (now - last_time > 0.3)
 	{
