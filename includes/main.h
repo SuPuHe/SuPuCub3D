@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/27 13:19:13 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/04 14:59:36 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,10 @@ void	update_doors(void *param);
 t_door	*find_door_at(t_game *game, int x, int y);
 void	init_doors(t_game *game);
 void	interact_with_door(t_game *game);
+
+// weapon.c
+void	init_weapon(t_game *game);
+void	update_weapon(void *param);
+void	draw_weapon(void *param);
+void	weapon_shoot(t_game *game);
 #endif

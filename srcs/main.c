@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:01:05 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/28 16:19:44 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/04 14:59:37 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	main(int argc, char **argv)
 		return (free_textures_path(game->textures), free_split(game->map.grid), 1);
 	init_game(game);
 	init_doors(game);
+	init_weapon(game);
 	init_minimap(game);
 	//draw_minimap(game);
 	//draw_player(game);
@@ -77,6 +78,8 @@ int	main(int argc, char **argv)
 	mlx_key_hook(game->mlx, handle_input, NULL);
 	mlx_loop_hook(game->mlx, handle_mouse, game);
 	mlx_loop_hook(game->mlx, player_move, game);
+	mlx_loop_hook(game->mlx, update_weapon, game);
+	mlx_loop_hook(game->mlx, draw_weapon, game);
 	mlx_loop(game->mlx);
 	mlx_terminate(game->mlx);
 	free_textures_path(game->textures);

@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:55:27 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/28 16:19:29 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/04 14:59:38 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	handle_input(mlx_key_data_t keydata, void *params)
 		interact_with_door(game);
 	if (keydata.key == MLX_KEY_M && keydata.action == MLX_PRESS)
 		check_minimap(game);
+	if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_PRESS)
+		weapon_shoot(game);
 	if (keydata.key == MLX_KEY_TAB && keydata.action == MLX_PRESS)
 	{
 		game->mouse_enabled = !game->mouse_enabled;
