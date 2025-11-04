@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/28 16:20:06 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/04 14:56:59 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,18 @@ typedef enum e_door_state
 	DOOR_OPEN,
 	DOOR_CLOSING
 }	t_door_state;
+
+typedef enum e_weapon_state
+{
+	WEAPON_IDLE,
+	WEAPON_SHOOTING
+}	t_weapon_state;
+
+typedef enum e_weapon_side
+{
+	WEAPON_RIGHT,
+	WEAPON_LEFT
+}	t_weapon_side;
 
 typedef struct s_textures
 {
@@ -171,6 +183,23 @@ typedef struct s_door
 	int				timer;           // timer for auto-close
 }	t_door;
 
+typedef struct s_weapon
+{
+	mlx_texture_t	**frames_right;		// Кадры анимации правой руки
+	mlx_texture_t	**frames_left;		// Кадры анимации левой руки
+	int				frame_count_right;	// Количество кадров правой руки
+	int				frame_count_left;	// Количество кадров левой руки
+	int				current_frame;		// Текущий кадр анимации
+	int				frame_delay;		// Задержка между кадрами
+	int				frame_timer;		// Таймер для смены кадров
+	t_weapon_state	state;				// Состояние оружия
+	t_weapon_side	active_side;		// Какая рука стреляет
+	double			bob_offset;			// Смещение для боббинга
+	double			bob_timer;			// Таймер для боббинга
+	mlx_image_t		*img_right;			// Изображение правой руки
+	mlx_image_t		*img_left;			// Изображение левой руки
+}	t_weapon;
+
 typedef struct s_game
 {
 	mlx_t			*mlx;
@@ -185,6 +214,7 @@ typedef struct s_game
 	t_door			doors[64];
 	int				door_count;
 	int				mouse_enabled;
+	t_weapon		weapon;
 }	t_game;
 
 #endif
