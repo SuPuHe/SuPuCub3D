@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 16:30:00 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/04 16:52:39 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/04 17:16:54 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	init_weapon(t_game *game)
 		return ;
 	// Initialize weapon state
 	game->weapon.current_frame = 0;
+	game->weapon.last_drawn_frame_right = -1;
+	game->weapon.last_drawn_frame_left = -1;
 	game->weapon.frame_delay = 5;
 	game->weapon.frame_timer = 0;
 	game->weapon.state = WEAPON_IDLE;
@@ -158,10 +160,12 @@ void	draw_weapon(void *param)
 		src_x_right = 0;
 		src_x_left = 0;
 	}
+
 	// Position weapons (with offset to lower them)
 	weapon_x_right = SCREEN_WIDTH / 2 + 100;
 	weapon_x_left = SCREEN_WIDTH / 2 - scaled_width - 100;
 	weapon_y = SCREEN_HEIGHT - scaled_height + 400 + (int)game->weapon.bob_offset;
+
 	// Create image for right hand if it doesn't exist
 	if (!game->weapon.img_right)
 	{
@@ -173,6 +177,7 @@ void	draw_weapon(void *param)
 		mlx_set_instance_depth(&game->weapon.img_right->instances[0], 10000);
 		game->weapon.img_right->enabled = true;
 	}
+
 	// Create image for left hand if it doesn't exist
 	if (!game->weapon.img_left)
 	{
@@ -184,45 +189,55 @@ void	draw_weapon(void *param)
 		mlx_set_instance_depth(&game->weapon.img_left->instances[0], 10000);
 		game->weapon.img_left->enabled = true;
 	}
-	// Copy current frame from right hand spritesheet with scaling
-	y = 0;
-	while (y < scaled_height)
+
+	// Copy pixels only if frame changed for right hand
+	if (game->weapon.last_drawn_frame_right != src_x_right)
 	{
-		x = 0;
-		while (x < scaled_width)
+		y = 0;
+		while (y < scaled_height)
 		{
-			// Calculate corresponding position in source texture
-			src_x = (int)(x / scale);
-			src_y = (int)(y / scale);
-			src_idx = ((src_y * spritesheet_right->width) + (src_x_right + src_x)) * 4;
-			dst_idx = (y * scaled_width + x) * 4;
-			game->weapon.img_right->pixels[dst_idx + 0] = spritesheet_right->pixels[src_idx + 0];
-			game->weapon.img_right->pixels[dst_idx + 1] = spritesheet_right->pixels[src_idx + 1];
-			game->weapon.img_right->pixels[dst_idx + 2] = spritesheet_right->pixels[src_idx + 2];
-			game->weapon.img_right->pixels[dst_idx + 3] = spritesheet_right->pixels[src_idx + 3];
-			x++;
+			x = 0;
+			while (x < scaled_width)
+			{
+				// Calculate corresponding position in source texture
+				src_x = (int)(x / scale);
+				src_y = (int)(y / scale);
+				src_idx = ((src_y * spritesheet_right->width) + (src_x_right + src_x)) * 4;
+				dst_idx = (y * scaled_width + x) * 4;
+				game->weapon.img_right->pixels[dst_idx + 0] = spritesheet_right->pixels[src_idx + 0];
+				game->weapon.img_right->pixels[dst_idx + 1] = spritesheet_right->pixels[src_idx + 1];
+				game->weapon.img_right->pixels[dst_idx + 2] = spritesheet_right->pixels[src_idx + 2];
+				game->weapon.img_right->pixels[dst_idx + 3] = spritesheet_right->pixels[src_idx + 3];
+				x++;
+			}
+			y++;
 		}
-		y++;
+		game->weapon.last_drawn_frame_right = src_x_right;
 	}
-	// Copy current frame from left hand spritesheet with scaling
-	y = 0;
-	while (y < scaled_height)
+
+	// Copy pixels only if frame changed for left hand
+	if (game->weapon.last_drawn_frame_left != src_x_left)
 	{
-		x = 0;
-		while (x < scaled_width)
+		y = 0;
+		while (y < scaled_height)
 		{
-			// Calculate corresponding position in source texture
-			src_x = (int)(x / scale);
-			src_y = (int)(y / scale);
-			src_idx = ((src_y * spritesheet_left->width) + (src_x_left + src_x)) * 4;
-			dst_idx = (y * scaled_width + x) * 4;
-			game->weapon.img_left->pixels[dst_idx + 0] = spritesheet_left->pixels[src_idx + 0];
-			game->weapon.img_left->pixels[dst_idx + 1] = spritesheet_left->pixels[src_idx + 1];
-			game->weapon.img_left->pixels[dst_idx + 2] = spritesheet_left->pixels[src_idx + 2];
-			game->weapon.img_left->pixels[dst_idx + 3] = spritesheet_left->pixels[src_idx + 3];
-			x++;
+			x = 0;
+			while (x < scaled_width)
+			{
+				// Calculate corresponding position in source texture
+				src_x = (int)(x / scale);
+				src_y = (int)(y / scale);
+				src_idx = ((src_y * spritesheet_left->width) + (src_x_left + src_x)) * 4;
+				dst_idx = (y * scaled_width + x) * 4;
+				game->weapon.img_left->pixels[dst_idx + 0] = spritesheet_left->pixels[src_idx + 0];
+				game->weapon.img_left->pixels[dst_idx + 1] = spritesheet_left->pixels[src_idx + 1];
+				game->weapon.img_left->pixels[dst_idx + 2] = spritesheet_left->pixels[src_idx + 2];
+				game->weapon.img_left->pixels[dst_idx + 3] = spritesheet_left->pixels[src_idx + 3];
+				x++;
+			}
+			y++;
 		}
-		y++;
+		game->weapon.last_drawn_frame_left = src_x_left;
 	}
 	// Update positions (for bobbing effect)
 	game->weapon.img_right->instances[0].x = weapon_x_right;

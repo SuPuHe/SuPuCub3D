@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/04 14:56:59 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/04 17:16:54 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,19 +191,21 @@ typedef struct s_door
 
 typedef struct s_weapon
 {
-	mlx_texture_t	**frames_right;		// Кадры анимации правой руки
-	mlx_texture_t	**frames_left;		// Кадры анимации левой руки
-	int				frame_count_right;	// Количество кадров правой руки
-	int				frame_count_left;	// Количество кадров левой руки
-	int				current_frame;		// Текущий кадр анимации
-	int				frame_delay;		// Задержка между кадрами
-	int				frame_timer;		// Таймер для смены кадров
-	t_weapon_state	state;				// Состояние оружия
-	t_weapon_side	active_side;		// Какая рука стреляет
-	double			bob_offset;			// Смещение для боббинга
-	double			bob_timer;			// Таймер для боббинга
-	mlx_image_t		*img_right;			// Изображение правой руки
-	mlx_image_t		*img_left;			// Изображение левой руки
+	mlx_texture_t	**frames_right;		// Right hand animation frames
+	mlx_texture_t	**frames_left;		// Left hand animation frames
+	int				frame_count_right;	// Right hand frame count
+	int				frame_count_left;	// Left hand frame count
+	int				current_frame;		// Current animation frame
+	int				last_drawn_frame_right;	// Last drawn frame for right hand
+	int				last_drawn_frame_left;	// Last drawn frame for left hand
+	int				frame_delay;		// Delay between frames
+	int				frame_timer;		// Timer for frame changes
+	t_weapon_state	state;				// Weapon state
+	t_weapon_side	active_side;		// Which hand is shooting
+	double			bob_offset;			// Offset for bobbing
+	double			bob_timer;			// Timer for bobbing
+	mlx_image_t		*img_right;			// Right hand image
+	mlx_image_t		*img_left;			// Left hand image
 }	t_weapon;
 
 typedef struct s_game
