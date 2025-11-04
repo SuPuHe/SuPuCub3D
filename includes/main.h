@@ -84,6 +84,11 @@ void	calculate_wall_distance(t_game *game, t_raycast *rc);
 void	textures_load(void);
 void	image_create(void);
 
+//ui.c
+void	init_ui();
+void	animate_gui(t_game *game);
+void	animate_fists(t_game *game);
+
 // doors.c
 void	is_door(void);
 void	update_doors(void *param);
