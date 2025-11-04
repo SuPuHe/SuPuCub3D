@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:06:54 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/13 17:05:56 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/28 16:18:05 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int	get_player_pos(t_game *game)
 			if (game->map.grid[i][j] == 'N' || game->map.grid[i][j] == 'S'
 				|| game->map.grid[i][j] == 'E' || game->map.grid[i][j] == 'W')
 			{
-				ft_game()->player.x = j;
-				ft_game()->player.y = i;
+				ft_game()->player.x = (double)j + 0.5;
+				ft_game()->player.y = (double)i + 0.5;
 				found++;
 			}
 			j++;
@@ -59,9 +59,9 @@ int	get_info(char **file, t_game *game)
 			game->textures.east_path = ft_strtrim(file[i], "EA ");
 		if (strstr(file[i], "DOOR"))
 			game->textures.door_path = ft_strtrim(file[i], "DOOR ");
-		if (strstr(file[i], "F"))
+		if (strstr(file[i], "F "))
 			get_color(file[i], 1);
-		if (strstr(file[i], "C"))
+		if (strstr(file[i], "C "))
 			get_color(file[i], 0);
 		i++;
 	}

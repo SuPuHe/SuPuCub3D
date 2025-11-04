@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_map.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 13:26:45 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/06 13:46:49 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/28 14:12:00 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ int	is_map_line(char *line)
 		return (0);
 	while (line[i])
 	{
-		if (line[i] != ' ' && line[i] != '0' && line[i] != '1')
+		if (line[i] != ' ' && line[i] != '0' && line[i] != '1'
+			&& line[i] != '2' && line[i] != '3' && line[i] != '4'
+			&& line[i] != '5' && line[i] != '6' && line[i] != '7'
+			&& line[i] != '8' && line[i] != '9')
 			return (0);
 		i++;
 	}
