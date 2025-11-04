@@ -181,11 +181,13 @@ void	player_move(void *param)
 	{
 		move_dx += game->player.dir_x * game->player.move_speed;
 		move_dy += game->player.dir_y * game->player.move_speed;
+		game->player.moving = true;
 	}
 	if (game->player.move.backward)
 	{
 		move_dx -= game->player.dir_x * game->player.move_speed;
 		move_dy -= game->player.dir_y * game->player.move_speed;
+		game->player.moving = true;
 	}
 	if (game->player.move.turn_left)
 		rotate_player(game, -game->player.rot_speed);
@@ -195,8 +197,11 @@ void	player_move(void *param)
 	new_y += move_dy;
 	move_player_with_collision(game, new_x, new_y);
 	update_doors(game);
+	animate_gui(game);
+	animate_fists(game);
 	if (game->minimap.enabled)
 		update_minimap(game);
 	render_3d_view(game);
+	game->player.moving = false;
 }
 

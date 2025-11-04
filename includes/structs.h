@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
@@ -52,7 +53,9 @@ typedef struct s_textures
 	mlx_texture_t	*south_tex;
 	mlx_texture_t	*west_tex;
 	mlx_texture_t	*east_tex;
+	mlx_texture_t	*gui_tex;
 	mlx_texture_t	*door_tex;
+	mlx_texture_t	*fists_tex;
 	mlx_texture_t	**wall_textures;	// Массив дополнительных текстур стен
 	int				wall_tex_count;		// Количество дополнительных текстур
 	char			**wall_tex_paths;	// Пути к дополнительным текстурам
@@ -92,6 +95,7 @@ typedef struct s_player
 	double			move_speed;
 	double			rot_speed;
 	double			collision_radius;
+	bool			moving;
 	double			mouse_sensitivity;
 	int				last_mouse_x;
 	t_move			move;
@@ -121,6 +125,8 @@ typedef struct s_image
 	mlx_image_t		*south_img;
 	mlx_image_t		*west_img;
 	mlx_image_t		*east_img;
+	mlx_image_t		*gui_img;
+	mlx_image_t		*fists_img;
 	int				width;
 	int				height;
 }	t_image;

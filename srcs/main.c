@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:01:05 by omizin            #+#    #+#             */
 /*   Updated: 2025/11/04 14:59:37 by vpushkar         ###   ########.fr       */
@@ -36,9 +36,11 @@ void	init_game(t_game *game)
 	game->textures.wall_textures = NULL;
 
 	textures_load();
-	// image_create();
+	//image_create();
 	game->win_img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	mlx_image_to_window(game->mlx, game->win_img, 0, 0);
+
+	init_ui();
 
 	game->player.move_speed = 0.1;
 	game->player.rot_speed = 0.05;
