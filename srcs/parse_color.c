@@ -6,24 +6,26 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 12:48:24 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/07 12:39:52 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/04 16:53:27 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-uint32_t get_rgba(int r, int g, int b, int a)
+uint32_t	get_rgba(int r, int g, int b, int a)
 {
 	return (r << 24 | g << 16 | b << 8 | a);
 }
 
-void	set_color()
+void	set_color(void)
 {
-	t_game *game;
+	t_game	*game;
 
 	game = ft_game();
-	game->textures.ceil = get_rgba(game->textures.ceil_color[0], game->textures.ceil_color[1], game->textures.ceil_color[2], 255);
-	game->textures.floor = get_rgba(game->textures.floor_color[0], game->textures.floor_color[1], game->textures.floor_color[2], 255);
+	game->textures.ceil = get_rgba(game->textures.ceil_color[0],
+			game->textures.ceil_color[1], game->textures.ceil_color[2], 255);
+	game->textures.floor = get_rgba(game->textures.floor_color[0],
+			game->textures.floor_color[1], game->textures.floor_color[2], 255);
 }
 
 static int	get_color_part(char *str)

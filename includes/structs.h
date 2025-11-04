@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/04 17:16:54 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/10/31 13:49:23 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,12 +152,6 @@ typedef struct s_mray
 	int			py;
 	int			dx;
 	int			dy;
-	double		hx;
-	double		hy;
-	int			hx_px;
-	int			hy_py;
-	int			ddx;
-	int			ddy;
 }	t_mray;
 
 typedef struct s_minimap
