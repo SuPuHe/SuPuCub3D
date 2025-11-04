@@ -29,8 +29,8 @@ int	get_player_pos(t_game *game)
 			if (game->map.grid[i][j] == 'N' || game->map.grid[i][j] == 'S'
 				|| game->map.grid[i][j] == 'E' || game->map.grid[i][j] == 'W')
 			{
-				ft_game()->player.x = j;
-				ft_game()->player.y = i;
+				ft_game()->player.x = (double)j + 0.5;
+				ft_game()->player.y = (double)i + 0.5;
 				found++;
 			}
 			j++;

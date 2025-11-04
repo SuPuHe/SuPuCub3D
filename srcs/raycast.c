@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:05:22 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/27 12:40:24 by omizin           ###   ########.fr       */
+/*   Updated: 2025/10/28 16:05:23 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,9 @@ void	perform_dda(t_game *game, t_raycast *rc)
 			rc->map_y += rc->step_y;
 			rc->side = 1;
 		}
-		if (game->map.grid[rc->map_y][rc->map_x] == '1')
+		if (game->map.grid[rc->map_y][rc->map_x] == '1'
+			|| (game->map.grid[rc->map_y][rc->map_x] >= '2'
+				&& game->map.grid[rc->map_y][rc->map_x] <= '9'))
 		{
 			rc->hit = 1;
 			rc->is_door = 0;
@@ -186,6 +188,8 @@ static void	draw_column(t_game *game, int x, t_raycast *rc)
 	mlx_texture_t	*texture;
 	uint32_t		color;
 	double			wall_x;
+	char			wall_char;
+	int				wall_type;
 
 	// Calculate wall height
 	line_height = (int)(SCREEN_HEIGHT / rc->perp_wall_dist);
@@ -195,9 +199,20 @@ static void	draw_column(t_game *game, int x, t_raycast *rc)
 	draw_end = line_height / 2 + SCREEN_HEIGHT / 2;
 	if (draw_end >= SCREEN_HEIGHT)
 		draw_end = SCREEN_HEIGHT - 1;
-	// Choose texture
+
+	// Choose texture based on wall type
+	wall_char = game->map.grid[rc->map_y][rc->map_x];
 	if (rc->is_door)
 		texture = game->textures.door_tex;
+	else if (wall_char >= '2' && wall_char <= '9')
+	{
+		// Using additional textures for walls 2-9
+		wall_type = wall_char - '2';  // '2' -> 0, '3' -> 1, etc.
+		if (wall_type < game->textures.wall_tex_count)
+			texture = game->textures.wall_textures[wall_type];
+		else
+			texture = game->textures.north_tex;  // Fallback
+	}
 	else if (rc->side == 0 && rc->ray_dir_x > 0)
 		texture = game->textures.east_tex;
 	else if (rc->side == 0 && rc->ray_dir_x < 0)

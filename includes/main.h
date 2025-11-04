@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
 /*   Updated: 2025/10/28 14:11:48 by omizin           ###   ########.fr       */
@@ -55,6 +55,8 @@ int		init_player_dir(t_game *game);
 // player_movement.c
 void	handle_input(mlx_key_data_t keydata, void *params);
 void	player_move(void *param);
+void	handle_mouse(void *param);
+void	rotate_player(t_game *game, double angle);
 
 
 //minimap
@@ -83,10 +85,21 @@ void	calculate_wall_distance(t_game *game, t_raycast *rc);
 void	textures_load(void);
 void	image_create(void);
 
+//ui.c
+void	init_ui();
+void	animate_gui(t_game *game);
+void	animate_fists(t_game *game);
+
 // doors.c
 void	is_door(void);
 void	update_doors(void *param);
 t_door	*find_door_at(t_game *game, int x, int y);
 void	init_doors(t_game *game);
 void	interact_with_door(t_game *game);
+
+// weapon.c
+void	init_weapon(t_game *game);
+void	update_weapon(void *param);
+void	draw_weapon(void *param);
+void	weapon_shoot(t_game *game);
 #endif

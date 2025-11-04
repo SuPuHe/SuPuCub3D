@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
 /*   Updated: 2025/10/31 13:49:23 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
@@ -19,7 +20,7 @@
 #define DOOR_OPEN_SPEED 0.03
 #define DOOR_CLOSE_SPEED 0.03
 #define DOOR_OPEN_TIME 120      // frames to wait before closing
-#define DOOR_INTERACTION_DIST 1.5
+#define DOOR_INTERACTION_DIST 1.2
 
 typedef enum e_door_state
 {
@@ -28,6 +29,18 @@ typedef enum e_door_state
 	DOOR_OPEN,
 	DOOR_CLOSING
 }	t_door_state;
+
+typedef enum e_weapon_state
+{
+	WEAPON_IDLE,
+	WEAPON_SHOOTING
+}	t_weapon_state;
+
+typedef enum e_weapon_side
+{
+	WEAPON_RIGHT,
+	WEAPON_LEFT
+}	t_weapon_side;
 
 typedef struct s_textures
 {
@@ -40,7 +53,12 @@ typedef struct s_textures
 	mlx_texture_t	*south_tex;
 	mlx_texture_t	*west_tex;
 	mlx_texture_t	*east_tex;
+	mlx_texture_t	*gui_tex;
 	mlx_texture_t	*door_tex;
+	mlx_texture_t	*fists_tex;
+	mlx_texture_t	**wall_textures;	// Массив дополнительных текстур стен
+	int				wall_tex_count;		// Количество дополнительных текстур
+	char			**wall_tex_paths;	// Пути к дополнительным текстурам
 	int				floor_color[3];
 	int				ceil_color[3];
 	uint32_t		floor;
@@ -77,6 +95,9 @@ typedef struct s_player
 	double			move_speed;
 	double			rot_speed;
 	double			collision_radius;
+	bool			moving;
+	double			mouse_sensitivity;
+	int				last_mouse_x;
 	t_move			move;
 }	t_player;
 
@@ -104,6 +125,8 @@ typedef struct s_image
 	mlx_image_t		*south_img;
 	mlx_image_t		*west_img;
 	mlx_image_t		*east_img;
+	mlx_image_t		*gui_img;
+	mlx_image_t		*fists_img;
 	int				width;
 	int				height;
 }	t_image;
@@ -160,6 +183,25 @@ typedef struct s_door
 	int				timer;           // timer for auto-close
 }	t_door;
 
+typedef struct s_weapon
+{
+	mlx_texture_t	**frames_right;		// Right hand animation frames
+	mlx_texture_t	**frames_left;		// Left hand animation frames
+	int				frame_count_right;	// Right hand frame count
+	int				frame_count_left;	// Left hand frame count
+	int				current_frame;		// Current animation frame
+	int				last_drawn_frame_right;	// Last drawn frame for right hand
+	int				last_drawn_frame_left;	// Last drawn frame for left hand
+	int				frame_delay;		// Delay between frames
+	int				frame_timer;		// Timer for frame changes
+	t_weapon_state	state;				// Weapon state
+	t_weapon_side	active_side;		// Which hand is shooting
+	double			bob_offset;			// Offset for bobbing
+	double			bob_timer;			// Timer for bobbing
+	mlx_image_t		*img_right;			// Right hand image
+	mlx_image_t		*img_left;			// Left hand image
+}	t_weapon;
+
 typedef struct s_game
 {
 	mlx_t			*mlx;
@@ -173,6 +215,8 @@ typedef struct s_game
 	t_image			tx_images;
 	t_door			doors[64];
 	int				door_count;
+	int				mouse_enabled;
+	t_weapon		weapon;
 }	t_game;
 
 #endif
