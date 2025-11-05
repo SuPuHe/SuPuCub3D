@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:01:05 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/05 12:25:59 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/05 13:31:07 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	main(int argc, char **argv)
 		return (print_error("Usage: ./cub maps/map.cub"), 1);
 	game = ft_game();
 	if (!parsing_file(argv[1]))
-		return (free_textures_path(game->textures), free_split(game->map.grid), 1);
+		exit_game(1);
 	init_game(game);
 	init_doors(game);
 	init_weapon(game);
@@ -82,8 +82,9 @@ int	main(int argc, char **argv)
 	mlx_loop_hook(game->mlx, draw_weapon, game);
 	mlx_loop(game->mlx);
 	mlx_terminate(game->mlx);
-	free_textures_path(game->textures);
-	free_textures(game->textures);
-	free_split(game->map.grid);
+	// free_textures_path(game->textures);
+	// free_textures(game->textures);
+	// free_split(game->map.grid);
+	exit_game(0);
 	return (0);
 }

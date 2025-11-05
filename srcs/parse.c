@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:39:39 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/05 12:44:17 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/05 13:29:44 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ int	parse_map_file(char **split_file, t_game *game)
 	if (!get_info(split_file, game))
 	{
 		free_split(split_file);
-		free_textures_path(game->textures);
 		return (0);
 	}
 	game->map.grid = extract_map(split_file);

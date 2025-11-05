@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:16:29 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/05 12:52:22 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/05 13:30:15 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,4 +139,18 @@ void	free_textures(t_textures textures)
 		}
 		free(textures.wall_textures);
 	}
+}
+
+void	exit_game(int exit_status)
+{
+	t_game	*game;
+
+	game = ft_game();
+	free_textures(game->textures);
+	if (game->map.grid)
+		free_split(game->map.grid);
+	// if (game->map.copy_map)
+	// 	free_split(game->map.copy_map);
+	free_textures_path(game->textures);
+	exit(exit_status);
 }
