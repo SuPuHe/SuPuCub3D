@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/05 12:13:56 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/05 12:45:01 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@
 # define MINIMAP_SCALE 0.5
 # define MINIMAP_SIZE 200
 
-# define MAP_WALLS "DF123456789"
+# define MAP_WALLS_DOORS "DF123456789"
+# define MAP_WALLS "123456789"
+# define MAP_PLAYER_ZERO "0NSEW"
 
 # include "libft.h"
 # include "get_next_line.h"
