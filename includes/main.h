@@ -28,7 +28,9 @@
 # define MINIMAP_SCALE 0.5
 # define MINIMAP_SIZE 200
 
-# define MAP_WALLS "DF123456789"
+# define MAP_WALLS_DOORS "DF123456789"
+# define MAP_WALLS "123456789"
+# define MAP_PLAYER_ZERO "0NSEW"
 
 # include "libft.h"
 # include "get_next_line.h"

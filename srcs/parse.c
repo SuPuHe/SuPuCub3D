@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:39:39 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/05 11:38:17 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/05 12:44:17 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	flood_fill(t_game *game, int x, int y)
 	if (x < 0 || x >= cols)
 		return (0);
 	c = game->map.copy_map[y][x];
-	if (ft_strchr(MAP_WALLS, c))
+	if (ft_strchr(MAP_WALLS_DOORS, c))
 		return (1);
 	if (is_invalid_char(c))
 		return (0);
