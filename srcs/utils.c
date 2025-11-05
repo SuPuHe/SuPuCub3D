@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:16:29 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/05 13:30:15 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/05 14:16:04 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,6 @@ char	*ft_strstr(const char *haystack, const char *needle)
 
 void	free_textures(t_textures textures)
 {
-	//need to add weapon textures free later
 	int	i;
 
 	if (textures.north_tex)
@@ -141,6 +140,30 @@ void	free_textures(t_textures textures)
 	}
 }
 
+void	delete_weapon(t_game *game)
+{
+	int	i;
+
+	i = 0;
+	if (game->weapon.frames_left)
+	{
+		while(game->weapon.frames_left[i])
+		{
+			mlx_delete_texture(game->weapon.frames_left[i]);
+			i++;
+		}
+	}
+	i = 0;
+	if (game->weapon.frames_right)
+	{
+		while(game->weapon.frames_right[i])
+		{
+			mlx_delete_texture(game->weapon.frames_right[i]);
+			i++;
+		}
+	}
+}
+
 void	exit_game(int exit_status)
 {
 	t_game	*game;
@@ -149,8 +172,7 @@ void	exit_game(int exit_status)
 	free_textures(game->textures);
 	if (game->map.grid)
 		free_split(game->map.grid);
-	// if (game->map.copy_map)
-	// 	free_split(game->map.copy_map);
 	free_textures_path(game->textures);
+	delete_weapon(game);
 	exit(exit_status);
 }
