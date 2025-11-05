@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:16:29 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/05 12:18:11 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/05 12:25:46 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,32 +109,32 @@ char	*ft_strstr(const char *haystack, const char *needle)
 	return ((void *)0);
 }
 
-void	free_textures(t_textures *textures)
+void	free_textures(t_textures textures)
 {
 	//need to add weapon textures free later
 	int	i;
 
-	if (textures->north_tex)
-		mlx_delete_texture(textures->north_tex);
-	if (textures->south_tex)
-		mlx_delete_texture(textures->south_tex);
-	if (textures->east_tex)
-		mlx_delete_texture(textures->east_tex);
-	if (textures->west_tex)
-		mlx_delete_texture(textures->west_tex);
-	if (textures->door_tex)
-		mlx_delete_texture(textures->door_tex);
-	if (textures->gui_tex)
-		mlx_delete_texture(textures->gui_tex);
-	if (textures->wall_textures)
+	if (textures.north_tex)
+		mlx_delete_texture(textures.north_tex);
+	if (textures.south_tex)
+		mlx_delete_texture(textures.south_tex);
+	if (textures.east_tex)
+		mlx_delete_texture(textures.east_tex);
+	if (textures.west_tex)
+		mlx_delete_texture(textures.west_tex);
+	if (textures.door_tex)
+		mlx_delete_texture(textures.door_tex);
+	if (textures.gui_tex)
+		mlx_delete_texture(textures.gui_tex);
+	if (textures.wall_textures)
 	{
 		i = 0;
-		while (i < textures->wall_tex_count)
+		while (i < textures.wall_tex_count)
 		{
-			if (textures->wall_textures[i])
-				mlx_delete_texture(textures->wall_textures[i]);
+			if (textures.wall_textures[i])
+				mlx_delete_texture(textures.wall_textures[i]);
 			i++;
 		}
-		free(textures->wall_textures);
+		free(textures.wall_textures);
 	}
 }

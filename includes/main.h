@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/05 12:20:15 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/05 12:25:51 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	free_textures_path(t_textures textures);
 t_game	*ft_game(void);
 void	find_map_width(t_game *game);
 char	*ft_strstr(const char *haystack, const char *needle);
-void	free_textures(t_textures *textures);
+void	free_textures(t_textures textures);
 
 int		get_color(char *line, int helper);
 
