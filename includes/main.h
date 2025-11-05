@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/28 14:11:48 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/05 11:30:45 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # define TILE_SIZE 16
 # define MINIMAP_SCALE 0.5
 # define MINIMAP_SIZE 200
+
+# define MAP_WALLS "DF123456789"
 
 # include "libft.h"
 # include "get_next_line.h"
