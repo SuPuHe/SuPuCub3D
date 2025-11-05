@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 11:37:51 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/27 13:19:08 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/05 12:44:55 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ void	get_color_for_minimap(t_minimap *m, t_game *game)
 	else
 	{
 		c = game->map.grid[m->map_y][m->map_x];
-		if (c == '1')
+		if (ft_strchr(MAP_WALLS, c))
 			m->color = 0xFF0000FF;
 		else if (c == 'D')
 			m->color = 0xdf8021FF;
-		else if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
+		else if (ft_strchr(MAP_PLAYER_ZERO, c))
 			m->color = 0x808080FF;
 		else
 			m->color = 0x000000FF;

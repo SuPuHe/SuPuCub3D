@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:06:54 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/28 14:11:31 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/05 13:22:29 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	get_info(char **file, t_game *game)
 		i++;
 	}
 	if (!ft_game()->textures.north_path || !ft_game()->textures.south_path
-		|| !ft_game()->textures.west_path || !ft_game()->textures.east_path)
+		|| !ft_game()->textures.west_path || !ft_game()->textures.east_path || ft_game()->exit)
 		return (print_error("Insufficient rexture or color data"), 0);
 	return (1);
 }

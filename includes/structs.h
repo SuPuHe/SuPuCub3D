@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/31 13:49:23 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/05 12:22:57 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef struct s_textures
 	mlx_texture_t	*east_tex;
 	mlx_texture_t	*gui_tex;
 	mlx_texture_t	*door_tex;
-	mlx_texture_t	*fists_tex;
 	mlx_texture_t	**wall_textures;	// Массив дополнительных текстур стен
 	int				wall_tex_count;		// Количество дополнительных текстур
 	char			**wall_tex_paths;	// Пути к дополнительным текстурам
@@ -126,7 +125,6 @@ typedef struct s_image
 	mlx_image_t		*west_img;
 	mlx_image_t		*east_img;
 	mlx_image_t		*gui_img;
-	mlx_image_t		*fists_img;
 	int				width;
 	int				height;
 }	t_image;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:39:39 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/28 14:28:35 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/05 13:29:44 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ static int	flood_fill(t_game *game, int x, int y)
 	if (x < 0 || x >= cols)
 		return (0);
 	c = game->map.copy_map[y][x];
-	if (c == '1' || c == 'F' || c == 'D' || c == '2' || c == '3' || c == '4'
-		|| c == '5' || c == '6' || c == '7' || c == '8' || c == '9')
+	if (ft_strchr(MAP_WALLS_DOORS, c))
 		return (1);
 	if (is_invalid_char(c))
 		return (0);
@@ -68,44 +67,77 @@ int	check_map_valid(void)
 	return (1);
 }
 
-int	read_file(char *file)
+char	*read_whole_file(int fd)
 {
 	char	*line;
 	char	*joined;
 	char	*tmp;
+
+	line = get_next_line(fd);
+	if (!line)
+		return (NULL);
+	joined = ft_strdup(line);
+	free(line);
+	if (!joined)
+		return (NULL);
+	line = get_next_line(fd);
+	while (line)
+	{
+		tmp = ft_strjoin(joined, line);
+		free(joined);
+		free(line);
+		line = get_next_line(fd);
+		if (!tmp)
+			return (NULL);
+		joined = tmp;
+	}
+	return (joined);
+}
+
+char	**split_file_lines(char *content)
+{
+	char	**split_file;
+
+	if (!content)
+		return (NULL);
+	split_file = ft_split(content, '\n');
+	free(content);
+	return (split_file);
+}
+
+int	parse_map_file(char **split_file, t_game *game)
+{
+	if (!split_file)
+		return (print_error("Empty or invalid file"), 0);
+	if (!get_info(split_file, game))
+	{
+		free_split(split_file);
+		return (0);
+	}
+	game->map.grid = extract_map(split_file);
+	game->map.copy_map = extract_map(split_file);
+	free_split(split_file);
+	if (!game->map.grid)
+		return (print_error("Failed to extract map"), 0);
+	find_map_width(game);
+	return (1);
+}
+
+int	read_file(char *file)
+{
 	t_game	*game;
+	char	*content;
+	char	**split_file;
 
 	game = ft_game();
 	game->map.fd = open(file, O_RDONLY);
 	if (game->map.fd == -1)
 		return (print_error("Error with file name/path"), 0);
-	line = get_next_line(ft_game()->map.fd);
-	if (!line)
+	content = read_whole_file(game->map.fd);
+	if (!content)
 		return (print_error("Empty file or read error"), 0);
-	joined = ft_strdup(line);
-	if (!joined)
-		return (free(line), print_error("Allocation failed"), 0);
-	free(line);
-	line = get_next_line(ft_game()->map.fd);
-	while (line)
-	{
-		tmp = ft_strjoin(joined, line);
-		free(joined);
-		joined = tmp;
-		free(line);
-		line = get_next_line(ft_game()->map.fd);
-	}
-	char	**split_file = ft_split(tmp, '\n');
-	free(tmp);
-	if (!get_info(split_file, game))
-		return (free_split(split_file), free_textures_path(ft_game()->textures), 0);
-	ft_game()->map.grid = extract_map(split_file);
-	ft_game()->map.copy_map = extract_map(split_file);
-	free_split(split_file);
-	if (!ft_game()->map.grid)
-		return (print_error("Failed to extract map"), 0);
-	find_map_width(game);
-	return (1);
+	split_file = split_file_lines(content);
+	return (parse_map_file(split_file, game));
 }
 
 int	parsing_file(char *argv)
@@ -123,6 +155,6 @@ int	parsing_file(char *argv)
 	if (!check_map_valid())
 		return (0);
 	if (!init_player_dir(game))
-			return (0);
+		return (0);
 	return (1);
 }

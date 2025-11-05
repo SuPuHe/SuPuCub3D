@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/28 14:11:48 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/05 13:18:05 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,16 @@
 # define MAGENTA	"\033[35m"
 # define CYAN		"\033[36m"
 
-# define SCREEN_WIDTH 3440
-# define SCREEN_HEIGHT 1440
+# define SCREEN_WIDTH 500
+# define SCREEN_HEIGHT 500
 
 # define TILE_SIZE 16
 # define MINIMAP_SCALE 0.5
 # define MINIMAP_SIZE 200
+
+# define MAP_WALLS_DOORS "DF123456789"
+# define MAP_WALLS "123456789"
+# define MAP_PLAYER_ZERO "0NSEW"
 
 # include "libft.h"
 # include "get_next_line.h"
@@ -36,6 +40,7 @@
 # include <fcntl.h>
 # include <math.h>
 
+//utils.c
 void	print_error(char *msg);
 int		parsing_file(char *argv);
 void	free_split(char **lines);
@@ -43,6 +48,8 @@ void	free_textures_path(t_textures textures);
 t_game	*ft_game(void);
 void	find_map_width(t_game *game);
 char	*ft_strstr(const char *haystack, const char *needle);
+void	free_textures(t_textures textures);
+void	exit_game(int exit_status);
 
 int		get_color(char *line, int helper);
 
@@ -88,7 +95,6 @@ void	image_create(void);
 //ui.c
 void	init_ui();
 void	animate_gui(t_game *game);
-void	animate_fists(t_game *game);
 
 // doors.c
 void	is_door(void);

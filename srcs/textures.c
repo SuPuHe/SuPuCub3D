@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 14:03:36 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/10/28 16:06:03 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/05 12:21:12 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	textures_load(void)
 	game->textures.west_tex = mlx_load_png(game->textures.west_path);
 	game->textures.door_tex = mlx_load_png(game->textures.door_path);
 	game->textures.gui_tex = mlx_load_png("./textures/billy_spritesheet.png");
-	game->textures.fists_tex = mlx_load_png("./textures/fists_spritesheet_bg.png");
 	if (!game->textures.north_tex || !game->textures.south_tex
 		|| !game->textures.east_tex || !game->textures.west_tex
 		|| !game->textures.door_tex || !game->textures.gui_tex)
