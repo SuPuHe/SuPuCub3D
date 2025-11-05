@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/05 12:13:56 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/05 12:20:15 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # define MAGENTA	"\033[35m"
 # define CYAN		"\033[36m"
 
-# define SCREEN_WIDTH 3440
-# define SCREEN_HEIGHT 1440
+# define SCREEN_WIDTH 500
+# define SCREEN_HEIGHT 500
 
 # define TILE_SIZE 16
 # define MINIMAP_SCALE 0.5
@@ -38,6 +38,7 @@
 # include <fcntl.h>
 # include <math.h>
 
+//utils.c
 void	print_error(char *msg);
 int		parsing_file(char *argv);
 void	free_split(char **lines);
@@ -45,6 +46,7 @@ void	free_textures_path(t_textures textures);
 t_game	*ft_game(void);
 void	find_map_width(t_game *game);
 char	*ft_strstr(const char *haystack, const char *needle);
+void	free_textures(t_textures *textures);
 
 int		get_color(char *line, int helper);
 
