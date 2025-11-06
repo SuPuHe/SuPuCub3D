@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:16:29 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/05 14:16:04 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/06 11:23:02 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ void	delete_weapon(t_game *game)
 	i = 0;
 	if (game->weapon.frames_left)
 	{
-		while(game->weapon.frames_left[i])
+		while (game->weapon.frames_left[i])
 		{
 			mlx_delete_texture(game->weapon.frames_left[i]);
 			i++;
@@ -156,7 +156,7 @@ void	delete_weapon(t_game *game)
 	i = 0;
 	if (game->weapon.frames_right)
 	{
-		while(game->weapon.frames_right[i])
+		while (game->weapon.frames_right[i])
 		{
 			mlx_delete_texture(game->weapon.frames_right[i]);
 			i++;
