@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/06 14:02:19 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/06 14:41:47 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,23 @@ typedef struct s_weapon
 	mlx_image_t		*img_right;			// Right hand image
 	mlx_image_t		*img_left;			// Left hand image
 }	t_weapon;
+
+typedef struct s_column_vars
+{
+	int				line_height;
+	int				draw_start;
+	int				draw_end;
+	int				y;
+	int				tex_x;
+	int				tex_y;
+	double			step;
+	double			tex_pos;
+	mlx_texture_t	*texture;
+	uint32_t		color;
+	double			wall_x;
+	char			wall_char;
+	int				wall_type;
+}	t_column_vars;
 
 typedef struct s_game
 {
