@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 16:30:00 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/04 17:16:54 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:54:27 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,16 @@ void	update_weapon_bobbing(t_game *game)
 	bool	is_moving;
 	double	bob_speed;
 	double	bob_amount;
+	float	screen_scale;
 
 	is_moving = game->player.move.forward || game->player.move.backward
 		|| game->player.move.left || game->player.move.right;
 	if (is_moving)
 	{
 		bob_speed = 0.15;
-		bob_amount = 10.0;  // Bobbing amplitude in pixels
+		// Scale bobbing amplitude based on screen resolution
+		screen_scale = (float)SCREEN_HEIGHT / 1080.0f;
+		bob_amount = 10.0 * screen_scale;  // Bobbing amplitude in pixels
 		game->weapon.bob_timer += bob_speed;
 		game->weapon.bob_offset = sin(game->weapon.bob_timer) * bob_amount;
 	}
@@ -120,6 +123,7 @@ void	draw_weapon(void *param)
 	int				src_x_left;
 	int				x, y, src_idx, dst_idx;
 	float			scale;
+	float			screen_scale;
 	int				src_x, src_y;
 
 	game = (t_game *)param;
@@ -134,8 +138,12 @@ void	draw_weapon(void *param)
 	// Calculate frame size (spritesheet divided into 5 frames)
 	frame_width = spritesheet_right->width / game->weapon.frame_count_right;
 	frame_height = spritesheet_right->height;
-	// Scale weapon (90% of original size)
-	scale = 0.9;
+
+	// Calculate screen scale relative to base resolution (1920x1080)
+	screen_scale = (float)SCREEN_WIDTH / 1920.0f;
+
+	// Scale weapon based on screen size (90% of frame size, adjusted for screen)
+	scale = 0.5f * screen_scale;
 	scaled_width = (int)(frame_width * scale);
 	scaled_height = (int)(frame_height * scale);
 	// Calculate current frame offset in spritesheet
@@ -162,9 +170,12 @@ void	draw_weapon(void *param)
 	}
 
 	// Position weapons (with offset to lower them)
-	weapon_x_right = SCREEN_WIDTH / 2 + 100;
-	weapon_x_left = SCREEN_WIDTH / 2 - scaled_width - 100;
-	weapon_y = SCREEN_HEIGHT - scaled_height + 400 + (int)game->weapon.bob_offset;
+	// Scale horizontal and vertical offsets based on screen resolution
+	weapon_x_right = SCREEN_WIDTH / 2 + (int)(100 * screen_scale);
+	weapon_x_left = SCREEN_WIDTH / 2 - scaled_width - (int)(100 * screen_scale);
+	// Position weapon so bottom part goes slightly below screen edge
+	// This creates effect that hands are attached to body
+	weapon_y = SCREEN_HEIGHT - (int)(scaled_height * 0.75f) + (int)game->weapon.bob_offset;
 
 	// Create image for right hand if it doesn't exist
 	if (!game->weapon.img_right)

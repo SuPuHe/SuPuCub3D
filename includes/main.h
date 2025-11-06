@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/05 13:18:05 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/05 17:55:08 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # define MAGENTA	"\033[35m"
 # define CYAN		"\033[36m"
 
-# define SCREEN_WIDTH 500
-# define SCREEN_HEIGHT 500
+# define SCREEN_WIDTH 3440
+# define SCREEN_HEIGHT 1440
 
 # define TILE_SIZE 16
 # define MINIMAP_SCALE 0.5
