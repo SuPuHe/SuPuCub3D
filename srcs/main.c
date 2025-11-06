@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:01:05 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/05 13:31:07 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/06 12:24:20 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	main(int argc, char **argv)
 	mlx_loop_hook(game->mlx, player_move, game);
 	mlx_loop_hook(game->mlx, update_weapon, game);
 	mlx_loop_hook(game->mlx, draw_weapon, game);
+	mlx_loop_hook(game->mlx, animate_gui, game);
 	mlx_loop(game->mlx);
 	mlx_terminate(game->mlx);
 	// free_textures_path(game->textures);
@@ -88,3 +89,4 @@ int	main(int argc, char **argv)
 	exit_game(0);
 	return (0);
 }
+
