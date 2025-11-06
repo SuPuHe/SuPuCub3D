@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/06 14:41:47 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/06 16:11:45 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,12 +192,16 @@ typedef struct s_weapon
 	int				last_drawn_frame_left;	// Last drawn frame for left hand
 	int				frame_delay;		// Delay between frames
 	int				frame_timer;		// Timer for frame changes
+	int				frame_count;
 	t_weapon_state	state;				// Weapon state
 	t_weapon_side	active_side;		// Which hand is shooting
 	double			bob_offset;			// Offset for bobbing
 	double			bob_timer;			// Timer for bobbing
 	mlx_image_t		*img_right;			// Right hand image
 	mlx_image_t		*img_left;			// Left hand image
+	int				scaled_width;		// Cached scaled width
+	int				scaled_height;		// Cached scaled height
+	float			scale;				// Cached scale factor
 }	t_weapon;
 
 typedef struct s_column_vars
