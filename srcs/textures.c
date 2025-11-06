@@ -6,16 +6,35 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 14:03:36 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/05 12:21:12 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/06 11:19:55 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
+static void	more_walls_textures_load(t_game *game)
+{
+	int	i;
+
+	game->textures.wall_textures = malloc(sizeof(mlx_texture_t *)
+			* game->textures.wall_tex_count);
+	i = 0;
+	while (i < game->textures.wall_tex_count)
+	{
+		game->textures.wall_textures[i]
+			= mlx_load_png(game->textures.wall_tex_paths[i]);
+		if (!game->textures.wall_textures[i])
+		{
+			printf("ERROR: Failed to load wall texture %d\n", i);
+			exit(EXIT_FAILURE);
+		}
+		i++;
+	}
+}
+
 void	textures_load(void)
 {
 	t_game	*game;
-	int		i;
 
 	game = ft_game();
 	game->textures.north_tex = mlx_load_png(game->textures.north_path);
@@ -31,40 +50,5 @@ void	textures_load(void)
 		printf("ERROR: Faild to load textures.");
 		exit(EXIT_FAILURE);
 	}
-	// Load additional textures for walls
-	game->textures.wall_textures = malloc(sizeof(mlx_texture_t *) * game->textures.wall_tex_count);
-	i = 0;
-	while (i < game->textures.wall_tex_count)
-	{
-		game->textures.wall_textures[i] = mlx_load_png(game->textures.wall_tex_paths[i]);
-		if (!game->textures.wall_textures[i])
-		{
-			printf("ERROR: Failed to load wall texture %d\n", i);
-			exit(EXIT_FAILURE);
-		}
-		i++;
-	}
+	more_walls_textures_load(game);
 }
-
-// void	image_create(void)
-// {
-// 	t_game	*game;
-
-// 	game = ft_game();
-// 	game->tx_images.north_img = mlx_texture_to_image(game->mlx, game->textures.north_tex);
-// 	game->tx_images.south_img = mlx_texture_to_image(game->mlx, game->textures.south_tex);
-// 	game->tx_images.east_img = mlx_texture_to_image(game->mlx, game->textures.east_tex);
-// 	game->tx_images.west_img = mlx_texture_to_image(game->mlx, game->textures.west_tex);
-// 	game->tx_images.billy = mlx_texture_to_image(game->mlx, game->textures.billy_tex);
-// 	if (!game->tx_images.north_img || !game->tx_images.south_img
-// 		|| !game->tx_images.east_img || !game->tx_images.west_img)
-// 	{
-// 		printf("ERROR: Faild to convert texutres to images.");
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	if (!game->tx_images.billy)
-// 	{
-// 		print_error("ERROR: Faild to convert textures to images.");
-// 		exit(EXIT_FAILURE);
-// 	}
-// }
