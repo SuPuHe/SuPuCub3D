@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   weapon.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 16:30:00 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/06 14:03:08 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/06 15:58:58 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,10 @@ void	update_weapon_animation(t_game *game)
 		{
 			game->weapon.frame_timer = 0;
 			game->weapon.current_frame++;
-			// Finished shooting animation
 			if (game->weapon.current_frame >= frame_count)
 			{
 				game->weapon.current_frame = 0;
 				game->weapon.state = WEAPON_IDLE;
-				// Switch to the other hand for next shot
 				if (game->weapon.active_side == WEAPON_RIGHT)
 					game->weapon.active_side = WEAPON_LEFT;
 				else
@@ -105,155 +103,137 @@ void	update_weapon(void *param)
 	update_weapon_animation(game);
 }
 
-void	draw_weapon(void *param)
+static void	calculate_weapon_scale(t_game *game)
 {
-	mlx_texture_t	*spritesheet_right;
-	mlx_texture_t	*spritesheet_left;
-	int				weapon_x_right;
-	int				weapon_x_left;
-	int				weapon_y;
-	t_game			*game;
-	int				frame_width;
-	int				frame_height;
-	int				scaled_width;
-	int				scaled_height;
-	int				src_x_right;
-	int				src_x_left;
-	int				x, y, src_idx, dst_idx;
-	float			scale;
-	float			screen_scale;
-	int				src_x, src_y;
+	int		frame_width;
+	int		frame_height;
+	float	screen_scale;
 
-	game = (t_game *)param;
-
-	// Check data validity
-	if (!game->weapon.frames_right || !game->weapon.frames_left)
-		return ;
-	if (!game->weapon.frames_right || !game->weapon.frames_left)
-		return ;
-	spritesheet_right = game->weapon.frames_right;
-	spritesheet_left = game->weapon.frames_left;
-	// Calculate frame size (spritesheet divided into 5 frames)
-	frame_width = spritesheet_right->width / game->weapon.frame_count_right;
-	frame_height = spritesheet_right->height;
-
-	// Calculate screen scale relative to base resolution (1920x1080)
+	frame_width = game->weapon.frames_right->width
+		/ game->weapon.frame_count_right;
+	frame_height = game->weapon.frames_right->height;
 	screen_scale = (float)SCREEN_WIDTH / 1920.0f;
+	game->weapon.scale = 0.5f * screen_scale;
+	game->weapon.scaled_width = (int)(frame_width * game->weapon.scale);
+	game->weapon.scaled_height = (int)(frame_height * game->weapon.scale);
+}
 
-	// Scale weapon based on screen size (90% of frame size, adjusted for screen)
-	scale = 0.5f * screen_scale;
-	scaled_width = (int)(frame_width * scale);
-	scaled_height = (int)(frame_height * scale);
-	// Calculate current frame offset in spritesheet
-	// When shooting, animation applies only to active hand
-	// Inactive hand shows frame 0 (idle)
+static void	get_frame_offsets(t_game *game, int *src_x_right, int *src_x_left)
+{
+	int	frame_width;
+
+	frame_width = game->weapon.frames_right->width
+		/ game->weapon.frame_count_right;
 	if (game->weapon.state == WEAPON_SHOOTING)
 	{
 		if (game->weapon.active_side == WEAPON_RIGHT)
 		{
-			src_x_right = game->weapon.current_frame * frame_width;
-			src_x_left = 0;  // Left hand in idle
+			*src_x_right = game->weapon.current_frame * frame_width;
+			*src_x_left = 0;
 		}
 		else
 		{
-			src_x_right = 0;  // Right hand in idle
-			src_x_left = game->weapon.current_frame * frame_width;
+			*src_x_right = 0;
+			*src_x_left = game->weapon.current_frame * frame_width;
 		}
 	}
 	else
 	{
-		// In idle both hands show frame 0
-		src_x_right = 0;
-		src_x_left = 0;
+		*src_x_right = 0;
+		*src_x_left = 0;
 	}
+}
 
-	// Position weapons (with offset to lower them)
-	// Scale horizontal and vertical offsets based on screen resolution
-	weapon_x_right = SCREEN_WIDTH / 2 + (int)(100 * screen_scale);
-	weapon_x_left = SCREEN_WIDTH / 2 - scaled_width - (int)(100 * screen_scale);
-	// Position weapon so bottom part goes slightly below screen edge
-	// This creates effect that hands are attached to body
-	weapon_y = SCREEN_HEIGHT - (int)(scaled_height * 0.75f) + (int)game->weapon.bob_offset;
+static void	copy_weapon_pixels(mlx_image_t *img, mlx_texture_t *tex,
+				int src_x, t_game *game)
+{
+	int	x;
+	int	y;
+	int	src_idx;
+	int	dst_idx;
 
-	// Create image for right hand if it doesn't exist
-	if (!game->weapon.img_right)
+	y = 0;
+	while (y < game->weapon.scaled_height)
 	{
-		game->weapon.img_right = mlx_new_image(game->mlx, scaled_width, scaled_height);
-		if (!game->weapon.img_right)
-			return ;
-		if (!mlx_image_to_window(game->mlx, game->weapon.img_right, weapon_x_right, weapon_y))
-			return ;
-		mlx_set_instance_depth(&game->weapon.img_right->instances[0], 10000);
-		game->weapon.img_right->enabled = true;
+		x = 0;
+		while (x < game->weapon.scaled_width)
+		{
+			src_idx = (((int)(y / game->weapon.scale) * tex->width)
+					+ (src_x + (int)(x / game->weapon.scale))) * 4;
+			dst_idx = (y * game->weapon.scaled_width + x) * 4;
+			img->pixels[dst_idx + 0] = tex->pixels[src_idx + 0];
+			img->pixels[dst_idx + 1] = tex->pixels[src_idx + 1];
+			img->pixels[dst_idx + 2] = tex->pixels[src_idx + 2];
+			img->pixels[dst_idx + 3] = tex->pixels[src_idx + 3];
+			x++;
+		}
+		y++;
 	}
+}
 
-	// Create image for left hand if it doesn't exist
-	if (!game->weapon.img_left)
-	{
-		game->weapon.img_left = mlx_new_image(game->mlx, scaled_width, scaled_height);
-		if (!game->weapon.img_left)
-			return ;
-		if (!mlx_image_to_window(game->mlx, game->weapon.img_left, weapon_x_left, weapon_y))
-			return ;
-		mlx_set_instance_depth(&game->weapon.img_left->instances[0], 10000);
-		game->weapon.img_left->enabled = true;
-	}
+static int	create_weapon_image(t_game *game, int weapon_x, int weapon_y,
+				mlx_image_t **img)
+{
+	*img = mlx_new_image(game->mlx, game->weapon.scaled_width,
+			game->weapon.scaled_height);
+	if (!*img)
+		return (0);
+	if (!mlx_image_to_window(game->mlx, *img, weapon_x, weapon_y))
+		return (0);
+	mlx_set_instance_depth(&(*img)->instances[0], 10000);
+	(*img)->enabled = true;
+	return (1);
+}
 
-	// Copy pixels only if frame changed for right hand
+static void	update_weapon_frames(t_game *game, int src_x_right,
+				int src_x_left)
+{
 	if (game->weapon.last_drawn_frame_right != src_x_right)
 	{
-		y = 0;
-		while (y < scaled_height)
-		{
-			x = 0;
-			while (x < scaled_width)
-			{
-				// Calculate corresponding position in source texture
-				src_x = (int)(x / scale);
-				src_y = (int)(y / scale);
-				src_idx = ((src_y * spritesheet_right->width) + (src_x_right + src_x)) * 4;
-				dst_idx = (y * scaled_width + x) * 4;
-				game->weapon.img_right->pixels[dst_idx + 0] = spritesheet_right->pixels[src_idx + 0];
-				game->weapon.img_right->pixels[dst_idx + 1] = spritesheet_right->pixels[src_idx + 1];
-				game->weapon.img_right->pixels[dst_idx + 2] = spritesheet_right->pixels[src_idx + 2];
-				game->weapon.img_right->pixels[dst_idx + 3] = spritesheet_right->pixels[src_idx + 3];
-				x++;
-			}
-			y++;
-		}
+		copy_weapon_pixels(game->weapon.img_right,
+			game->weapon.frames_right, src_x_right, game);
 		game->weapon.last_drawn_frame_right = src_x_right;
 	}
-
-	// Copy pixels only if frame changed for left hand
 	if (game->weapon.last_drawn_frame_left != src_x_left)
 	{
-		y = 0;
-		while (y < scaled_height)
-		{
-			x = 0;
-			while (x < scaled_width)
-			{
-				// Calculate corresponding position in source texture
-				src_x = (int)(x / scale);
-				src_y = (int)(y / scale);
-				src_idx = ((src_y * spritesheet_left->width) + (src_x_left + src_x)) * 4;
-				dst_idx = (y * scaled_width + x) * 4;
-				game->weapon.img_left->pixels[dst_idx + 0] = spritesheet_left->pixels[src_idx + 0];
-				game->weapon.img_left->pixels[dst_idx + 1] = spritesheet_left->pixels[src_idx + 1];
-				game->weapon.img_left->pixels[dst_idx + 2] = spritesheet_left->pixels[src_idx + 2];
-				game->weapon.img_left->pixels[dst_idx + 3] = spritesheet_left->pixels[src_idx + 3];
-				x++;
-			}
-			y++;
-		}
+		copy_weapon_pixels(game->weapon.img_left,
+			game->weapon.frames_left, src_x_left, game);
 		game->weapon.last_drawn_frame_left = src_x_left;
 	}
-	// Update positions (for bobbing effect)
-	game->weapon.img_right->instances[0].x = weapon_x_right;
+}
+
+void	draw_weapon(void *param)
+{
+	t_game	*game;
+	int		src_x_right;
+	int		src_x_left;
+	int		weapon_x[2];
+	int		weapon_y;
+
+	game = (t_game *)param;
+	if (!game->weapon.frames_right || !game->weapon.frames_left)
+		return ;
+	calculate_weapon_scale(game);
+	get_frame_offsets(game, &src_x_right, &src_x_left);
+	weapon_x[0] = SCREEN_WIDTH / 2 + (int)(100
+			* ((float)SCREEN_WIDTH / 1920.0f));
+	weapon_x[1] = SCREEN_WIDTH / 2 - game->weapon.scaled_width
+		- (int)(100 * ((float)SCREEN_WIDTH / 1920.0f));
+	weapon_y = SCREEN_HEIGHT - (int)(game->weapon.scaled_height * 0.75f)
+		+ (int)game->weapon.bob_offset;
+	if (!game->weapon.img_right)
+		if (!create_weapon_image(game, weapon_x[0], weapon_y,
+				&game->weapon.img_right))
+			return ;
+	if (!game->weapon.img_left)
+		if (!create_weapon_image(game, weapon_x[1], weapon_y,
+				&game->weapon.img_left))
+			return ;
+	update_weapon_frames(game, src_x_right, src_x_left);
+	game->weapon.img_right->instances[0].x = weapon_x[0];
 	game->weapon.img_right->instances[0].y = weapon_y;
-	game->weapon.img_left->instances[0].x = weapon_x_left;
+	game->weapon.img_left->instances[0].x = weapon_x[1];
 	game->weapon.img_left->instances[0].y = weapon_y;
-	// Both hands always visible
 	game->weapon.img_right->enabled = true;
 	game->weapon.img_left->enabled = true;
 }
@@ -267,21 +247,3 @@ void	weapon_shoot(t_game *game)
 		game->weapon.frame_timer = 0;
 	}
 }
-
-// void	free_weapon(t_game *game)
-// {
-// 	if (game->weapon.frames_right && game->weapon.frames_right[0])
-// 		mlx_delete_texture(game->weapon.frames_right[0]);
-// 	if (game->weapon.frames_right)
-// 		free(game->weapon.frames_right);
-
-// 	if (game->weapon.frames_left && game->weapon.frames_left[0])
-// 		mlx_delete_texture(game->weapon.frames_left[0]);
-// 	if (game->weapon.frames_left)
-// 		free(game->weapon.frames_left);
-
-// 	if (game->weapon.img_right)
-// 		mlx_delete_image(game->mlx, game->weapon.img_right);
-// 	if (game->weapon.img_left)
-// 		mlx_delete_image(game->mlx, game->weapon.img_left);
-// }
