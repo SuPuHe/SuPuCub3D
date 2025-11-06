@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:55:27 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/06 12:24:13 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/06 14:19:03 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,8 @@ void	player_move(void *param)
 	(void)param;
 	new_x = game->player.x;
 	new_y = game->player.y;
+	move_dx = 0;
+	move_dy = 0;
 	player_move_forward_backward(game, &move_dx, &move_dy);
 	if (game->player.move.turn_left)
 		rotate_player(game, -game->player.rot_speed);
