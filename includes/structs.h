@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/05 12:22:57 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/06 14:02:19 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,8 +183,8 @@ typedef struct s_door
 
 typedef struct s_weapon
 {
-	mlx_texture_t	**frames_right;		// Right hand animation frames
-	mlx_texture_t	**frames_left;		// Left hand animation frames
+	mlx_texture_t	*frames_right;		// Right hand animation frames
+	mlx_texture_t	*frames_left;		// Left hand animation frames
 	int				frame_count_right;	// Right hand frame count
 	int				frame_count_left;	// Left hand frame count
 	int				current_frame;		// Current animation frame
