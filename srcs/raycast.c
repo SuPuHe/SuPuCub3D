@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:05:22 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/28 16:05:23 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/06 14:47:12 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,6 @@ void	calculate_wall_distance(t_game *game, t_raycast *rc)
 	// Don't recalculate if it's a door (already calculated in perform_dda)
 	if (rc->is_door)
 		return ;
-
 	if (rc->side == 0)
 		rc->perp_wall_dist = (rc->map_x - game->player.x
 				+ (1 - rc->step_x) / 2.0) / rc->ray_dir_x;
@@ -175,61 +174,49 @@ void	calculate_wall_distance(t_game *game, t_raycast *rc)
 				+ (1 - rc->step_y) / 2.0) / rc->ray_dir_y;
 }
 
+
 static void	draw_column(t_game *game, int x, t_raycast *rc)
 {
-	int				line_height;
-	int				draw_start;
-	int				draw_end;
-	int				y;
-	int				tex_x;
-	int				tex_y;
-	double			step;
-	double			tex_pos;
-	mlx_texture_t	*texture;
-	uint32_t		color;
-	double			wall_x;
-	char			wall_char;
-	int				wall_type;
+	t_column_vars	c_vars;
 
 	// Calculate wall height
-	line_height = (int)(SCREEN_HEIGHT / rc->perp_wall_dist);
-	draw_start = -line_height / 2 + SCREEN_HEIGHT / 2;
-	if (draw_start < 0)
-		draw_start = 0;
-	draw_end = line_height / 2 + SCREEN_HEIGHT / 2;
-	if (draw_end >= SCREEN_HEIGHT)
-		draw_end = SCREEN_HEIGHT - 1;
-
+	c_vars.line_height = (int)(SCREEN_HEIGHT / rc->perp_wall_dist);
+	c_vars.draw_start = -c_vars.line_height / 2 + SCREEN_HEIGHT / 2;
+	if (c_vars.draw_start < 0)
+		c_vars.draw_start = 0;
+	c_vars.draw_end = c_vars.line_height / 2 + SCREEN_HEIGHT / 2;
+	if (c_vars.draw_end >= SCREEN_HEIGHT)
+		c_vars.draw_end = SCREEN_HEIGHT - 1;
 	// Choose texture based on wall type
-	wall_char = game->map.grid[rc->map_y][rc->map_x];
+	c_vars.wall_char = game->map.grid[rc->map_y][rc->map_x];
 	if (rc->is_door)
-		texture = game->textures.door_tex;
-	else if (wall_char >= '2' && wall_char <= '9')
+		c_vars.texture = game->textures.door_tex;
+	else if (c_vars.wall_char >= '2' && c_vars.wall_char <= '9')
 	{
 		// Using additional textures for walls 2-9
-		wall_type = wall_char - '2';  // '2' -> 0, '3' -> 1, etc.
-		if (wall_type < game->textures.wall_tex_count)
-			texture = game->textures.wall_textures[wall_type];
+		c_vars.wall_type = c_vars.wall_char - '2';// '2' -> 0, '3' -> 1, etc.
+		if (c_vars.wall_type < game->textures.wall_tex_count)
+			c_vars.texture = game->textures.wall_textures[c_vars.wall_type];
 		else
-			texture = game->textures.north_tex;  // Fallback
+			c_vars.texture = game->textures.north_tex;// Fallback
 	}
 	else if (rc->side == 0 && rc->ray_dir_x > 0)
-		texture = game->textures.east_tex;
+		c_vars.texture = game->textures.east_tex;
 	else if (rc->side == 0 && rc->ray_dir_x < 0)
-		texture = game->textures.west_tex;
+		c_vars.texture = game->textures.west_tex;
 	else if (rc->side == 1 && rc->ray_dir_y > 0)
-		texture = game->textures.south_tex;
+		c_vars.texture = game->textures.south_tex;
 	else
-		texture = game->textures.north_tex;
+		c_vars.texture = game->textures.north_tex;
 	// Null check
-	if (!texture || !texture->pixels)
+	if (!c_vars.texture || !c_vars.texture->pixels)
 		return ;
 	// Calculate texture X coordinate
 	if (rc->side == 0)
-		wall_x = game->player.y + rc->perp_wall_dist * rc->ray_dir_y;
+		c_vars.wall_x = game->player.y + rc->perp_wall_dist * rc->ray_dir_y;
 	else
-		wall_x = game->player.x + rc->perp_wall_dist * rc->ray_dir_x;
-	wall_x -= floor(wall_x);
+		c_vars.wall_x = game->player.x + rc->perp_wall_dist * rc->ray_dir_x;
+	c_vars.wall_x -= floor(c_vars.wall_x);
 	// For doors: adjust texture mapping for sliding effect
 	if (rc->is_door)
 	{
@@ -239,53 +226,52 @@ static void	draw_column(t_game *game, int x, t_raycast *rc)
 			// Sliding effect: texture slides into the wall
 			// As door opens (progress 0 -> 1), texture shifts
 			// This creates the visual effect of door sliding sideways into pocket
-			wall_x += door->progress;
+			c_vars.wall_x += door->progress;
 			// If texture has scrolled off screen, don't render
-			if (wall_x < 0.0 || wall_x >= 1.0)
+			if (c_vars.wall_x < 0.0 || c_vars.wall_x >= 1.0)
 				return ;
 		}
 	}
-	tex_x = (int)(wall_x * (double)texture->width);
+	c_vars.tex_x = (int)(c_vars.wall_x * (double)c_vars.texture->width);
 	// Bounds check for tex_x
-	if (tex_x < 0)
-		tex_x = 0;
-	if (tex_x >= (int)texture->width)
-		tex_x = texture->width - 1;
+	if (c_vars.tex_x < 0)
+		c_vars.tex_x = 0;
+	if (c_vars.tex_x >= (int)c_vars.texture->width)
+		c_vars.tex_x = c_vars.texture->width - 1;
 	// Vertical texture step
-	step = (double)texture->height / line_height;
-	tex_pos = (draw_start - SCREEN_HEIGHT / 2 + line_height / 2) * step;
+	c_vars.step = (double)c_vars.texture->height / c_vars.line_height;
+	c_vars.tex_pos = (c_vars.draw_start - SCREEN_HEIGHT / 2 + c_vars.line_height / 2) * c_vars.step;
 	// Draw column
-	y = 0;
-	while (y < SCREEN_HEIGHT)
+	c_vars.y = 0;
+	while (c_vars.y < SCREEN_HEIGHT)
 	{
-		if (y < draw_start)
-			mlx_put_pixel(game->win_img, x, y, game->textures.ceil);
-		else if (y >= draw_start && y <= draw_end)
+		if (c_vars.y < c_vars.draw_start)
+			mlx_put_pixel(game->win_img, x, c_vars.y, game->textures.ceil);
+		else if (c_vars.y >= c_vars.draw_start && c_vars.y <= c_vars.draw_end)
 		{
-			tex_y = (int)tex_pos & (texture->height - 1);
-			tex_pos += step;
-
+			c_vars.tex_y = (int)c_vars.tex_pos & (c_vars.texture->height - 1);
+			c_vars.tex_pos += c_vars.step;
 			// Bounds check for pixel access
-			if (tex_x >= 0 && tex_x < (int)texture->width
-				&& tex_y >= 0 && tex_y < (int)texture->height)
+			if (c_vars.tex_x >= 0 && c_vars.tex_x < (int)c_vars.texture->width
+				&& c_vars.tex_y >= 0 && c_vars.tex_y < (int)c_vars.texture->height)
 			{
-				int pixel_index = (tex_y * texture->width + tex_x) * 4;
+				int pixel_index = (c_vars.tex_y * c_vars.texture->width + c_vars.tex_x) * 4;
 				// Check pixel_index bounds
 				if (pixel_index >= 0 &&
-					pixel_index + 3 < (int)(texture->width * texture->height * 4))
+					pixel_index + 3 < (int)(c_vars.texture->width * c_vars.texture->height * 4))
 				{
-					uint8_t r = texture->pixels[pixel_index + 0];
-					uint8_t g = texture->pixels[pixel_index + 1];
-					uint8_t b = texture->pixels[pixel_index + 2];
-					uint8_t a = texture->pixels[pixel_index + 3];
-					color = (r << 24) | (g << 16) | (b << 8) | a;
-					mlx_put_pixel(game->win_img, x, y, color);
+					uint8_t r = c_vars.texture->pixels[pixel_index + 0];
+					uint8_t g = c_vars.texture->pixels[pixel_index + 1];
+					uint8_t b = c_vars.texture->pixels[pixel_index + 2];
+					uint8_t a = c_vars.texture->pixels[pixel_index + 3];
+					c_vars.color = (r << 24) | (g << 16) | (b << 8) | a;
+					mlx_put_pixel(game->win_img, x, c_vars.y, c_vars.color);
 				}
 			}
 		}
 		else
-			mlx_put_pixel(game->win_img, x, y, game->textures.floor);
-		y++;
+			mlx_put_pixel(game->win_img, x, c_vars.y, game->textures.floor);
+		c_vars.y++;
 	}
 }
 

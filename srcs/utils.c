@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:16:29 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/06 11:31:25 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/06 14:06:18 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,25 +142,13 @@ void	free_textures(t_textures textures)
 
 void	delete_weapon(t_game *game)
 {
-	int	i;
-
-	i = 0;
 	if (game->weapon.frames_left)
 	{
-		while (game->weapon.frames_left[i])
-		{
-			mlx_delete_texture(game->weapon.frames_left[i]);
-			i++;
-		}
+		mlx_delete_texture(game->weapon.frames_left);
 	}
-	i = 0;
 	if (game->weapon.frames_right)
 	{
-		while (game->weapon.frames_right[i])
-		{
-			mlx_delete_texture(game->weapon.frames_right[i]);
-			i++;
-		}
+		mlx_delete_texture(game->weapon.frames_right);
 	}
 }
 
@@ -173,6 +161,6 @@ void	exit_game(int exit_status)
 	if (game->map.grid)
 		free_split(game->map.grid);
 	free_textures_path(game->textures);
-	//delete_weapon(game);
+	delete_weapon(game);
 	exit(exit_status);
 }

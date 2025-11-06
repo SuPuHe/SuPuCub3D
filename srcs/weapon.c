@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   weapon.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 16:30:00 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/05 17:54:27 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/06 14:03:08 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,13 @@ void	init_weapon(t_game *game)
 {
 	// Load spritesheets (right and left hand weapons)
 	game->weapon.frame_count_right = 5;
-	game->weapon.frames_right = malloc(sizeof(mlx_texture_t *) * 1);
-	game->weapon.frames_right[0] = mlx_load_png("textures/right_gun.png");
+	game->weapon.frames_right = mlx_load_png("textures/right_gun.png");
 	game->weapon.frame_count_left = 5;
-	game->weapon.frames_left = malloc(sizeof(mlx_texture_t *) * 1);
-	game->weapon.frames_left[0] = mlx_load_png("textures/left_gun.png");
+	game->weapon.frames_left = mlx_load_png("textures/left_gun.png");
 	// Check if loading was successful
-	if (!game->weapon.frames_right[0])
+	if (!game->weapon.frames_right)
 		return ;
-	if (!game->weapon.frames_left[0])
+	if (!game->weapon.frames_left)
 		return ;
 	// Initialize weapon state
 	game->weapon.current_frame = 0;
@@ -131,10 +129,10 @@ void	draw_weapon(void *param)
 	// Check data validity
 	if (!game->weapon.frames_right || !game->weapon.frames_left)
 		return ;
-	if (!game->weapon.frames_right[0] || !game->weapon.frames_left[0])
+	if (!game->weapon.frames_right || !game->weapon.frames_left)
 		return ;
-	spritesheet_right = game->weapon.frames_right[0];
-	spritesheet_left = game->weapon.frames_left[0];
+	spritesheet_right = game->weapon.frames_right;
+	spritesheet_left = game->weapon.frames_left;
 	// Calculate frame size (spritesheet divided into 5 frames)
 	frame_width = spritesheet_right->width / game->weapon.frame_count_right;
 	frame_height = spritesheet_right->height;
