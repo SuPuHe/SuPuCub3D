@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:25:40 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/24 11:45:42 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/06 11:15:24 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,27 +86,6 @@ void	draw_player_on_minimap(t_game *game)
 	}
 }
 
-// void	draw_player_direction(t_game *game)
-// {
-// 	int px = MINIMAP_SIZE / 2;
-// 	int py = MINIMAP_SIZE / 2;
-
-// 	int	length = TILE_SIZE * MINIMAP_SCALE;
-// 	int	end_x = px + (int)(game->player.dir_x * length);
-// 	int	end_y = py + (int)(game->player.dir_y * length);
-
-// 	int	steps = length * 2;
-// 	int	i = 0;
-// 	while (i < steps)
-// 	{
-// 		int	x = px + (end_x - px) * i / steps;
-// 		int	y = py + (end_y - py) * i / steps;
-// 		mlx_put_pixel(game->minimap.img, x, y, 0xFFFF00FF);
-// 		i++;
-// 	}
-// }
-
-
 void	update_minimap(t_game *game)
 {
 	clean_minimap(game);
@@ -114,7 +93,6 @@ void	update_minimap(t_game *game)
 	draw_circled_minimap(game);
 	draw_rays_on_minimap(game);
 	draw_player_on_minimap(game);
-	//draw_player_direction(game);
 }
 
 void	check_minimap(t_game *game)
