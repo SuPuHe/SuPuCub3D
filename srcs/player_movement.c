@@ -6,32 +6,14 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:55:27 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/05 12:14:02 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/06 12:24:13 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-void	handle_input(mlx_key_data_t keydata, void *params)
+static void	handle_input_second_part(mlx_key_data_t keydata, t_game *game)
 {
-	t_game	*game;
-
-	(void)params;
-	game = ft_game();
-	if (keydata.key == MLX_KEY_ESCAPE)
-		mlx_close_window(game->mlx);
-	if (keydata.key == MLX_KEY_W && keydata.action == MLX_PRESS)
-		game->player.move.forward = true;
-	if (keydata.key == MLX_KEY_W && keydata.action == MLX_RELEASE)
-		game->player.move.forward = false;
-	if (keydata.key == MLX_KEY_S && keydata.action == MLX_PRESS)
-		game->player.move.backward = true;
-	if (keydata.key == MLX_KEY_S && keydata.action == MLX_RELEASE)
-		game->player.move.backward = false;
-	if (keydata.key == MLX_KEY_A && keydata.action == MLX_PRESS)
-		game->player.move.turn_left = true;
-	if (keydata.key == MLX_KEY_A && keydata.action == MLX_RELEASE)
-		game->player.move.turn_left = false;
 	if (keydata.key == MLX_KEY_D && keydata.action == MLX_PRESS)
 		game->player.move.turn_right = true;
 	if (keydata.key == MLX_KEY_D && keydata.action == MLX_RELEASE)
@@ -55,6 +37,42 @@ void	handle_input(mlx_key_data_t keydata, void *params)
 	}
 }
 
+void	handle_input(mlx_key_data_t keydata, void *params)
+{
+	t_game	*game;
+
+	(void)params;
+	game = ft_game();
+	if (keydata.key == MLX_KEY_ESCAPE)
+		mlx_close_window(game->mlx);
+	if (keydata.key == MLX_KEY_W && keydata.action == MLX_PRESS)
+		game->player.move.forward = true;
+	if (keydata.key == MLX_KEY_W && keydata.action == MLX_RELEASE)
+		game->player.move.forward = false;
+	if (keydata.key == MLX_KEY_S && keydata.action == MLX_PRESS)
+		game->player.move.backward = true;
+	if (keydata.key == MLX_KEY_S && keydata.action == MLX_RELEASE)
+		game->player.move.backward = false;
+	if (keydata.key == MLX_KEY_A && keydata.action == MLX_PRESS)
+		game->player.move.turn_left = true;
+	if (keydata.key == MLX_KEY_A && keydata.action == MLX_RELEASE)
+		game->player.move.turn_left = false;
+	handle_input_second_part(keydata, game);
+}
+
+static void	rotate_player_with_mouse(t_game *game, int delta_x, int center_x)
+{
+	double	rotation_angle;
+
+	if (delta_x != 0)
+	{
+		rotation_angle = delta_x * game->player.mouse_sensitivity;
+		rotate_player(game, rotation_angle);
+	}
+	mlx_set_mouse_pos(game->mlx, center_x, game->mlx->height / 2);
+	game->player.last_mouse_x = center_x;
+}
+
 void	handle_mouse(void *param)
 {
 	t_game	*game;
@@ -62,35 +80,21 @@ void	handle_mouse(void *param)
 	int		mouse_y;
 	int		center_x;
 	int		delta_x;
-	double	rotation_angle;
 
 	(void)param;
 	game = ft_game();
-
 	if (!game->mouse_enabled)
 		return ;
-
 	center_x = game->mlx->width / 2;
 	mlx_get_mouse_pos(game->mlx, &mouse_x, &mouse_y);
-
 	if (game->player.last_mouse_x == -1)
 	{
 		game->player.last_mouse_x = center_x;
 		mlx_set_mouse_pos(game->mlx, center_x, game->mlx->height / 2);
 		return ;
 	}
-
 	delta_x = mouse_x - center_x;
-
-	if (delta_x != 0)
-	{
-		rotation_angle = delta_x * game->player.mouse_sensitivity;
-		rotate_player(game, rotation_angle);
-	}
-
-	// Return mouse cursor to the middle of the screen
-	mlx_set_mouse_pos(game->mlx, center_x, game->mlx->height / 2);
-	game->player.last_mouse_x = center_x;
+	rotate_player_with_mouse(game, delta_x, center_x);
 }
 
 void	rotate_player(t_game *game, double angle)
@@ -140,7 +144,6 @@ static void	move_player_with_collision(t_game *game, double new_x, double new_y)
 	double	radius;
 
 	radius = game->player.collision_radius;
-
 	if (new_x > game->player.x)
 	{
 		if (is_valid_position(game, new_x + radius, game->player.y))
@@ -163,6 +166,23 @@ static void	move_player_with_collision(t_game *game, double new_x, double new_y)
 	}
 }
 
+static void	player_move_forward_backward(t_game *game, double *move_dx,
+	double *move_dy)
+{
+	if (game->player.move.forward)
+	{
+		*move_dx += game->player.dir_x * game->player.move_speed;
+		*move_dy += game->player.dir_y * game->player.move_speed;
+		game->player.moving = true;
+	}
+	if (game->player.move.backward)
+	{
+		*move_dx -= game->player.dir_x * game->player.move_speed;
+		*move_dy -= game->player.dir_y * game->player.move_speed;
+		game->player.moving = true;
+	}
+}
+
 void	player_move(void *param)
 {
 	t_game	*game;
@@ -175,20 +195,7 @@ void	player_move(void *param)
 	(void)param;
 	new_x = game->player.x;
 	new_y = game->player.y;
-	move_dx = 0;
-	move_dy = 0;
-	if (game->player.move.forward)
-	{
-		move_dx += game->player.dir_x * game->player.move_speed;
-		move_dy += game->player.dir_y * game->player.move_speed;
-		game->player.moving = true;
-	}
-	if (game->player.move.backward)
-	{
-		move_dx -= game->player.dir_x * game->player.move_speed;
-		move_dy -= game->player.dir_y * game->player.move_speed;
-		game->player.moving = true;
-	}
+	player_move_forward_backward(game, &move_dx, &move_dy);
 	if (game->player.move.turn_left)
 		rotate_player(game, -game->player.rot_speed);
 	if (game->player.move.turn_right)
@@ -197,10 +204,8 @@ void	player_move(void *param)
 	new_y += move_dy;
 	move_player_with_collision(game, new_x, new_y);
 	update_doors(game);
-	animate_gui(game);
 	if (game->minimap.enabled)
 		update_minimap(game);
 	render_3d_view(game);
 	game->player.moving = false;
 }
-

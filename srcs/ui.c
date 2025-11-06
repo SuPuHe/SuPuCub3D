@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 12:17:44 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/05 12:14:27 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/06 12:24:45 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,14 @@ void	gui_set_frame(t_game *game, int frame_index)
 	}
 }
 
-void	animate_gui(t_game *game)
+void	animate_gui(void *params)
 {
 	static double	last_time = 0;
 	static int		frame = 0;
 	double			now;
+	t_game			*game;
 
+	game = (t_game *)params;
 	now = mlx_get_time();
 	if (now - last_time > 0.1)
 	{
