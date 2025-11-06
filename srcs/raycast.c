@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:05:22 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/06 18:03:12 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/06 18:05:13 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,9 +244,11 @@ static void	choose_wall_texture(t_column_vars *c_vars, t_game *game, t_raycast *
 
 static void	check_if_door_and_bounds(t_column_vars *c_vars, t_game *game, t_raycast *rc)
 {
+	t_door	*door;
+
 	if (rc->is_door)
 	{
-		t_door *door = find_door_at(game, rc->map_x, rc->map_y);
+		door = find_door_at(game, rc->map_x, rc->map_y);
 		if (door)
 		{
 			// Sliding effect: texture slides into the wall
