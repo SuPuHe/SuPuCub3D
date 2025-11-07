@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/07 14:15:18 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/07 16:32:44 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,21 @@ void	init_ray(t_game *game, t_raycast *rc, int x);
 void	calculate_step_and_side_dist(t_game *game, t_raycast *rc);
 void	perform_dda(t_game *game, t_raycast *rc);
 void	calculate_wall_distance(t_game *game, t_raycast *rc);
+
+// raycast_doors.c
+int		get_door_orientation(t_game *game, t_raycast *rc);
+void	check_vertical_door(t_game *game, t_raycast *rc, t_door *door);
+void	check_horizontal_door(t_game *game, t_raycast *rc, t_door *door);
+void	check_door_hit(t_game *game, t_raycast *rc);
+
+// raycast_draw.c
+void	draw_pixel_from_texture(t_column_vars *c_vars, t_game *game);
+void	draw_column_loop(t_game *game, t_column_vars *c_vars);
+void	choose_wall_texture(t_column_vars *c_vars,
+			t_game *game, t_raycast *rc);
+void	check_if_door_and_bounds(t_column_vars *c_vars,
+			t_game *game, t_raycast *rc);
+void	draw_column(t_game *game, int x, t_raycast *rc);
 
 // textures.c
 void	textures_load(void);
