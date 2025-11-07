@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 11:37:51 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/05 12:44:55 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/07 12:15:01 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	init_minimap(t_game *game)
 	int	width;
 	int	height;
 
+	game->minimap.minimap_size = 120 * (SCREEN_WIDTH / SCREEN_HEIGHT);
 	width = game->map.width * TILE_SIZE;
 	height = game->map.height * TILE_SIZE;
 	game->minimap.img = mlx_new_image(game->mlx, MINIMAP_SIZE, MINIMAP_SIZE);

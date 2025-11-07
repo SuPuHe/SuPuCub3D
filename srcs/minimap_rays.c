@@ -6,20 +6,20 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 11:34:28 by omizin            #+#    #+#             */
-/*   Updated: 2025/10/24 11:34:46 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/07 12:15:43 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-static void	init_mray(t_mray *mray)
+static void	init_mray(t_mray *mray, t_game *game)
 {
 	mray->num_rays = 120;
 	mray->step_sample = 0.05;
 	mray->max_dist = 20.0;
-	mray->center = MINIMAP_SIZE / 2;
+	mray->center = game->minimap.minimap_size / 2;
 	mray->scale = TILE_SIZE * MINIMAP_SCALE;
-	mray->radius_px = MINIMAP_SIZE / 2 - 2;
+	mray->radius_px = game->minimap.minimap_size / 2 - 2;
 	mray->i = 0;
 }
 
@@ -66,8 +66,8 @@ static void	draw_single_ray(t_game *game, t_raycast *rc, t_mray *mray)
 		if (mray->dx * mray->dx + mray->dy * mray->dy
 			> mray->radius_px * mray->radius_px)
 			break ;
-		if (mray->px >= 0 && mray->px < MINIMAP_SIZE
-			&& mray->py >= 0 && mray->py < MINIMAP_SIZE)
+		if (mray->px >= 0 && mray->px < game->minimap.minimap_size
+			&& mray->py >= 0 && mray->py < game->minimap.minimap_size)
 			mlx_put_pixel(game->minimap.img, mray->px, mray->py, 0x00FFFF66);
 		mray->t += mray->step_sample;
 	}
@@ -78,7 +78,7 @@ void	draw_rays_on_minimap(t_game *game)
 	t_mray		mray;
 	t_raycast	rc;
 
-	init_mray(&mray);
+	init_mray(&mray, game);
 	while (mray.i < mray.num_rays)
 	{
 		clamp_ray_distance(game, &rc, &mray);
