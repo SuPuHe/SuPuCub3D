@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 16:30:00 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/06 17:59:43 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/07 14:07:50 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@ void	update_weapon_bobbing(t_game *game)
 	double	bob_amount;
 	float	screen_scale;
 
-	is_moving = game->player.move.forward || game->player.move.backward
-		|| game->player.move.left || game->player.move.right;
+	if (game->player.move.forward || game->player.move.backward)
+		is_moving = true;
+	else
+		is_moving = false;
 	if (is_moving)
 	{
 		bob_speed = 0.15;
