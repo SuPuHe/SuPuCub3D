@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:16:29 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/07 13:58:29 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/07 14:18:16 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,5 +170,7 @@ void	exit_game(int exit_status)
 		free_split(game->map.grid);
 	free_textures_path(game->textures);
 	delete_weapon(game);
+	if (game->mlx)
+		mlx_terminate(game->mlx);
 	exit(exit_status);
 }

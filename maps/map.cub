@@ -2,7 +2,7 @@
 NO ./textures/north_wall.png
 SO ./textures/south_wall.png
 WE ./textures/west_wall.png
-EA ./textures/east_wall.png
+EA ./textures/east_wall213.png
 DOOR ./textures/door.png
 
 F 128,128,128

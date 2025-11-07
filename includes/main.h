@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/07 12:22:59 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/07 14:15:18 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # define MAGENTA	"\033[35m"
 # define CYAN		"\033[36m"
 
-# define SCREEN_WIDTH 1920
-# define SCREEN_HEIGHT 1080
+# define SCREEN_WIDTH 500
+# define SCREEN_HEIGHT 500
 
 # define TILE_SIZE 16
 # define MINIMAP_SCALE 0.5
