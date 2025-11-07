@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/06 15:59:48 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/07 14:29:52 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,19 @@ void	interact_with_door(t_game *game);
 // weapon.c
 void	init_weapon(t_game *game);
 void	update_weapon(void *param);
-void	draw_weapon(void *param);
 void	weapon_shoot(t_game *game);
+
+// weapon_draw.c
+void	draw_weapon(void *param);
+void	copy_weapon_pixels(mlx_image_t *img, mlx_texture_t *tex,
+			int src_x, t_game *game);
+int		create_weapon_image(t_game *game, int weapon_x, int weapon_y,
+			mlx_image_t **img);
+void	update_weapon_frames(t_game *game, int src_x_right, int src_x_left);
+int		create_weapon_images(t_game *game, int *weapon_x, int weapon_y);
+
+// weapon_utils.c
+void	calculate_weapon_scale(t_game *game);
+void	get_frame_offsets(t_game *game, int *src_x_right, int *src_x_left);
+void	setup_weapon_positions(t_game *game, int *weapon_x, int *weapon_y);
 #endif
