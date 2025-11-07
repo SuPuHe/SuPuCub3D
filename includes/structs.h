@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/06 16:11:45 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/07 12:13:45 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ typedef struct s_minimap
 	int				my;
 	int				map_x;
 	int				map_y;
+	int				minimap_size;
 	double			start_x;
 	double			start_y;
 	double			world_x;
@@ -210,6 +211,7 @@ typedef struct s_column_vars
 	int				draw_start;
 	int				draw_end;
 	int				y;
+	int				x;
 	int				tex_x;
 	int				tex_y;
 	double			step;

@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 14:03:36 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/06 11:19:55 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/07 14:23:34 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ static void	more_walls_textures_load(t_game *game)
 			= mlx_load_png(game->textures.wall_tex_paths[i]);
 		if (!game->textures.wall_textures[i])
 		{
-			printf("ERROR: Failed to load wall texture %d\n", i);
-			exit(EXIT_FAILURE);
+			print_error("Failed to load wall texture");
+			exit_game(1);
 		}
 		i++;
 	}
@@ -47,8 +47,8 @@ void	textures_load(void)
 		|| !game->textures.east_tex || !game->textures.west_tex
 		|| !game->textures.door_tex || !game->textures.gui_tex)
 	{
-		printf("ERROR: Faild to load textures.");
-		exit(EXIT_FAILURE);
+		print_error("Faild to load textures.");
+		exit_game(1);
 	}
 	more_walls_textures_load(game);
 }

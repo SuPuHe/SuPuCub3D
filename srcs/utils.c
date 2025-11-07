@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:16:29 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/06 14:06:18 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/07 14:18:16 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ void	free_split(char **lines)
 
 void	free_textures_path(t_textures textures)
 {
+	int	i;
+
+	i = 0;
 	if (textures.north_path)
 		free(textures.north_path);
 	if (textures.south_path)
@@ -47,6 +50,11 @@ void	free_textures_path(t_textures textures)
 		free(textures.west_path);
 	if (textures.door_path)
 		free(textures.door_path);
+	while (i < textures.wall_tex_count)
+	{
+		free(textures.wall_tex_paths[i]);
+		i++;
+	}
 }
 
 t_game	*ft_game(void)
@@ -162,5 +170,7 @@ void	exit_game(int exit_status)
 		free_split(game->map.grid);
 	free_textures_path(game->textures);
 	delete_weapon(game);
+	if (game->mlx)
+		mlx_terminate(game->mlx);
 	exit(exit_status);
 }

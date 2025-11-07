@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 12:17:44 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/06 12:24:45 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/07 13:41:35 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	init_ui(void)
 	if (!game->tx_images.gui_img)
 		print_error("Failed to create GUI frame image");
 	mlx_image_to_window(game->mlx, game->tx_images.gui_img,
-		SCREEN_WIDTH / 2 - 125, 250);
+		SCREEN_WIDTH / 2 - (235 / 2), SCREEN_HEIGHT - 250);
 }
 
 void	gui_set_frame(t_game *game, int frame_index)

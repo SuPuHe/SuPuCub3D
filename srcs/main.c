@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:01:05 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/06 12:24:20 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/07 14:19:23 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	main(int argc, char **argv)
 	mlx_loop_hook(game->mlx, animate_gui, game);
 	mlx_loop(game->mlx);
 	mlx_terminate(game->mlx);
+	game->mlx = NULL;
 	// free_textures_path(game->textures);
 	// free_textures(game->textures);
 	// free_split(game->map.grid);
