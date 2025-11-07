@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/07 16:37:06 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/07 16:47:58 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,18 @@ void	init_ui();
 void	animate_gui(void *params);
 
 // doors.c
-void	is_door(void);
 void	update_doors(void *param);
-t_door	*find_door_at(t_game *game, int x, int y);
-void	init_doors(t_game *game);
 void	interact_with_door(t_game *game);
+bool	is_player_in_doorway(t_game *game, t_door *door);
+
+//doors_state.c
+void	door_state_closing(t_door *door, t_game *game);
+void	door_state_open(t_door *door, t_game *game);
+void	door_state_opening(t_door *door);
+
+//doors_helpers.c
+void	init_doors(t_game *game);
+t_door	*find_door_at(t_game *game, int x, int y);
 
 // weapon.c
 void	init_weapon(t_game *game);
