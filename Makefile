@@ -35,8 +35,12 @@ CC = cc
 
 RM = rm -rf
 
-SRCS = main.c utils.c parse.c parse_color.c get_map.c get_info.c player_movement.c player_rotation.c minimap.c minimap_rays.c minimap_helpers.c raycast.c raycast_doors.c raycast_draw.c textures.c doors.c weapon.c weapon_draw.c weapon_utils.c ui.c
-
+SRCS = main.c utils.c parse.c parse_color.c get_map.c get_info.c \
+		player_movement.c minimap.c minimap_rays.c minimap_helpers.c \
+		raycast.c textures.c doors.c weapon.c weapon_draw.c weapon_utils.c ui.c \
+		exit_function.c parse_helper.c doors_helper.c doors_state.c raycast_doors.c raycast_draw.c \
+    player_rotation.c
+    
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
 
 OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/07 16:32:44 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/07 16:47:58 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,9 @@
 void	print_error(char *msg);
 int		parsing_file(char *argv);
 void	free_split(char **lines);
-void	free_textures_path(t_textures textures);
 t_game	*ft_game(void);
 void	find_map_width(t_game *game);
 char	*ft_strstr(const char *haystack, const char *needle);
-void	free_textures(t_textures textures);
 void	exit_game(int exit_status);
 
 int		get_color(char *line, int helper);
@@ -58,6 +56,11 @@ char	**extract_map(char **split_file);
 int		get_info(char **file, t_game *game);
 int		get_player_pos(t_game *game);
 int		init_player_dir(t_game *game);
+
+//parse_helper.c
+int		flood_fill(t_game *game, int x, int y);
+int		check_map_valid(void);
+char	**split_file_lines(char *content);
 
 // player_movement.c
 void	handle_input(mlx_key_data_t keydata, void *params);
@@ -112,11 +115,18 @@ void	init_ui();
 void	animate_gui(void *params);
 
 // doors.c
-void	is_door(void);
 void	update_doors(void *param);
-t_door	*find_door_at(t_game *game, int x, int y);
-void	init_doors(t_game *game);
 void	interact_with_door(t_game *game);
+bool	is_player_in_doorway(t_game *game, t_door *door);
+
+//doors_state.c
+void	door_state_closing(t_door *door, t_game *game);
+void	door_state_open(t_door *door, t_game *game);
+void	door_state_opening(t_door *door);
+
+//doors_helpers.c
+void	init_doors(t_game *game);
+t_door	*find_door_at(t_game *game, int x, int y);
 
 // weapon.c
 void	init_weapon(t_game *game);
