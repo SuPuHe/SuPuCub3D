@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/07 16:47:58 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/07 16:58:50 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,14 @@ char	**split_file_lines(char *content);
 // player_movement.c
 void	handle_input(mlx_key_data_t keydata, void *params);
 void	player_move(void *param);
+
+// player_rotation.c
 void	handle_mouse(void *param);
 void	rotate_player(t_game *game, double angle);
+
+// player_collision.c
+bool	is_valid_position(t_game *game, double x, double y);
+void	move_player_with_collision(t_game *game, double new_x, double new_y);
 
 
 //minimap
