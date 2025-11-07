@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 16:34:36 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/07 16:35:58 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/07 17:11:55 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int	check_map_valid(void)
 	if (!flood_fill(game, game->player.x, game->player.y))
 	{
 		print_error("Map is not closed or contains invalid chars");
-		free_split(game->map.copy_map);
 		return (0);
 	}
 	free_split(game->map.copy_map);
