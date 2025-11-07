@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 16:30:00 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/07 14:07:50 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/07 14:17:04 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,26 +116,29 @@ static void	calculate_weapon_scale(t_game *game)
 static void	get_frame_offsets(t_game *game, int *src_x_right, int *src_x_left)
 {
 	int	frame_width;
+	int	left_offset;
 
 	frame_width = game->weapon.frames_right->width
 		/ game->weapon.frame_count_right;
+	left_offset = 90;
 	if (game->weapon.state == WEAPON_SHOOTING)
 	{
 		if (game->weapon.active_side == WEAPON_RIGHT)
 		{
 			*src_x_right = game->weapon.current_frame * frame_width;
-			*src_x_left = 0;
+			*src_x_left = left_offset;
 		}
 		else
 		{
 			*src_x_right = 0;
-			*src_x_left = game->weapon.current_frame * frame_width;
+			*src_x_left = game->weapon.current_frame * frame_width
+				+ left_offset;
 		}
 	}
 	else
 	{
 		*src_x_right = 0;
-		*src_x_left = 0;
+		*src_x_left = left_offset;
 	}
 }
 
