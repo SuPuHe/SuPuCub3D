@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/07 14:15:18 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/07 16:24:31 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,9 @@
 void	print_error(char *msg);
 int		parsing_file(char *argv);
 void	free_split(char **lines);
-void	free_textures_path(t_textures textures);
 t_game	*ft_game(void);
 void	find_map_width(t_game *game);
 char	*ft_strstr(const char *haystack, const char *needle);
-void	free_textures(t_textures textures);
 void	exit_game(int exit_status);
 
 int		get_color(char *line, int helper);
