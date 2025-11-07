@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:05:22 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/06 18:05:13 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/07 11:28:09 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,15 +184,15 @@ static void	draw_pixel_from_texture(t_column_vars *c_vars, t_game *game)
 
 	pixel_index = (c_vars->tex_y * c_vars->texture->width + c_vars->tex_x) * 4;
 	// Check pixel_index bounds
-	if (pixel_index >= 0 &&
-		pixel_index + 3 < (int)(c_vars->texture->width * c_vars->texture->height * 4))
+	if (pixel_index >= 0 && pixel_index + 3
+		< (int)(c_vars->texture->width * c_vars->texture->height * 4))
 	{
 		r = c_vars->texture->pixels[pixel_index + 0];
 		g = c_vars->texture->pixels[pixel_index + 1];
 		b = c_vars->texture->pixels[pixel_index + 2];
 		a = c_vars->texture->pixels[pixel_index + 3];
 		c_vars->color = (r << 24) | (g << 16) | (b << 8) | a;
-		mlx_put_pixel(game->win_img, c_vars->x,c_vars->y, c_vars->color);
+		mlx_put_pixel(game->win_img, c_vars->x, c_vars->y, c_vars->color);
 	}
 }
 
@@ -202,23 +202,29 @@ static void	draw_column_loop(t_game *game, t_column_vars *c_vars)
 	while (c_vars->y < SCREEN_HEIGHT)
 	{
 		if (c_vars->y < c_vars->draw_start)
-			mlx_put_pixel(game->win_img, c_vars->x, c_vars->y, game->textures.ceil);
-		else if (c_vars->y >= c_vars->draw_start && c_vars->y <= c_vars->draw_end)
+			mlx_put_pixel(game->win_img, c_vars->x,
+				c_vars->y, game->textures.ceil);
+		else if (c_vars->y >= c_vars->draw_start
+			&& c_vars->y <= c_vars->draw_end)
 		{
-			c_vars->tex_y = (int)c_vars->tex_pos & (c_vars->texture->height - 1);
+			c_vars->tex_y = (int)c_vars->tex_pos
+				& (c_vars->texture->height - 1);
 			c_vars->tex_pos += c_vars->step;
 			// Bounds check for pixel access
-			if (c_vars->tex_x >= 0 && c_vars->tex_x < (int)c_vars->texture->width
-				&& c_vars->tex_y >= 0 && c_vars->tex_y < (int)c_vars->texture->height)
+			if (c_vars->tex_x >= 0 && c_vars->tex_x
+				< (int)c_vars->texture->width && c_vars->tex_y >= 0
+				&& c_vars->tex_y < (int)c_vars->texture->height)
 				draw_pixel_from_texture(c_vars, game);
 		}
 		else
-			mlx_put_pixel(game->win_img, c_vars->x, c_vars->y, game->textures.floor);
+			mlx_put_pixel(game->win_img, c_vars->x,
+				c_vars->y, game->textures.floor);
 		c_vars->y++;
 	}
 }
 
-static void	choose_wall_texture(t_column_vars *c_vars, t_game *game, t_raycast *rc)
+static void	choose_wall_texture(t_column_vars *c_vars,
+	t_game *game, t_raycast *rc)
 {
 	c_vars->wall_char = game->map.grid[rc->map_y][rc->map_x];
 	if (rc->is_door)
@@ -242,7 +248,8 @@ static void	choose_wall_texture(t_column_vars *c_vars, t_game *game, t_raycast *
 		c_vars->texture = game->textures.north_tex;
 }
 
-static void	check_if_door_and_bounds(t_column_vars *c_vars, t_game *game, t_raycast *rc)
+static void	check_if_door_and_bounds(t_column_vars *c_vars,
+	t_game *game, t_raycast *rc)
 {
 	t_door	*door;
 
@@ -268,7 +275,8 @@ static void	check_if_door_and_bounds(t_column_vars *c_vars, t_game *game, t_rayc
 		c_vars->tex_x = c_vars->texture->width - 1;
 	// Vertical texture step
 	c_vars->step = (double)c_vars->texture->height / c_vars->line_height;
-	c_vars->tex_pos = (c_vars->draw_start - SCREEN_HEIGHT / 2 + c_vars->line_height / 2) * c_vars->step;
+	c_vars->tex_pos = (c_vars->draw_start - SCREEN_HEIGHT
+			/ 2 + c_vars->line_height / 2) * c_vars->step;
 }
 
 static void	draw_column(t_game *game, int x, t_raycast *rc)
