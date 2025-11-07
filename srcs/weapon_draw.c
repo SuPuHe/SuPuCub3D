@@ -6,12 +6,25 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 14:30:00 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/07 14:30:02 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/07 17:41:08 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
+/**
+ * @brief Copies and scales weapon sprite pixels from texture to image
+ *
+ * Performs pixel-by-pixel copying from the source texture to destination
+ * image with scaling applied. Handles RGBA channels individually for each
+ * pixel. Scaling is done by sampling the source texture at calculated
+ * positions based on the weapon scale factor.
+ *
+ * @param img Destination MLX image to copy pixels to
+ * @param tex Source texture containing weapon sprites
+ * @param src_x X offset in source texture (frame position)
+ * @param game Pointer to game structure containing scale information
+ */
 void	copy_weapon_pixels(mlx_image_t *img, mlx_texture_t *tex,
 			int src_x, t_game *game)
 {
@@ -39,6 +52,19 @@ void	copy_weapon_pixels(mlx_image_t *img, mlx_texture_t *tex,
 	}
 }
 
+/**
+ * @brief Creates a new MLX image for weapon rendering
+ *
+ * Allocates a new MLX image with scaled weapon dimensions and attaches it
+ * to the game window at specified coordinates. Sets rendering depth to
+ * 10000 to ensure weapon appears on top of all other game elements.
+ *
+ * @param game Pointer to game structure containing MLX instance
+ * @param weapon_x X position where weapon image will be placed
+ * @param weapon_y Y position where weapon image will be placed
+ * @param img Pointer to image pointer that will store created image
+ * @return 1 on success, 0 on failure
+ */
 int	create_weapon_image(t_game *game, int weapon_x, int weapon_y,
 		mlx_image_t **img)
 {
@@ -53,6 +79,18 @@ int	create_weapon_image(t_game *game, int weapon_x, int weapon_y,
 	return (1);
 }
 
+/**
+ * @brief Updates weapon sprite frames with frame caching optimization
+ *
+ * Checks if current frame differs from last drawn frame for each hand.
+ * Only copies pixels if frame has changed, significantly improving
+ * performance by avoiding redundant pixel operations. Tracks last drawn
+ * frame separately for right and left hands.
+ *
+ * @param game Pointer to game structure containing weapon data
+ * @param src_x_right X offset for right hand weapon frame
+ * @param src_x_left X offset for left hand weapon frame
+ */
 void	update_weapon_frames(t_game *game, int src_x_right, int src_x_left)
 {
 	if (game->weapon.last_drawn_frame_right != src_x_right)
@@ -69,6 +107,18 @@ void	update_weapon_frames(t_game *game, int src_x_right, int src_x_left)
 	}
 }
 
+/**
+ * @brief Creates weapon images for both hands if they don't exist
+ *
+ * Ensures both right and left hand weapon images are initialized before
+ * rendering. Creates images only once on first call, preventing redundant
+ * allocations. Returns failure if either image creation fails.
+ *
+ * @param game Pointer to game structure
+ * @param weapon_x Array containing X positions for both hands [right, left]
+ * @param weapon_y Y position for weapon rendering
+ * @return 1 on success, 0 if any image creation fails
+ */
 int	create_weapon_images(t_game *game, int *weapon_x, int weapon_y)
 {
 	if (!game->weapon.img_right)
@@ -86,6 +136,21 @@ int	create_weapon_images(t_game *game, int *weapon_x, int weapon_y)
 	return (1);
 }
 
+/**
+ * @brief Main weapon rendering function called each frame
+ *
+ * Orchestrates complete weapon rendering pipeline:
+ * 1. Validates weapon textures are loaded
+ * 2. Calculates scaling based on screen resolution
+ * 3. Determines current frame offsets for animation
+ * 4. Calculates weapon positions with bobbing effect
+ * 5. Creates images if needed (first render only)
+ * 6. Updates frames using cache optimization
+ * 7. Updates instance positions and visibility
+ * Both hands remain visible, only active hand animates.
+ *
+ * @param param Void pointer to game structure (cast to t_game*)
+ */
 void	draw_weapon(void *param)
 {
 	t_game	*game;
