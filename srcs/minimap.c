@@ -6,12 +6,21 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:25:40 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/07 12:16:31 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/10 13:04:08 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
+/**
+ * @brief Draws the minimap by sampling the world around the player.
+ *
+ * Iterates over each pixel of the minimap image,
+ * converts it to world coordinates, determines the color
+ * based on the map tile, and draws the pixel.
+ *
+ * @param game Pointer to the main game state.
+ */
 void	draw_minimap(t_game *game)
 {
 	t_minimap	m;
@@ -38,6 +47,13 @@ void	draw_minimap(t_game *game)
 	}
 }
 
+/**
+ * @brief Draws a circular border and background for the minimap.
+ *
+ * Ensures the minimap is displayed as a circle, with an optional border effect.
+ *
+ * @param game Pointer to the main game state.
+ */
 void	draw_circled_minimap(t_game *game)
 {
 	int	y;
@@ -65,6 +81,14 @@ void	draw_circled_minimap(t_game *game)
 	}
 }
 
+/**
+ * @brief Draws the player’s position on the minimap.
+ *
+ * Draws a small square (5x5 pixels) in the center of the minimap representing
+ * the player’s current location.
+ *
+ * @param game Pointer to the main game state.
+ */
 void	draw_player_on_minimap(t_game *game)
 {
 	int	center;
@@ -86,6 +110,14 @@ void	draw_player_on_minimap(t_game *game)
 	}
 }
 
+/**
+ * @brief Updates the minimap display.
+ *
+ * Clears the previous minimap, redraws the map, circular mask, rays, and
+ * the player indicator.
+ *
+ * @param game Pointer to the main game state.
+ */
 void	update_minimap(t_game *game)
 {
 	clean_minimap(game);
@@ -95,6 +127,14 @@ void	update_minimap(t_game *game)
 	draw_player_on_minimap(game);
 }
 
+/**
+ * @brief Toggles the minimap on or off.
+ *
+ * If the minimap is currently disabled, enables it and updates the display.
+ * If it is enabled, disables it and clears the minimap image.
+ *
+ * @param game Pointer to the main game state.
+ */
 void	check_minimap(t_game *game)
 {
 	if (!game->minimap.enabled)
