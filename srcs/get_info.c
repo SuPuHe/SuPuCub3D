@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:06:54 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/06 11:33:50 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/10 14:20:39 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int	get_info(char **file, t_game *game)
 	int	i;
 
 	i = 0;
+	game->textures.ceil_color[0] = -1;
+	game->textures.floor_color[0] = -1;
 	while (file[i] && !game->exit)
 	{
 		get_info_walls(game, file, i);
@@ -71,7 +73,8 @@ int	get_info(char **file, t_game *game)
 	}
 	if (!ft_game()->textures.north_path || !ft_game()->textures.south_path
 		|| !ft_game()->textures.west_path || !ft_game()->textures.east_path
-		|| ft_game()->exit)
+		|| game->textures.ceil_color[0] == -1
+		|| game->textures.floor_color[0] == -1 || ft_game()->exit)
 		return (print_error("Insufficient rexture or color data"), 0);
 	return (1);
 }
