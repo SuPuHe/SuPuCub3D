@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 11:37:51 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/07 12:22:34 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/10 13:32:35 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ void	init_minimap(t_game *game)
 	game->minimap.img = mlx_new_image(game->mlx, MINIMAP_SIZE, MINIMAP_SIZE);
 	game->minimap.player_img = mlx_new_image(game->mlx, width, height);
 	if (!game->minimap.img || !game->minimap.player_img)
+	{
 		print_error("Failed to create minimap images");
+		exit_game(1);
+	}
 	mlx_image_to_window(game->mlx, game->minimap.img, 20, 20);
 	mlx_image_to_window(game->mlx, game->minimap.player_img, 20, 20);
 }
