@@ -6,12 +6,24 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:39:39 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/07 16:35:39 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/10 12:59:19 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
+/**
+ * @brief Reads the entire contents of a file descriptor into a single string.
+ *
+ * This function repeatedly calls `get_next_line` to
+ * read each line from the file, concatenates all lines into a single
+ * dynamically allocated string, and returns it. The caller is responsible
+ * for freeing the returned string.
+ *
+ * @param fd The file descriptor to read from.
+ * @return A pointer to the concatenated string containing the
+ * whole file contents, or NULL if reading fails or the file is empty.
+ */
 char	*read_whole_file(int fd)
 {
 	char	*line;
@@ -39,6 +51,17 @@ char	*read_whole_file(int fd)
 	return (joined);
 }
 
+/**
+ * @brief Parses the split file contents into the game map.
+ *
+ * This function retrieves game info, extracts the map grid, creates a copy
+ * for internal use, and calculates the map width. It also handles errors
+ * related to invalid or empty files.
+ *
+ * @param split_file Array of strings representing the lines of the file.
+ * @param game Pointer to the main game structure to store map data.
+ * @return 1 if parsing was successful, 0 otherwise.
+ */
 int	parse_map_file(char **split_file, t_game *game)
 {
 	if (!split_file)
@@ -57,6 +80,16 @@ int	parse_map_file(char **split_file, t_game *game)
 	return (1);
 }
 
+/**
+ * @brief Opens a file, reads its content, and parses it into the game map.
+ *
+ * This function opens the specified file, reads its
+ * content using `read_whole_file`, splits it into lines,
+ * and passes it to `parse_map_file` for parsing.
+ *
+ * @param file The path to the file to read.
+ * @return 1 if the file was successfully read and parsed, 0 otherwise.
+ */
 int	read_file(char *file)
 {
 	t_game	*game;
@@ -74,6 +107,15 @@ int	read_file(char *file)
 	return (parse_map_file(split_file, game));
 }
 
+/**
+ * @brief Handles the full parsing process for a given .cub file.
+ *
+ * This function validates the file extension, reads and parses the file,
+ * sets up the player position and direction, and checks map validity.
+ *
+ * @param argv Path to the .cub map file.
+ * @return 1 if parsing and setup were successful, 0 otherwise.
+ */
 int	parsing_file(char *argv)
 {
 	t_game	*game;
