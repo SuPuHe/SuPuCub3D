@@ -6,12 +6,21 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 13:26:45 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/05 12:36:09 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/10 13:09:58 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
+/**
+ * @brief Checks if a line from the file represents a map row.
+ *
+ * A line is considered a map line if it contains only spaces
+ * or digits from '0' to '9'.
+ *
+ * @param line The line to check.
+ * @return int Returns 1 if it is a map line, 0 otherwise.
+ */
 int	is_map_line(char *line)
 {
 	int	i;
@@ -31,6 +40,15 @@ int	is_map_line(char *line)
 	return (1);
 }
 
+/**
+ * @brief Finds the starting index of the map in a file.
+ *
+ * Iterates over the lines in the file to locate the first line
+ * that is a valid map line.
+ *
+ * @param file The array of lines from the file.
+ * @return int Returns the index of the first map line, or -1 if none found.
+ */
 int	get_map_start(char **file)
 {
 	int	i;
@@ -50,6 +68,17 @@ int	get_map_start(char **file)
 	return (start);
 }
 
+/**
+ * @brief Extracts the map portion from a file.
+ *
+ * This function locates the map start in the file, counts the number
+ * of lines in the map, duplicates them into a new array, and sets
+ * the map height in the game structure.
+ *
+ * @param file The array of lines from the file.
+ * @return char** Returns a newly allocated
+ * array of map lines, or NULL on failure.
+ */
 char	**extract_map(char **file)
 {
 	int		i;
