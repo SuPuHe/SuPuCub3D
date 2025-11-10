@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 14:03:36 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/07 14:23:34 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/10 11:15:12 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,21 @@ static void	more_walls_textures_load(t_game *game)
 	}
 }
 
+static void	more_walls_paths(t_game *game)
+{
+	game->textures.wall_tex_count = 8;
+	game->textures.wall_tex_paths = malloc(sizeof(char *) * 8);
+	game->textures.wall_tex_paths[0] = ft_strdup("textures/LAB_2B.png");
+	game->textures.wall_tex_paths[1] = ft_strdup("textures/SUPPORT_3A.PNG");
+	game->textures.wall_tex_paths[2] = ft_strdup("textures/TECH_1C.png");
+	game->textures.wall_tex_paths[3] = ft_strdup("textures/TECH_1E.png");
+	game->textures.wall_tex_paths[4] = ft_strdup("textures/TECH_2F.png");
+	game->textures.wall_tex_paths[5] = ft_strdup("textures/TECH_3B.png");
+	game->textures.wall_tex_paths[6] = ft_strdup("textures/TECH_4E.png");
+	game->textures.wall_tex_paths[7] = ft_strdup("textures/CONSOLE_1B.png");
+	game->textures.wall_textures = NULL;
+}
+
 void	textures_load(void)
 {
 	t_game	*game;
@@ -50,5 +65,6 @@ void	textures_load(void)
 		print_error("Faild to load textures.");
 		exit_game(1);
 	}
+	more_walls_paths(game);
 	more_walls_textures_load(game);
 }
