@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 16:34:36 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/10 11:06:36 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/10 15:03:29 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 static int	is_invalid_char(char c)
 {
 	return (c != '0' && c != '1' && c != '2' && c != '3'
-		&& c != '4' && c != '5' && c != '5' && c != '6'
-		&& c != '7' && c != '8' && c != '9' && c != 'W'
-		&& c != 'E' && c != 'N' && c != 'S');
+		&& c != '4' && c != '5' && c != '6' && c != '7'
+		&& c != '8' && c != '9' && c != 'W' && c != 'E'
+		&& c != 'N' && c != 'S' && c != 'D');
 }
 
 int	flood_fill(t_game *game, int x, int y)
@@ -33,7 +33,7 @@ int	flood_fill(t_game *game, int x, int y)
 	if (x < 0 || x >= cols)
 		return (0);
 	c = game->map.copy_map[y][x];
-	if (ft_strchr(MAP_WALLS_DOORS, c))
+	if (ft_strchr(MAP_WALLS, c))
 		return (1);
 	if (is_invalid_char(c))
 		return (0);
