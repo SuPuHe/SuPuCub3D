@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 16:34:36 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/07 17:11:55 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/10 11:06:36 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	check_map_valid(void)
 		return (0);
 	}
 	free_split(game->map.copy_map);
+	game->map.copy_map = NULL;
 	return (1);
 }
 

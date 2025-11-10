@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/07 16:58:50 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/10 11:38:55 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,13 @@
 # define MAP_WALLS_DOORS "DF123456789"
 # define MAP_WALLS "123456789"
 # define MAP_PLAYER_ZERO "0NSEW"
+
+# define DOOR_OPEN_SPEED 0.03
+# define DOOR_CLOSE_SPEED 0.03
+# define DOOR_OPEN_TIME 120
+# define DOOR_INTERACTION_DIST 1.2
+
+# define FRAME_SIZE 235
 
 # include "libft.h"
 # include "get_next_line.h"
@@ -74,7 +81,6 @@ void	rotate_player(t_game *game, double angle);
 bool	is_valid_position(t_game *game, double x, double y);
 void	move_player_with_collision(t_game *game, double new_x, double new_y);
 
-
 //minimap
 void	init_minimap(t_game *game);
 void	draw_square(mlx_image_t *img, int x, int y, uint32_t color);
@@ -114,10 +120,9 @@ void	draw_column(t_game *game, int x, t_raycast *rc);
 
 // textures.c
 void	textures_load(void);
-void	image_create(void);
 
 //ui.c
-void	init_ui();
+void	init_ui(void);
 void	animate_gui(void *params);
 
 // doors.c
