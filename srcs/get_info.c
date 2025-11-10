@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_info.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:06:54 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/10 14:20:39 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/10 14:37:49 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ int	get_player_pos(t_game *game)
 
 static void	get_info_walls(t_game *game, char **file, int i)
 {
-	if (ft_strstr(file[i], "NO"))
+	if (ft_strstr(file[i], "NO "))
 		game->textures.north_path = ft_strtrim(file[i], "NO ");
-	if (ft_strstr(file[i], "SO"))
+	if (ft_strstr(file[i], "SO "))
 		game->textures.south_path = ft_strtrim(file[i], "SO ");
-	if (ft_strstr(file[i], "WE"))
+	if (ft_strstr(file[i], "WE "))
 		game->textures.west_path = ft_strtrim(file[i], "WE ");
-	if (ft_strstr(file[i], "EA"))
+	if (ft_strstr(file[i], "EA "))
 		game->textures.east_path = ft_strtrim(file[i], "EA ");
 }
 
@@ -63,7 +63,7 @@ int	get_info(char **file, t_game *game)
 	while (file[i] && !game->exit)
 	{
 		get_info_walls(game, file, i);
-		if (ft_strstr(file[i], "DOOR"))
+		if (ft_strstr(file[i], "DOOR "))
 			game->textures.door_path = ft_strtrim(file[i], "DOOR ");
 		if (ft_strstr(file[i], "F "))
 			get_color(file[i], 1);
