@@ -3,24 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:26:08 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/07 12:13:45 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/10 11:38:19 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
 # include <stdint.h>
 # include "../mlx/include/MLX42/MLX42.h"
-
-#define DOOR_OPEN_SPEED 0.03
-#define DOOR_CLOSE_SPEED 0.03
-#define DOOR_OPEN_TIME 120      // frames to wait before closing
-#define DOOR_INTERACTION_DIST 1.2
 
 typedef enum e_door_state
 {
@@ -55,9 +49,9 @@ typedef struct s_textures
 	mlx_texture_t	*east_tex;
 	mlx_texture_t	*gui_tex;
 	mlx_texture_t	*door_tex;
-	mlx_texture_t	**wall_textures;	// Массив дополнительных текстур стен
-	int				wall_tex_count;		// Количество дополнительных текстур
-	char			**wall_tex_paths;	// Пути к дополнительным текстурам
+	mlx_texture_t	**wall_textures;
+	int				wall_tex_count;
+	char			**wall_tex_paths;
 	int				floor_color[3];
 	int				ceil_color[3];
 	uint32_t		floor;
@@ -172,37 +166,36 @@ typedef struct s_minimap
 	mlx_image_t		*img;
 }	t_minimap;
 
-// Update door struct in structs.h:
 typedef struct s_door
 {
 	int				x;
 	int				y;
-	double			progress;        // 0.0 = closed, 1.0 = open
+	double			progress;
 	t_door_state	state;
-	int				timer;           // timer for auto-close
+	int				timer;
 }	t_door;
 
 typedef struct s_weapon
 {
-	mlx_texture_t	*frames_right;		// Right hand animation frames
-	mlx_texture_t	*frames_left;		// Left hand animation frames
-	int				frame_count_right;	// Right hand frame count
-	int				frame_count_left;	// Left hand frame count
-	int				current_frame;		// Current animation frame
-	int				last_drawn_frame_right;	// Last drawn frame for right hand
-	int				last_drawn_frame_left;	// Last drawn frame for left hand
-	int				frame_delay;		// Delay between frames
-	int				frame_timer;		// Timer for frame changes
+	mlx_texture_t	*frames_right;
+	mlx_texture_t	*frames_left;
+	int				frame_count_right;
+	int				frame_count_left;
+	int				current_frame;
+	int				last_drawn_frame_right;
+	int				last_drawn_frame_left;
+	int				frame_delay;
+	int				frame_timer;
 	int				frame_count;
-	t_weapon_state	state;				// Weapon state
-	t_weapon_side	active_side;		// Which hand is shooting
-	double			bob_offset;			// Offset for bobbing
-	double			bob_timer;			// Timer for bobbing
-	mlx_image_t		*img_right;			// Right hand image
-	mlx_image_t		*img_left;			// Left hand image
-	int				scaled_width;		// Cached scaled width
-	int				scaled_height;		// Cached scaled height
-	float			scale;				// Cached scale factor
+	t_weapon_state	state;
+	t_weapon_side	active_side;
+	double			bob_offset;
+	double			bob_timer;
+	mlx_image_t		*img_right;
+	mlx_image_t		*img_left;
+	int				scaled_width;
+	int				scaled_height;
+	float			scale;
 }	t_weapon;
 
 typedef struct s_column_vars
