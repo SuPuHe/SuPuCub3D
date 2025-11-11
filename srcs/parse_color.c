@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 12:48:24 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/11 10:43:36 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/11 10:56:56 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,9 @@ int	get_color(char *line, int helper)
 	int		i;
 
 	if (helper && ft_game()->textures.floor_color[0] != -1)
-		return (print_error("Duplicate floor color definition"), 0);
+		return (0);
 	if (!helper && ft_game()->textures.ceil_color[0] != -1)
-		return (print_error("Duplicate ceiling color definition"), 0);
+		return (0);
 	if (helper)
 		trimmed = ft_strtrim(line, "F ");
 	else
