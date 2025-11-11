@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:01:05 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/11 13:04:11 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/11 14:36:02 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	structs_info_load(t_game *game)
  */
 void	init_game(t_game *game)
 {
-	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3D Test", true);
+	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3D", true);
 	if (!game->mlx)
 		exit(1);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
