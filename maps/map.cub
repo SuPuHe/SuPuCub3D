@@ -1,9 +1,9 @@
 
-NO ./textures/north_wall.png
-SO ./textures/south_wall.png
-WE ./textures/west_wall.png
-EA ./textures/east_wall.png
-DOOR ./textures/door.png
+NO ./textures/BRICK_1A.png
+SO ./textures/BRICK_2B.png
+WE ./textures/BRICK_3B.png
+EA ./textures/BRICK_3D.png
+DOOR ./textures/bunker_door.png
 
 F 128,128,128
 C 128,128,128

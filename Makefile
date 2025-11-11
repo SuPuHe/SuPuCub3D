@@ -17,7 +17,7 @@ GREEN		= \033[1;32m		# Bright green
 RED			= \033[1;31m		# Bright red
 CYAN		= \033[1;36m		# Bright cyan
 
-NAME = cub
+NAME = cub3D
 
 SUPULIB_DIR = SuPuLib
 SUPULIB_REPO = https://github.com/SuPuHe/SuPuLib.git

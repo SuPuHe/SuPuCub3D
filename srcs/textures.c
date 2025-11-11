@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 14:03:36 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/10 12:22:47 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/11 13:00:43 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	more_walls_paths(t_game *game)
 {
 	game->textures.wall_tex_count = 8;
 	game->textures.wall_tex_paths = malloc(sizeof(char *) * 8);
-	game->textures.wall_tex_paths[0] = ft_strdup("textures/LAB_2B.png");
+	game->textures.wall_tex_paths[0] = ft_strdup("textures/SUPPORT_4A.png");
 	game->textures.wall_tex_paths[1] = ft_strdup("textures/SUPPORT_3A.PNG");
 	game->textures.wall_tex_paths[2] = ft_strdup("textures/TECH_1C.png");
 	game->textures.wall_tex_paths[3] = ft_strdup("textures/TECH_1E.png");
