@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:01:05 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/11 14:36:02 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/11 14:41:27 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ void	init_game(t_game *game)
 	mlx_set_cursor_mode(game->mlx, MLX_MOUSE_HIDDEN);
 	init_ui();
 	init_doors(game);
-	init_weapon(game);
 	init_minimap(game);
+	init_weapon(game);
 	mlx_key_hook(game->mlx, handle_input, NULL);
 	mlx_loop_hook(game->mlx, handle_mouse, game);
 	mlx_loop_hook(game->mlx, player_move, game);

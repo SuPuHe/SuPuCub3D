@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 14:03:36 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/11 13:19:29 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/11 14:45:23 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	more_walls_textures_load(t_game *game)
 		}
 		i++;
 	}
+	game->textures.tex_loaded = i;
 }
 
 /**
