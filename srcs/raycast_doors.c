@@ -3,15 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   raycast_doors.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 14:30:00 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/07 16:32:39 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/10 12:35:27 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
+/**
+ * @brief Determines the orientation of a door on the map.
+ *
+ * This function checks surrounding wall tiles to determine if a door is
+ * vertically or horizontally oriented. If there are walls ('1') on the left or
+ * right of the door, it is considered vertical (returns 1). Otherwise, if there
+ * are walls above or below, it is considered horizontal (returns 0).
+ *
+ * @param game Pointer to the main game structure containing the map grid.
+ * @param rc Pointer to the current raycasting
+ * structure containing hit coordinates.
+ * @return int 1 if the door is vertical, 0 if horizontal or undefined.
+ */
 int	get_door_orientation(t_game *game, t_raycast *rc)
 {
 	if ((rc->map_x > 0 && game->map.grid[rc->map_y][rc->map_x - 1] == '1')
@@ -25,6 +38,20 @@ int	get_door_orientation(t_game *game, t_raycast *rc)
 	return (0);
 }
 
+/**
+ * @brief Checks if a ray intersects a vertically oriented door.
+ *
+ * This function calculates the intersection between
+ * a ray and a vertical door line. If the intersection lies within
+ * the door's boundaries and not beyond the closed part of the door
+ * (based on door->progress), it sets the ray as hitting a door.
+ *
+ * @param game Pointer to the main game structure
+ * containing player position data.
+ * @param rc Pointer to the raycasting structure containing
+ * ray direction and hit data.
+ * @param door Pointer to the door structure representing the door being tested.
+ */
 void	check_vertical_door(t_game *game, t_raycast *rc, t_door *door)
 {
 	double	dist_to_center;
@@ -49,6 +76,20 @@ void	check_vertical_door(t_game *game, t_raycast *rc, t_door *door)
 	}
 }
 
+/**
+ * @brief Checks if a ray intersects a horizontally oriented door.
+ *
+ * Similar to check_vertical_door(), but used when the door is horizontal.
+ * It calculates the intersection based on the Y component of the ray direction.
+ * If the ray hits the solid part of the door, the
+ * raycast data is updated accordingly.
+ *
+ * @param game Pointer to the main game structure
+ * containing player position data.
+ * @param rc Pointer to the raycasting structure containing
+ * ray direction and hit data.
+ * @param door Pointer to the door structure representing the door being tested.
+ */
 void	check_horizontal_door(t_game *game, t_raycast *rc, t_door *door)
 {
 	double	dist_to_center;
@@ -73,6 +114,18 @@ void	check_horizontal_door(t_game *game, t_raycast *rc, t_door *door)
 	}
 }
 
+/**
+ * @brief Determines whether the current ray has hit a door and updates ray data.
+ *
+ * Finds the door at the current map position (if any), checks whether it is open
+ * enough to be ignored, and tests for intersection with either a vertical or
+ * horizontal door using the appropriate helper function.
+ *
+ * @param game Pointer to the main game structure
+ * containing the door list and map.
+ * @param rc Pointer to the raycasting structure
+ * that will be updated if a door is hit.
+ */
 void	check_door_hit(t_game *game, t_raycast *rc)
 {
 	t_door	*door;

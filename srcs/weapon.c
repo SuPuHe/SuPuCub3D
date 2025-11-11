@@ -6,12 +6,21 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 16:30:00 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/07 14:29:48 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/07 17:35:01 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
+/**
+ * @brief Initializes the weapon system
+ *
+ * Loads weapon sprite sheets for both right and left hands from PNG files.
+ * Sets up initial weapon state including frame counts, animation parameters,
+ * and bobbing effect values. Each weapon has 5 animation frames.
+ *
+ * @param game Pointer to the main game structure
+ */
 void	init_weapon(t_game *game)
 {
 	game->weapon.frame_count_right = 5;
@@ -35,6 +44,15 @@ void	init_weapon(t_game *game)
 	game->weapon.img_left = NULL;
 }
 
+/**
+ * @brief Updates weapon bobbing effect during player movement
+ *
+ * Creates a realistic weapon bobbing animation using sine wave when the player
+ * is moving forward or backward. The bobbing effect smoothly decays to zero
+ * when the player stops moving. Amplitude scales with screen height.
+ *
+ * @param game Pointer to the main game structure
+ */
 static void	update_weapon_bobbing(t_game *game)
 {
 	bool	is_moving;
@@ -62,6 +80,16 @@ static void	update_weapon_bobbing(t_game *game)
 	}
 }
 
+/**
+ * @brief Updates weapon shooting animation frames
+ *
+ * Manages the frame-by-frame progression of the weapon shooting animation.
+ * Handles frame timing, counts frames for current animation cycle, and
+ * switches between right and left hands after each complete animation.
+ * Resets to idle state when animation completes.
+ *
+ * @param game Pointer to the main game structure
+ */
 static void	update_weapon_animation(t_game *game)
 {
 	game->weapon.frame_timer++;
@@ -90,6 +118,15 @@ static void	update_weapon_animation(t_game *game)
 		game->weapon.current_frame = 0;
 }
 
+/**
+ * @brief Main weapon update function called each frame
+ *
+ * Orchestrates weapon system updates by calling both bobbing and animation
+ * update functions. This function is registered as an MLX loop hook and
+ * executes every frame to maintain smooth weapon animations.
+ *
+ * @param param Void pointer to the game structure (cast to t_game*)
+ */
 void	update_weapon(void *param)
 {
 	t_game	*game;
@@ -99,6 +136,15 @@ void	update_weapon(void *param)
 	update_weapon_animation(game);
 }
 
+/**
+ * @brief Triggers weapon shooting animation
+ *
+ * Initiates the shooting animation sequence if the weapon is currently in
+ * idle state. Resets frame counters and sets weapon state to shooting mode.
+ * The actual frame-by-frame animation is handled by update_weapon_animation().
+ *
+ * @param game Pointer to the main game structure
+ */
 void	weapon_shoot(t_game *game)
 {
 	if (game->weapon.state == WEAPON_IDLE)

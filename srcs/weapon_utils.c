@@ -6,12 +6,22 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 14:30:00 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/07 14:30:06 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/07 17:41:09 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
+/**
+ * @brief Calculates weapon scaling based on screen resolution
+ *
+ * Computes adaptive weapon scale factor relative to 1920x1080 reference
+ * resolution. Extracts individual frame dimensions from spritesheet and
+ * applies base scale (0.5) multiplied by screen scale. Stores calculated
+ * values in game structure for use in rendering pipeline.
+ *
+ * @param game Pointer to game structure containing weapon and screen data
+ */
 void	calculate_weapon_scale(t_game *game)
 {
 	int		frame_width;
@@ -27,6 +37,19 @@ void	calculate_weapon_scale(t_game *game)
 	game->weapon.scaled_height = (int)(frame_height * game->weapon.scale);
 }
 
+/**
+ * @brief Calculates source texture offsets for current animation frame
+ *
+ * Determines X-coordinate offsets in weapon spritesheets based on current
+ * animation state and active hand. During shooting, calculates frame offset
+ * for active hand while keeping idle hand at frame 0. Left hand has 90px
+ * offset to avoid sprite bleeding from adjacent frames. When idle, both
+ * hands display frame 0.
+ *
+ * @param game Pointer to game structure with weapon state
+ * @param src_x_right Pointer to store right hand X offset
+ * @param src_x_left Pointer to store left hand X offset
+ */
 void	get_frame_offsets(t_game *game, int *src_x_right, int *src_x_left)
 {
 	int	frame_width;
@@ -56,6 +79,19 @@ void	get_frame_offsets(t_game *game, int *src_x_right, int *src_x_left)
 	}
 }
 
+/**
+ * @brief Calculates screen positions for both weapon hands
+ *
+ * Computes X and Y coordinates for weapon rendering with adaptive scaling.
+ * Right hand positioned at screen center + offset, left hand at center
+ * - weapon width - offset. Y position places weapon 75% visible with 25%
+ * below screen edge, plus bobbing offset for movement effect. Positions
+ * scale proportionally with screen resolution.
+ *
+ * @param game Pointer to game structure with weapon and screen data
+ * @param weapon_x Array to store X positions [right=0, left=1]
+ * @param weapon_y Pointer to store Y position (shared by both hands)
+ */
 void	setup_weapon_positions(t_game *game, int *weapon_x, int *weapon_y)
 {
 	float	screen_scale;

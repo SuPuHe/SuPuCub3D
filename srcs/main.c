@@ -6,12 +6,21 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:01:05 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/10 11:20:45 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/10 13:09:33 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
+/**
+ * @brief Initializes default values for player and game structures.
+ *
+ * This function sets the initial movement speed, rotation speed,
+ * collision radius, mouse sensitivity, and movement states of the player.
+ * It also initializes the minimap and mouse settings.
+ *
+ * @param game Pointer to the main game structure.
+ */
 static void	structs_info_load(t_game *game)
 {
 	game->player.move_speed = 0.1;
@@ -29,6 +38,22 @@ static void	structs_info_load(t_game *game)
 	game->mouse_enabled = 1;
 }
 
+/**
+ * @brief Initializes the game environment and starts the main loop.
+ *
+ * This function performs the following:
+ * - Initializes the MLX library and creates the game window.
+ * - Loads textures.
+ * - Creates the main rendering image.
+ * - Calls structs_info_load to initialize player and game values.
+ * - Sets mouse cursor mode.
+ * - Initializes UI, doors, weapon, and minimap.
+ * - Registers key and loop hooks for input, player movement,
+ *		weapon updates, GUI animation, and mouse handling.
+ * - Starts the MLX main loop.
+ *
+ * @param game Pointer to the main game structure.
+ */
 void	init_game(t_game *game)
 {
 	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3D Test", true);
@@ -53,6 +78,16 @@ void	init_game(t_game *game)
 	mlx_loop(game->mlx);
 }
 
+/**
+ * @brief Entry point of the program.
+ *
+ * This function checks command line arguments, parses the map file,
+ * initializes the game, and starts the game loop.
+ *
+ * @param argc Number of command line arguments.
+ * @param argv Array of command line arguments.
+ * @return int Returns 0 on success, 1 on failure.
+ */
 int	main(int argc, char **argv)
 {
 	t_game	*game;

@@ -3,15 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   raycast_draw.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 14:30:00 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/07 16:32:40 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/10 12:34:11 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
+/**
+ * @brief Draws a single pixel from the current wall texture to the screen.
+ *
+ * This function retrieves the RGBA components of the corresponding texture pixel
+ * based on the current texture coordinates (tex_x, tex_y) and converts them into
+ * a single 32-bit color value. The pixel is then drawn on the screen at position
+ * (x, y) using MLX.
+ *
+ * @param c_vars Pointer to the current column rendering variables structure.
+ * @param game Pointer to the main game structure containing window
+ * and texture data.
+ */
 void	draw_pixel_from_texture(t_column_vars *c_vars, t_game *game)
 {
 	int		pixel_index;
@@ -33,6 +45,18 @@ void	draw_pixel_from_texture(t_column_vars *c_vars, t_game *game)
 	}
 }
 
+/**
+ * @brief Renders a full vertical column on the screen.
+ *
+ * This function iterates over each pixel of the current
+ * column (from top to bottom) and determines whether to draw
+ * ceiling, wall, or floor pixels. It maps the correct texture coordinates
+ * and invokes draw_pixel_from_texture() when drawing wall sections.
+ *
+ * @param game Pointer to the main game structure containing
+ * window and texture data.
+ * @param c_vars Pointer to the current column rendering variables structure.
+ */
 void	draw_column_loop(t_game *game, t_column_vars *c_vars)
 {
 	c_vars->y = 0;
@@ -59,6 +83,19 @@ void	draw_column_loop(t_game *game, t_column_vars *c_vars)
 	}
 }
 
+/**
+ * @brief Selects the appropriate wall texture
+ * based on hit direction or wall type.
+ *
+ * Determines which texture should be applied to
+ * the current wall column depending on the side of the wall that was
+ * hit and the wall character from the map. Handles special cases
+ * for doors and multi-textured walls.
+ *
+ * @param c_vars Pointer to the current column rendering variables structure.
+ * @param game Pointer to the main game structure containing texture data.
+ * @param rc Pointer to the raycasting structure containing ray information.
+ */
 void	choose_wall_texture(t_column_vars *c_vars,
 	t_game *game, t_raycast *rc)
 {
@@ -83,6 +120,18 @@ void	choose_wall_texture(t_column_vars *c_vars,
 		c_vars->texture = game->textures.north_tex;
 }
 
+/**
+ * @brief Adjusts texture coordinates for doors and clamps texture bounds.
+ *
+ * Handles door animation offset if the current ray hit a door
+ * and ensures that the computed texture coordinates stay within valid
+ * limits. Calculates texture stepping for vertical scaling and initial
+ * texture position.
+ *
+ * @param c_vars Pointer to the current column rendering variables structure.
+ * @param game Pointer to the main game structure.
+ * @param rc Pointer to the raycasting structure containing ray hit data.
+ */
 void	check_if_door_and_bounds(t_column_vars *c_vars,
 	t_game *game, t_raycast *rc)
 {
@@ -108,6 +157,20 @@ void	check_if_door_and_bounds(t_column_vars *c_vars,
 			/ 2 + c_vars->line_height / 2) * c_vars->step;
 }
 
+/**
+ * @brief Draws a textured vertical wall column for the raycasting engine.
+ *
+ * This function computes wall height and texture
+ * coordinates based on raycasting data, selects the correct texture,
+ * and then renders the wall, ceiling, and floor pixels for the given
+ * screen column.
+ *
+ * @param game Pointer to the main game structure containing
+ * textures and player data.
+ * @param x The current x-coordinate (column) on the screen being rendered.
+ * @param rc Pointer to the raycasting structure containing
+ * ray hit and direction data.
+ */
 void	draw_column(t_game *game, int x, t_raycast *rc)
 {
 	t_column_vars	c_vars;

@@ -6,12 +6,18 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 11:34:28 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/07 12:15:43 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/10 13:03:53 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
+/**
+ * @brief Initializes the minimap raycasting parameters.
+ *
+ * @param mray Pointer to the minimap ray struct.
+ * @param game Pointer to the main game state.
+ */
 static void	init_mray(t_mray *mray, t_game *game)
 {
 	mray->num_rays = 120;
@@ -23,6 +29,14 @@ static void	init_mray(t_mray *mray, t_game *game)
 	mray->i = 0;
 }
 
+/**
+ * @brief Computes the distance the ray can travel
+ * and clamps it to the minimap circle.
+ *
+ * @param game Pointer to the main game state.
+ * @param rc Pointer to the raycast struct for this ray.
+ * @param mray Pointer to the minimap ray struct.
+ */
 static void	clamp_ray_distance(t_game *game, t_raycast *rc, t_mray *mray)
 {
 	mray->camera_x = (double)mray->i / (double)(mray->num_rays - 1) * 2.0 - 1.0;
@@ -50,6 +64,13 @@ static void	clamp_ray_distance(t_game *game, t_raycast *rc, t_mray *mray)
 		mray->t_hit = mray->max_dist;
 }
 
+/**
+ * @brief Draws a single ray from the player on the minimap.
+ *
+ * @param game Pointer to the main game state.
+ * @param rc Pointer to the raycast struct for this ray.
+ * @param mray Pointer to the minimap ray struct.
+ */
 static void	draw_single_ray(t_game *game, t_raycast *rc, t_mray *mray)
 {
 	mray->t = 0.0;
@@ -73,6 +94,11 @@ static void	draw_single_ray(t_game *game, t_raycast *rc, t_mray *mray)
 	}
 }
 
+/**
+ * @brief Draws all rays from the player on the minimap.
+ *
+ * @param game Pointer to the main game state.
+ */
 void	draw_rays_on_minimap(t_game *game)
 {
 	t_mray		mray;

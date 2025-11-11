@@ -6,12 +6,22 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 15:17:38 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/07 16:47:49 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/10 13:13:08 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
+/**
+ * @brief Checks if the player is currently inside a door tile.
+ *
+ * Compares the player's integer map coordinates with the door's
+ * coordinates.
+ *
+ * @param game Pointer to the game structure.
+ * @param door Pointer to the door structure to check.
+ * @return true if the player is in the doorway, false otherwise.
+ */
 bool	is_player_in_doorway(t_game *game, t_door *door)
 {
 	int		player_map_x;
@@ -24,6 +34,17 @@ bool	is_player_in_doorway(t_game *game, t_door *door)
 	return (false);
 }
 
+/**
+ * @brief Updates all doors in the game based on their current states.
+ *
+ * Iterates over all doors and advances their state:
+ * - DOOR_OPENING → door_state_opening()
+ * - DOOR_OPEN → door_state_open()
+ * - DOOR_CLOSING → door_state_closing()
+ *
+ * @param param Pointer to the game structure
+ * (void* for loop hook compatibility).
+ */
 void	update_doors(void *param)
 {
 	int		i;
@@ -45,6 +66,15 @@ void	update_doors(void *param)
 	}
 }
 
+/**
+ * @brief Calculates the distance between the player and a door.
+ *
+ * Uses Euclidean distance from the center of the door to the player.
+ *
+ * @param game Pointer to the game structure.
+ * @param door Pointer to the door structure.
+ * @return Distance between player and door.
+ */
 static double	get_distance(t_game *game, t_door *door)
 {
 	double	dx;
@@ -57,6 +87,18 @@ static double	get_distance(t_game *game, t_door *door)
 	return (dist);
 }
 
+/**
+ * @brief Toggles a door's state based on its current state.
+ *
+ * Logic:
+ * - CLOSED → OPENING
+ * - OPEN → CLOSING (if player not in doorway)
+ * - OPENING → CLOSING
+ * - CLOSING → OPENING
+ *
+ * @param game Pointer to the game structure.
+ * @param door Pointer to the door structure to change state.
+ */
 static void	change_door_state(t_game *game, t_door *door)
 {
 	if (door->state == DOOR_CLOSED)
@@ -76,6 +118,14 @@ static void	change_door_state(t_game *game, t_door *door)
 	}
 }
 
+/**
+ * @brief Handles player interaction with a door in front of them.
+ *
+ * Casts a short distance in the player's facing direction to find a
+ * door. If the player is close enough, toggles the door's state.
+ *
+ * @param game Pointer to the game structure.
+ */
 void	interact_with_door(t_game *game)
 {
 	int		map_x;

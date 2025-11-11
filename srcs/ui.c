@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ui.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 12:17:44 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/10 13:17:18 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/11 10:33:52 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,16 @@
 
 #define FRAME_SIZE 235
 
+/**
+ * @brief Initializes the game's GUI (Heads-Up Display) frame.
+ *
+ * Creates a new image buffer for the GUI using the MiniLibX library
+ * and places it on the game window. If image creation fails, an error
+ * message is printed and the program sets the exit flag.
+ *
+ * @note The GUI frame is positioned horizontally centered near the bottom
+ *       of the screen with a fixed size defined by FRAME_SIZE.
+ */
 void	init_ui(void)
 {
 	t_game	*game;
@@ -29,6 +39,19 @@ void	init_ui(void)
 		SCREEN_WIDTH / 2 - (235 / 2), SCREEN_HEIGHT - 250);
 }
 
+/**
+ * @brief Draws a specific GUI frame from the sprite sheet onto the screen.
+ *
+ * Extracts one frame from the GUI texture atlas and copies its pixels
+ * into the GUI image buffer for display. The frame is selected using
+ * the `frame_index` parameter.
+ *
+ * @param game Pointer to the main game structure.
+ * @param frame_index The index of the frame to draw from the GUI texture sheet.
+ *
+ * @note Each frame is assumed to have a fixed size (FRAME_SIZE × FRAME_SIZE)
+ *       and the texture sheet is laid out horizontally.
+ */
 void	gui_set_frame(t_game *game, int frame_index)
 {
 	int			sheet_x;
@@ -56,6 +79,17 @@ void	gui_set_frame(t_game *game, int frame_index)
 	}
 }
 
+/**
+ * @brief Animates the GUI by cycling through frames over time.
+ *
+ * This function updates the GUI frame at regular intervals (every 0.1 seconds).
+ * It should be called repeatedly, typically in the main game loop or as
+ * a hooked update function in the MLX event system.
+ *
+ * @param params A pointer to the main game structure (`t_game *`).
+ *
+ * @note The animation cycles through 26 frames before restarting.
+ */
 void	animate_gui(void *params)
 {
 	static double	last_time = 0;

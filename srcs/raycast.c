@@ -3,15 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:05:22 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/07 16:32:42 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/10 12:32:02 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
+/**
+ * @brief Initializes raycasting parameters for a single screen column.
+ *
+ * Calculates the ray direction for the given column index `x`, determines
+ * the starting map cell of the ray, and initializes delta distances used
+ * in the DDA (Digital Differential Analyzer) algorithm.
+ *
+ * @param game Pointer to the main game structure.
+ * @param rc Pointer to a raycasting structure where data will be stored.
+ * @param x The current column index on the screen.
+ *
+ * @note The `camera_x` variable defines the ray direction relative
+ *       to the player's camera plane, with values from -1 (left) to 1 (right).
+ */
 void	init_ray(t_game *game, t_raycast *rc, int x)
 {
 	double	camera_x;
@@ -33,6 +47,16 @@ void	init_ray(t_game *game, t_raycast *rc, int x)
 	rc->is_door = 0;
 }
 
+/**
+ * @brief Calculates the step direction and initial side distances for the ray.
+ *
+ * Determines how the ray will move through the grid (left/right, up/down)
+ * and computes the distance to the first x and y side intersections.
+ * This data is required for the DDA algorithm to step through the map.
+ *
+ * @param game Pointer to the main game structure.
+ * @param rc Pointer to the raycasting structure with initialized ray direction.
+ */
 void	calculate_step_and_side_dist(t_game *game, t_raycast *rc)
 {
 	if (rc->ray_dir_x < 0)
@@ -57,6 +81,19 @@ void	calculate_step_and_side_dist(t_game *game, t_raycast *rc)
 	}
 }
 
+/**
+ * @brief Executes the Digital Differential Analyzer (DDA) algorithm.
+ *
+ * Repeatedly advances the ray through the map grid until it hits a wall or door.
+ * Determines whether the ray has encountered a solid block ('1'-'9')
+ * or a door ('D').
+ *
+ * @param game Pointer to the main game structure.
+ * @param rc Pointer to the raycasting structure containing ray state.
+ *
+ * @note When a door is detected, the function calls `check_door_hit()`
+ * for additional handling.
+ */
 void	perform_dda(t_game *game, t_raycast *rc)
 {
 	while (rc->hit == 0)
@@ -85,6 +122,16 @@ void	perform_dda(t_game *game, t_raycast *rc)
 	}
 }
 
+/**
+ * @brief Calculates the perpendicular distance from the player to the wall hit.
+ *
+ * After the DDA algorithm determines where the ray hits a wall,
+ * this function computes the perpendicular wall distance used for
+ * correct perspective rendering (avoiding the fisheye effect).
+ *
+ * @param game Pointer to the main game structure.
+ * @param rc Pointer to the raycasting structure containing hit data.
+ */
 void	calculate_wall_distance(t_game *game, t_raycast *rc)
 {
 	if (rc->is_door)
@@ -97,6 +144,18 @@ void	calculate_wall_distance(t_game *game, t_raycast *rc)
 				+ (1 - rc->step_y) / 2.0) / rc->ray_dir_y;
 }
 
+/**
+ * @brief Renders the 3D view of the scene using raycasting.
+ *
+ * Iterates through each vertical stripe (screen column), casts a ray,
+ * performs DDA to detect wall intersections, calculates distances, and
+ * draws the corresponding textured column.
+ *
+ * @param game Pointer to the main game structure.
+ *
+ * @note This is the core function responsible for generating the 3D view
+ *       from a 2D map using raycasting principles.
+ */
 void	render_3d_view(t_game *game)
 {
 	int			x;

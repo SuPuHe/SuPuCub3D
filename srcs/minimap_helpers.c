@@ -3,15 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   minimap_helpers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 11:37:51 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/10 13:32:35 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/11 10:33:30 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
+/**
+ * @brief Initializes the minimap and its player overlay images.
+ *
+ * Creates two MLX images:
+ * 1. minimap.img – the circular minimap itself
+ * 2. minimap.player_img – a full map overlay for
+ * drawing player position and rays
+ *
+ * Places both images in the window at a fixed position.
+ *
+ * @param game Pointer to the main game state.
+ */
 void	init_minimap(t_game *game)
 {
 	int	width;
@@ -31,6 +43,14 @@ void	init_minimap(t_game *game)
 	mlx_image_to_window(game->mlx, game->minimap.player_img, 20, 20);
 }
 
+/**
+ * @brief Clears the minimap image by filling it with transparent pixels.
+ *
+ * Iterates over every pixel in the minimap and sets it to 0x00000000
+ * to make it fully transparent.
+ *
+ * @param game Pointer to the main game state.
+ */
 void	clean_minimap(t_game *game)
 {
 	int	y;
@@ -49,6 +69,16 @@ void	clean_minimap(t_game *game)
 	}
 }
 
+/**
+ * @brief Determines the color of a pixel on the minimap based on the map tile.
+ *
+ * Maps walls, doors, empty tiles, and player starting positions
+ * to specific RGBA colors. If coordinates are outside the map boundaries,0
+ *  the color is set to blue (0x000000FF).
+ *
+ * @param m Pointer to the minimap state structure for the current pixel.
+ * @param game Pointer to the main game state.
+ */
 void	get_color_for_minimap(t_minimap *m, t_game *game)
 {
 	char	c;

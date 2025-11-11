@@ -6,12 +6,22 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:06:54 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/11 10:25:36 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/11 10:33:14 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
+/**
+ * @brief Finds the player's starting position in the map.
+ *
+ * Iterates through the map grid to locate a cell containing
+ * a player start direction ('N', 'S', 'E', 'W'). Sets the
+ * player's x and y coordinates to the center of that cell.
+ *
+ * @param game Pointer to the game structure.
+ * @return int Returns 1 if exactly one player position is found, 0 otherwise.
+ */
 int	get_player_pos(t_game *game)
 {
 	int	i;
@@ -41,6 +51,17 @@ int	get_player_pos(t_game *game)
 	return (1);
 }
 
+/**
+ * @brief Loads wall texture paths from a file line.
+ *
+ * Checks for the presence of "NO", "SO", "WE", or "EA"
+ * in the specified file line and trims the line to extract
+ * the texture path, storing it in the game textures structure.
+ *
+ * @param game Pointer to the game structure.
+ * @param file The array of file lines.
+ * @param i The index of the current line in the file.
+ */
 static void	get_info_walls(t_game *game, char **file, int i)
 {
 	if (ft_strstr(file[i], "NO "))
@@ -73,6 +94,16 @@ static void	get_info_walls(t_game *game, char **file, int i)
 	}
 }
 
+/**
+ * @brief Parses all relevant texture and color information from a file.
+ *
+ * Iterates over the file lines to find wall textures ("NO", "SO", "WE", "EA"),
+ * door texture ("DOOR"), floor color ("F "), and ceiling color ("C ").
+ *
+ * @param file The array of file lines.
+ * @param game Pointer to the game structure.
+ * @return int Returns 1 if all necessary textures are loaded, 0 on error.
+ */
 int	get_info(char **file, t_game *game)
 {
 	int	i;
@@ -114,6 +145,16 @@ int	get_info(char **file, t_game *game)
 	return (1);
 }
 
+/**
+ * @brief Initializes the player's direction vector and camera plane.
+ *
+ * Sets the player's dir_x/dir_y and plane_x/plane_y values based
+ * on the starting map cell ('N', 'S', 'E', 'W') to determine the
+ * initial viewing direction and field of view.
+ *
+ * @param game Pointer to the game structure.
+ * @return int Returns 1 on success.
+ */
 int	init_player_dir(t_game *game)
 {
 	char	dir;
