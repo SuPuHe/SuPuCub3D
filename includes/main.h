@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/10 15:03:00 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/11 11:40:00 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,12 @@ void	exit_game(int exit_status);
 
 int		get_color(char *line, int helper);
 
+//get_map.c
 char	**extract_map(char **split_file);
-
+//get_map_info.c
 int		get_info(char **file, t_game *game);
+
+//get_player_info.c
 int		get_player_pos(t_game *game);
 int		init_player_dir(t_game *game);
 
@@ -82,9 +85,7 @@ void	move_player_with_collision(t_game *game, double new_x, double new_y);
 
 //minimap
 void	init_minimap(t_game *game);
-void	draw_square(mlx_image_t *img, int x, int y, uint32_t color);
 void	update_minimap(t_game *game);
-void	draw_player(t_game *game);
 void	check_minimap(t_game *game);
 
 //minimap_rays.c

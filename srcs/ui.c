@@ -6,13 +6,11 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 12:17:44 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/11 10:33:52 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/11 11:37:03 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
-
-#define FRAME_SIZE 235
 
 /**
  * @brief Initializes the game's GUI (Heads-Up Display) frame.

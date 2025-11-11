@@ -35,7 +35,7 @@ CC = cc
 
 RM = rm -rf
 
-SRCS = main.c utils.c parse.c parse_color.c get_map.c get_info.c \
+SRCS = main.c utils.c parse.c parse_color.c get_map.c get_map_info.c get_player_info.c \
 		player_movement.c player_rotation.c player_collision.c minimap.c minimap_rays.c minimap_helpers.c \
 		raycast.c textures.c doors.c weapon.c weapon_draw.c weapon_utils.c ui.c \
 		exit_function.c parse_helper.c doors_helper.c doors_state.c raycast_doors.c raycast_draw.c
