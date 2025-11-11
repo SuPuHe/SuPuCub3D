@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 14:03:36 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/11 13:00:43 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/11 13:19:29 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static void	more_walls_textures_load(t_game *game)
 {
 	int	i;
 
+	game->textures.tex_loaded = 0;
 	game->textures.wall_textures = malloc(sizeof(mlx_texture_t *)
 			* game->textures.wall_tex_count);
 	i = 0;
@@ -38,6 +39,7 @@ static void	more_walls_textures_load(t_game *game)
 		if (!game->textures.wall_textures[i])
 		{
 			print_error("Failed to load wall texture");
+			game->textures.tex_loaded = i;
 			exit_game(1);
 		}
 		i++;
