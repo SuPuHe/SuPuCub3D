@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap_helpers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 11:37:51 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/11 10:33:30 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/11 14:49:22 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	init_minimap(t_game *game)
 	int	width;
 	int	height;
 
-	game->minimap.minimap_size = 130 * (SCREEN_WIDTH / SCREEN_HEIGHT);
+	game->minimap.minimap_size = MINIMAP_SIZE * (SCREEN_WIDTH / SCREEN_HEIGHT);
 	width = game->map.width * TILE_SIZE;
 	height = game->map.height * TILE_SIZE;
 	game->minimap.img = mlx_new_image(game->mlx, MINIMAP_SIZE, MINIMAP_SIZE);

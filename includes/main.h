@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/11 12:06:32 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/11 14:49:35 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 # define TILE_SIZE 16
 # define MINIMAP_SCALE 0.5
-# define MINIMAP_SIZE 200
+# define MINIMAP_SIZE 160
 
 # define MAP_WALLS "F123456789"
 # define MAP_PLAYER_ZERO "0NSEW"
