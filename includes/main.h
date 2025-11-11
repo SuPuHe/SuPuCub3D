@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:05:21 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/10 11:38:55 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/10 15:03:00 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@
 # define MINIMAP_SCALE 0.5
 # define MINIMAP_SIZE 200
 
-# define MAP_WALLS_DOORS "DF123456789"
-# define MAP_WALLS "123456789"
+# define MAP_WALLS "F123456789"
 # define MAP_PLAYER_ZERO "0NSEW"
 
 # define DOOR_OPEN_SPEED 0.03

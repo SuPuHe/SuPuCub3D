@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_color.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 12:48:24 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/05 13:22:48 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/11 10:25:36 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,10 @@ int	get_color(char *line, int helper)
 	char	**parts;
 	int		i;
 
+	if (helper && ft_game()->textures.floor_color[0] != -1)
+		return (print_error("Duplicate floor color definition"), 0);
+	if (!helper && ft_game()->textures.ceil_color[0] != -1)
+		return (print_error("Duplicate ceiling color definition"), 0);
 	if (helper)
 		trimmed = ft_strtrim(line, "F ");
 	else
