@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 14:30:00 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/10 12:35:27 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/13 12:59:47 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,15 @@
  */
 int	get_door_orientation(t_game *game, t_raycast *rc)
 {
-	if ((rc->map_x > 0 && game->map.grid[rc->map_y][rc->map_x - 1] == '1')
-		|| (rc->map_x < game->map.width - 1
-			&& game->map.grid[rc->map_y][rc->map_x + 1] == '1'))
+	if ((rc->map_x > 0
+			&& ft_strchr(MAP_WALLS, game->map.grid[rc->map_y][rc->map_x - 1]))
+			&& (rc->map_x < game->map.width - 1
+			&& ft_strchr(MAP_WALLS, game->map.grid[rc->map_y][rc->map_x + 1])))
 		return (1);
-	if ((rc->map_y > 0 && game->map.grid[rc->map_y - 1][rc->map_x] == '1')
-		|| (rc->map_y < game->map.height - 1
-			&& game->map.grid[rc->map_y + 1][rc->map_x] == '1'))
+	if ((rc->map_y > 0
+			&& ft_strchr(MAP_WALLS, game->map.grid[rc->map_y - 1][rc->map_x]))
+			&& (rc->map_y < game->map.height - 1
+			&& ft_strchr(MAP_WALLS, game->map.grid[rc->map_y - 1][rc->map_x])))
 		return (0);
 	return (0);
 }
