@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 14:03:36 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/10 12:22:47 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/11 14:45:23 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static void	more_walls_textures_load(t_game *game)
 {
 	int	i;
 
+	game->textures.tex_loaded = 0;
 	game->textures.wall_textures = malloc(sizeof(mlx_texture_t *)
 			* game->textures.wall_tex_count);
 	i = 0;
@@ -38,10 +39,12 @@ static void	more_walls_textures_load(t_game *game)
 		if (!game->textures.wall_textures[i])
 		{
 			print_error("Failed to load wall texture");
+			game->textures.tex_loaded = i;
 			exit_game(1);
 		}
 		i++;
 	}
+	game->textures.tex_loaded = i;
 }
 
 /**
@@ -61,7 +64,7 @@ static void	more_walls_paths(t_game *game)
 {
 	game->textures.wall_tex_count = 8;
 	game->textures.wall_tex_paths = malloc(sizeof(char *) * 8);
-	game->textures.wall_tex_paths[0] = ft_strdup("textures/LAB_2B.png");
+	game->textures.wall_tex_paths[0] = ft_strdup("textures/SUPPORT_4A.png");
 	game->textures.wall_tex_paths[1] = ft_strdup("textures/SUPPORT_3A.PNG");
 	game->textures.wall_tex_paths[2] = ft_strdup("textures/TECH_1C.png");
 	game->textures.wall_tex_paths[3] = ft_strdup("textures/TECH_1E.png");

@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:01:05 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/10 13:09:33 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/11 14:41:27 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	structs_info_load(t_game *game)
  */
 void	init_game(t_game *game)
 {
-	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3D Test", true);
+	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3D", true);
 	if (!game->mlx)
 		exit(1);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
@@ -67,8 +67,8 @@ void	init_game(t_game *game)
 	mlx_set_cursor_mode(game->mlx, MLX_MOUSE_HIDDEN);
 	init_ui();
 	init_doors(game);
-	init_weapon(game);
 	init_minimap(game);
+	init_weapon(game);
 	mlx_key_hook(game->mlx, handle_input, NULL);
 	mlx_loop_hook(game->mlx, handle_mouse, game);
 	mlx_loop_hook(game->mlx, player_move, game);
@@ -93,7 +93,7 @@ int	main(int argc, char **argv)
 	t_game	*game;
 
 	if (argc != 2)
-		return (print_error("Usage: ./cub maps/map.cub"), 1);
+		return (print_error("Usage: ./cub3D maps/map.cub"), 1);
 	game = ft_game();
 	if (!parsing_file(argv[1]))
 		exit_game(1);

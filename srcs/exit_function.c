@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 16:20:14 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/10 13:08:56 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/11 14:46:56 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static void	free_textures(t_textures textures)
 	if (textures.wall_textures)
 	{
 		i = 0;
-		while (i < textures.wall_tex_count)
+		while (i < textures.tex_loaded)
 		{
 			if (textures.wall_textures[i])
 				mlx_delete_texture(textures.wall_textures[i]);

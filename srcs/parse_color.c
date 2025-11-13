@@ -6,7 +6,7 @@
 /*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 12:48:24 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/11 10:33:39 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/11 10:56:56 by vpushkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,9 @@ static int	set_colors_or_error(int i, char **parts, int helper)
 /**
  * @brief Parses a line from the map file to extract ceiling or floor color.
  *
- * This function trims the line, splits it by commas, validates RGB components,
- * and stores them in the appropriate texture array.
+ * Checks for duplicate color definitions, trims the line, splits by commas,
+ * validates RGB components (0-255), and stores them in the texture array.
+ * Frees allocated memory before returning.
  *
  * @param line Line from the map file containing color information.
  * @param helper Non-zero to set floor color, zero to set ceiling color.
@@ -117,9 +118,9 @@ int	get_color(char *line, int helper)
 	int		i;
 
 	if (helper && ft_game()->textures.floor_color[0] != -1)
-		return (print_error("Duplicate floor color definition"), 0);
+		return (0);
 	if (!helper && ft_game()->textures.ceil_color[0] != -1)
-		return (print_error("Duplicate ceiling color definition"), 0);
+		return (0);
 	if (helper)
 		trimmed = ft_strtrim(line, "F ");
 	else
@@ -136,6 +137,5 @@ int	get_color(char *line, int helper)
 	i = 0;
 	while (parts[i])
 		free(parts[i++]);
-	free(parts);
-	return (1);
+	return (free(parts), 1);
 }

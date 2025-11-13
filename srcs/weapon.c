@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   weapon.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpushkar <vpushkar@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 16:30:00 by vpushkar          #+#    #+#             */
-/*   Updated: 2025/11/07 17:35:01 by vpushkar         ###   ########.fr       */
+/*   Updated: 2025/11/11 14:47:27 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	init_weapon(t_game *game)
 	game->weapon.frame_count_left = 5;
 	game->weapon.frames_left = mlx_load_png("textures/sprites/left_gun.png");
 	if (!game->weapon.frames_right)
-		return ;
+		exit_game(1);
 	if (!game->weapon.frames_left)
-		return ;
+		exit_game(1);
 	game->weapon.current_frame = 0;
 	game->weapon.last_drawn_frame_right = -1;
 	game->weapon.last_drawn_frame_left = -1;
