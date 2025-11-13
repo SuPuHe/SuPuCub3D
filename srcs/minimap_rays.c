@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 11:34:28 by omizin            #+#    #+#             */
-/*   Updated: 2025/11/10 13:03:53 by omizin           ###   ########.fr       */
+/*   Updated: 2025/11/13 11:44:00 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  */
 static void	init_mray(t_mray *mray, t_game *game)
 {
-	mray->num_rays = 120;
+	mray->num_rays = 150;
 	mray->step_sample = 0.05;
 	mray->max_dist = 20.0;
 	mray->center = game->minimap.minimap_size / 2;
@@ -89,7 +89,7 @@ static void	draw_single_ray(t_game *game, t_raycast *rc, t_mray *mray)
 			break ;
 		if (mray->px >= 0 && mray->px < game->minimap.minimap_size
 			&& mray->py >= 0 && mray->py < game->minimap.minimap_size)
-			mlx_put_pixel(game->minimap.img, mray->px, mray->py, 0x00FFFF66);
+			mlx_put_pixel(game->minimap.img, mray->px, mray->py, 0xFF00FFFF);
 		mray->t += mray->step_sample;
 	}
 }
