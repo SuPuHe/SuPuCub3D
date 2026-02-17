@@ -25,7 +25,7 @@ This project is a 3D graphical engine developed using the **Raycasting** techniq
 
 1. **Clone the repository:**
    ```Bash
-   git clone https://github.com/Vspaceman11/SuPuCub3D.git
+   git clone https://github.com/Vspaceman11/SuPuCub3D.git cub3D
    cd cub3D
    ```
 2. **Compile using the Makefile:**
