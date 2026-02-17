@@ -1,6 +1,6 @@
 # cub3D - Raycasting Engine
 
-This project is a 3D graphical engine developed using the **Raycasting** technique, inspired by the legendary 90s classic *Wolfenstein 3D*. This repository is a fork where I contributed to the core logic, interactive features, and UI/UX improvements.
+This project is a 3D graphical engine developed using the **Raycasting** technique, inspired by the legendary 90s classic *Wolfenstein 3D*.
 
 **Gameplay Preview**
 <img width="1940" height="1135" alt="image" src="https://github.com/user-attachments/assets/ee818455-dad8-4a42-a100-087e9a6532a9" />
